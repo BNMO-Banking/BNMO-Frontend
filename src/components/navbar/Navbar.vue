@@ -2,30 +2,26 @@
 import { ref, watch } from "vue";
 import NavbarAdmin from "./NavbarAdmin.vue";
 import NavbarCustomer from "./NavbarCustomer.vue";
-import axios from "axios";
-import { useToast } from "vue-toastification";
 import router from "../../router/router";
-import { useAccountStore } from "../../store/account";
-import { useSymbolsStore } from "../../store/symbols";
-
-const toast = useToast();
+import { useAuthStore } from "../../store/auth.store";
 
 const isLoggedIn = ref(false);
 const isAdmin = ref(false);
 
-const accountStore = useAccountStore();
-const symbolStore = useSymbolsStore();
+const authStore = useAuthStore();
 
 watch(
-    () => [accountStore.is_admin, accountStore.ID],
+    authStore,
     () => {
-        if (accountStore.ID !== 0) {
+        if (authStore.account.ID) {
             isLoggedIn.value = true;
-            if (accountStore.is_admin) {
+            if (authStore.account.is_admin) {
                 isAdmin.value = true;
             } else {
                 isAdmin.value = false;
             }
+        } else {
+            isLoggedIn.value = false;
         }
     },
     {
@@ -35,25 +31,7 @@ watch(
 );
 
 const logout = () => {
-    axios
-        .post("http://localhost:8080/logout", null, {
-            withCredentials: true,
-        })
-        .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
-            localStorage.removeItem("account");
-            accountStore.$reset();
-            symbolStore.$reset();
-            isLoggedIn.value = false;
-            router.push("/");
-        })
-        .catch(() => {
-            toast.error("Internal server error: Failed to log out", {
-                timeout: 5000,
-            });
-        });
+    authStore.postLogout()
 };
 </script>
 
