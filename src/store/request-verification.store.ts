@@ -48,15 +48,11 @@ export const useRequestVerificationStore = defineStore("request-verification", {
             this.loadingValidateRequest = true
             return validateRequest(payload)
                 .then((response) => {
-                    toast.success(response.data.message, {
-                        timeout: 5000,
-                    });
+                    toast.success(response.data.message);
                 })
                 .catch((error) => {
                     this.errValidateRequest = error
-                    toast.error(error.message, {
-                        timeout: 5000,
-                    });
+                    toast.error(error.message);
                 })
                 .finally(() => {
                     this.loadingValidateRequest = false

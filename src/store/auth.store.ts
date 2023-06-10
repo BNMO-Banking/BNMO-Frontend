@@ -9,7 +9,7 @@ const toast = useToast();
 export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
-            account: JSON.parse(localStorage.getItem("account")!) || {} as Account,
+            account: JSON.parse(localStorage.getItem("account")!) as Account || {} as Account,
             accountStatus: "",
             token: localStorage.getItem("token") || "",
 
@@ -40,15 +40,11 @@ export const useAuthStore = defineStore("auth", {
                 .then((response) => {
                     router.push({ name: "Login" })
 
-                    toast.success(response.message, {
-                        timeout: 5000,
-                    });
+                    toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errRegister = error
-                    toast.error(error.message, {
-                        timeout: 5000,
-                    });
+                    toast.error(error.message);
                 })
                 .finally(() => {
                     this.loadingRegister = false
@@ -72,20 +68,14 @@ export const useAuthStore = defineStore("auth", {
                         router.push({ name: "Transfer"});
                     }
 
-                    toast.success(response.message, {
-                        timeout: 5000,
-                    });
+                    toast.success(response.message);
                 })
                 .catch((error) => {
                     if (error.status) {
                         if (error.status === 401) {
-                            toast.warning(error.message, {
-                                timeout: 5000,
-                            });
+                            toast.warning(error.message);
                         } else {
-                            toast.error(error.message, {
-                                timeout: 5000,
-                            });
+                            toast.error(error.message);
                         }
                     } else {
                         this.errLogin = error
@@ -104,15 +94,11 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.clear()
                     router.push({ name: "Landing" })
 
-                    toast.success(response.message, {
-                        timeout: 5000,
-                    });
+                    toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errLogout = error
-                    toast.error("Failed to logout: Internal server error", {
-                        timeout: 5000,
-                    });
+                    toast.error("Failed to logout: Internal server error");
                 })
                 .finally(() => {
                     this.loadingLogout = false

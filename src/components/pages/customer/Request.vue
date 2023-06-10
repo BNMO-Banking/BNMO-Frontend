@@ -37,9 +37,7 @@ const request = (type: string) => {
     axios
         .post("http://localhost:8080/request-money", data)
         .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
+            toast.success(response.data.message);
             if (type === "add") {
                 (
                     document.getElementById("add-amount") as HTMLInputElement
@@ -53,9 +51,7 @@ const request = (type: string) => {
             }
         })
         .catch((err) => {
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
+            toast.error(err.response.data.error);
         });
 };
 

@@ -48,15 +48,11 @@ export const useAccountVerificationStore = defineStore("account-verification", {
             this.loadingValidateAccount = true
             return validateAccount(payload)
                 .then((response) => {
-                    toast.success(response.data.message, {
-                        timeout: 5000,
-                    });
+                    toast.success(response.data.message);
                 })
                 .catch((error) => {
                     this.errValidateAccount = error
-                    toast.error(error.message, {
-                        timeout: 5000,
-                    });
+                    toast.error(error.message);
                 })
                 .finally(() => {
                     this.loadingValidateAccount = false

@@ -30,15 +30,11 @@ const resetPIN = () => {
             withCredentials: true,
         })
         .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
+            toast.success(response.data.message);
             emit("showModal", false);
         })
         .catch((err) => {
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
+            toast.error(err.response.data.error);
         });
 };
 
@@ -49,9 +45,7 @@ const deleteData = () => {
             withCredentials: true,
         })
         .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
+            toast.success(response.data.message);
             emit("showModal", false);
         })
         .catch((err) => {

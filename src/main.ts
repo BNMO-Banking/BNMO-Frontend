@@ -16,4 +16,4 @@ if (token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
-createApp(App).use(pinia).use(router).use(Toast).mount("#app");
+createApp(App).use(pinia).use(router).use(Toast, {timeout: 5000}).mount("#app");

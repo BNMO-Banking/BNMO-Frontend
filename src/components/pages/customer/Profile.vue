@@ -92,18 +92,14 @@ const changePin = (event: Event) => {
             withCredentials: true,
         })
         .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
+            toast.success(response.data.message);
             checkPin();
             (document.getElementById("new-pin") as HTMLInputElement).value = "";
             (document.getElementById("repeat-pin") as HTMLInputElement).value =
                 "";
         })
         .catch((err) => {
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
+            toast.error(err.response.data.error);
         });
 };
 
@@ -124,9 +120,7 @@ const changePass = (event: Event) => {
             withCredentials: true,
         })
         .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
+            toast.success(response.data.message);
             (
                 document.getElementById("cur-password") as HTMLInputElement
             ).value = "";
@@ -138,9 +132,7 @@ const changePass = (event: Event) => {
             ).value = "";
         })
         .catch((err) => {
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
+            toast.error(err.response.data.error);
         });
 };
 
