@@ -31,7 +31,7 @@ watch(
 );
 
 const logout = () => {
-    authStore.postLogout()
+    authStore.postLogout().then(() => ( isLoggedIn.value = false ))
 };
 </script>
 
