@@ -1,96 +1,84 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import TextInput from "../../form/TextInput.vue";
-import { useAccountStore } from "../../../store/account";
-import axios from "axios";
-import TransferDestination from "../../../types/transfer-destination";
 import AddDestination from "../../modal/AddDestination.vue";
-import { useToast } from "vue-toastification";
-import router from "../../../router/router";
-import { useSymbolsStore } from "../../../store/symbols";
+import { useAuthStore } from "../../../store/auth.store";
+import { useSymbolStore } from "../../../store/currency.store";
+import { useTransferStore } from "../../../store/transfer.store";
+import { storeToRefs } from "pinia";
 
-const toast = useToast();
 let intervalId: number;
 
-const accountStore = useAccountStore();
-const symbolStore = useSymbolsStore();
+const authStore = useAuthStore()
+const symbolStore = useSymbolStore()
+const transferStore = useTransferStore()
+
+const { account } = storeToRefs(authStore)
+
+const { 
+    symbols, 
+    isLoadingSymbols, 
+    errorSymbols } = storeToRefs(symbolStore)
+
+symbolStore.getSymbols()
+
+console.log(symbols.value);
+
+const { 
+    transferDestinations, 
+    isLoadingDestinations, 
+    errorDestinations } = storeToRefs(transferStore)
+
+transferStore.getTransferDestinations(account.value.ID)
+
+// Form refs
+const form = ref({
+    source_id: account.value.ID,
+    destination: "",
+    amount: 0,
+    currency: "AED"
+})
 
 // Setting destination refs
 const showModal = ref(false);
 const addedAcc = ref(false);
-const transferAmount = ref(0);
-const transferDest = ref<TransferDestination[]>();
-const destination = ref("");
-
-// Setting currency refs
-const currency = ref("AED");
-
-const getTransferDestination = () => {
-    axios
-        .get(`http://localhost:8080/get-destination?id=${accountStore.ID}`, {
-            withCredentials: true,
-        })
-        .then((response) => {
-            transferDest.value = response.data.destinations;
-        })
-        .catch((err) => {
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
-        });
-};
 
 const transfer = () => {
     const data = {
-        source_id: accountStore.ID,
-        destination: destination.value,
-        amount: Number(transferAmount.value),
-        currency: currency.value,
+        source_id: form.value.source_id,
+        destination: form.value.destination,
+        amount: form.value.amount,
+        currency: form.value.currency,
     };
-    axios
-        .post("http://localhost:8080/transfer", data, {
-            withCredentials: true,
-        })
-        .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
-            (
-                document.getElementById("transfer-amount") as HTMLInputElement
-            ).value = "";
-        })
-        .catch((err) => {
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
-        });
+    
+    transferStore.postTransfer(data)
 };
 
 watch(
-    [router.currentRoute, addedAcc],
+    addedAcc,
     () => {
-        getTransferDestination();
+        transferStore.getTransferDestinations(account.value.ID);
         addedAcc.value = false;
     },
     { immediate: true }
 );
 
-onMounted(() => {
-    intervalId = setInterval(() => {
-        axios
-            .get(`http://localhost:8080/update-balance?id=${accountStore.ID}`)
-            .then((response) => {
-                accountStore.balance = response.data.balance;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, 15000);
-});
+// onMounted(() => {
+//     intervalId = setInterval(() => {
+//         axios
+//             .get(`http://localhost:8080/update-balance?id=${accountStore.ID}`)
+//             .then((response) => {
+//                 accountStore.balance = response.data.balance;
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//             });
+//     }, 15000);
+// });
 
-onUnmounted(() => {
-    clearInterval(intervalId);
-});
+// onUnmounted(() => {
+//     clearInterval(intervalId);
+// });
 </script>
 
 <template>
@@ -103,7 +91,7 @@ onUnmounted(() => {
         - Transfer -
     </h1>
     <h2 class="text-3xl font-extrabold uppercase text-center">
-        Current balance: IDR {{ accountStore.balance.toLocaleString("en-US") }}
+        Current balance: IDR {{ account.balance.toLocaleString("en-US") }}
     </h2>
     <main class="flex flex-1 items-center justify-center gap-x-8">
         <div
@@ -130,20 +118,34 @@ onUnmounted(() => {
             <span class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">From:</h4>
                 <h4 class="font-bold uppercase w-full">
-                    {{ accountStore.account_number }}
+                    {{ account.account_number }}
                 </h4>
             </span>
             <div class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">To:</h4>
+                <div v-if="isLoadingDestinations" class="flex w-full items-center justify-center">
+                    <svg aria-hidden="true" class="w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-main-green" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                    </svg>
+                    <p>Fetching destinations...</p>
+                </div>
+                <div v-if="errorDestinations" class="flex w-full items-center justify-center">
+                    <p>{{ errorDestinations }}</p>
+                </div>
                 <select
+                    v-if="!isLoadingDestinations"
                     class="rounded-md border border-main-blue p-2 w-full"
-                    @change="destination = $event.target.value"
+                    @change="form.destination"
                 >
-                    <option value="default" selected disabled>
+                    <option v-if="transferDestinations.length === 0" selected disabled>
+                        No destinations found
+                    </option>
+                    <option v-else value="default" selected disabled>
                         Choose your destination
                     </option>
                     <option
-                        v-for="dest in transferDest"
+                        v-for="dest in transferDestinations"
                         :key="dest.account_number"
                         :value="dest.account_number"
                     >
@@ -175,12 +177,23 @@ onUnmounted(() => {
 
             <div class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">Currency:</h4>
-                <select
+                <div v-if="isLoadingSymbols" class="flex w-full items-center justify-center">
+                    <svg aria-hidden="true" class="w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-main-green" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                    </svg>
+                    <p>Fetching currencies...</p>
+                </div>
+                <div v-if="errorSymbols" class="flex w-full items-center justify-center">
+                    <p>{{ errorSymbols }}</p>
+                </div>
+                <select 
+                    v-if="!isLoadingSymbols"
                     class="rounded-md border border-main-blue p-2 w-full"
-                    @change="currency = $event.target.value"
+                    @change="form.currency"
                 >
                     <option
-                        v-for="(name, code) in symbolStore.symbols"
+                        v-for="(name, code) in symbols"
                         :key="code"
                         :value="code"
                     >
@@ -189,24 +202,24 @@ onUnmounted(() => {
                 </select>
             </div>
             <TextInput
-                v-model:input-value="transferAmount"
+                v-model:input-value="form.amount"
                 input-id="transfer-amount"
                 label-text="Amount"
                 placeholder="Enter your desired amount"
-                input-type="number"
+                input-type="text"
                 class="rounded-md px-4 py-2 border shadow-md appearance-none"
                 required="true"
             />
             <h4
                 class="font-bold uppercase text-main-red"
-                v-if="transferAmount < 0"
+                v-if="form.amount < 0"
             >
                 Amount may not be negative
             </h4>
             <button
                 class="normal-button bg-main-blue border-main-blue hover:text-white hover:scale-[1.02]"
                 type="submit"
-                v-if="transferAmount >= 0"
+                v-if="form.amount >= 0"
                 @click="transfer"
             >
                 Transfer
