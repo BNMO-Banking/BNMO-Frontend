@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export const register = (data: Object) => axios.post("/register", data)
+export const register = (data: Object) => axios.post("/register", data, {
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    }
+})
     .then((response) => {
         return response.data
     })
