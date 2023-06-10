@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted } from "vue";
-import TextInput from "../../form/TextInput.vue";
+import { ref, watch, onMounted, onUnmounted, nextTick } from "vue";
+import ValuedTextInput from "../../form/ValuedTextInput.vue";
 import AddDestination from "../../modal/AddDestination.vue";
 import { useAuthStore } from "../../../store/auth.store";
 import { useCurrencyStore } from "../../../store/currency.store";
@@ -35,7 +35,7 @@ transferStore.getTransferDestinations(account.value.ID)
 const form = ref({
     source_id: account.value.ID,
     destination: "",
-    amount: 0,
+    amount: "",
     currency: "AED"
 })
 
@@ -60,8 +60,21 @@ watch(
         transferStore.getTransferDestinations(account.value.ID);
         accountAdded.value = false;
     },
-    { immediate: true }
+    { 
+        immediate: true 
+    }
 );
+
+watch(
+    () => form.value.amount,
+    (newValue) => {
+        const result = newValue.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        nextTick(() => (form.value.amount = result))
+    },
+    {
+        deep: true
+    }
+)
 
 onMounted(() => {
     intervalId = setInterval(() => {
@@ -200,8 +213,9 @@ onUnmounted(() => {
                     </option>
                 </select>
             </div>
-            <TextInput
+            <ValuedTextInput
                 v-model:input-value="form.amount"
+                :optional-value="form.amount"
                 input-id="transfer-amount"
                 label-text="Amount"
                 placeholder="Enter your desired amount"
@@ -209,16 +223,10 @@ onUnmounted(() => {
                 class="rounded-md px-4 py-2 border shadow-md appearance-none"
                 required="true"
             />
-            <h4
-                class="font-bold uppercase text-main-red"
-                v-if="form.amount < 0"
-            >
-                Amount may not be negative
-            </h4>
             <button
                 class="normal-button bg-main-blue border-main-blue hover:text-white hover:scale-[1.02]"
                 type="submit"
-                v-if="form.amount >= 0"
+                v-if="Number(form.amount) >= 0"
                 @click="transfer"
             >
                 Transfer
