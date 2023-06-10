@@ -3,14 +3,14 @@ import { ref, watch, onMounted, onUnmounted } from "vue";
 import TextInput from "../../form/TextInput.vue";
 import AddDestination from "../../modal/AddDestination.vue";
 import { useAuthStore } from "../../../store/auth.store";
-import { useSymbolStore } from "../../../store/currency.store";
+import { useCurrencyStore } from "../../../store/currency.store";
 import { useTransferStore } from "../../../store/transfer.store";
 import { storeToRefs } from "pinia";
 
 let intervalId: number;
 
 const authStore = useAuthStore()
-const symbolStore = useSymbolStore()
+const currencyStore = useCurrencyStore()
 const transferStore = useTransferStore()
 
 const { account } = storeToRefs(authStore)
@@ -18,9 +18,11 @@ const { account } = storeToRefs(authStore)
 const { 
     symbols, 
     isLoadingSymbols, 
-    errorSymbols } = storeToRefs(symbolStore)
+    errorSymbols,
+    isLoadingBalance,
+    errBalance } = storeToRefs(currencyStore)
 
-symbolStore.getSymbols()
+currencyStore.getSymbols()
 
 const { 
     transferDestinations, 
@@ -61,22 +63,15 @@ watch(
     { immediate: true }
 );
 
-// onMounted(() => {
-//     intervalId = setInterval(() => {
-//         axios
-//             .get(`http://localhost:8080/update-balance?id=${accountStore.ID}`)
-//             .then((response) => {
-//                 accountStore.balance = response.data.balance;
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-//     }, 15000);
-// });
+onMounted(() => {
+    intervalId = setInterval(() => {
+        currencyStore.getUpdatedBalance(account.value.ID)
+    }, 15000);
+});
 
-// onUnmounted(() => {
-//     clearInterval(intervalId);
-// });
+onUnmounted(() => {
+    clearInterval(intervalId);
+});
 </script>
 
 <template>
@@ -88,8 +83,14 @@ watch(
     <h1 class="text-6xl font-extrabold uppercase text-center m-8">
         - Transfer -
     </h1>
-    <h2 class="text-3xl font-extrabold uppercase text-center">
+    <h2 class="text-3xl font-extrabold uppercase text-center" v-if="isLoadingBalance">
+        Fetching balance...
+    </h2>
+    <h2 class="text-3xl font-extrabold uppercase text-center" v-else>
         Current balance: IDR {{ account.balance.toLocaleString("en-US") }}
+    </h2>
+    <h2 class="text-3xl font-extrabold uppercase text-center text-main-red" v-if="errBalance">
+        {{ errBalance }}
     </h2>
     <main class="flex flex-1 items-center justify-center gap-x-8">
         <div
