@@ -12,11 +12,30 @@ export const useAuthStore = defineStore("auth", {
             account: JSON.parse(localStorage.getItem("account")!) || {} as Account,
             accountStatus: "",
             token: localStorage.getItem("token") || "",
+
+            loadingRegister: false,
+            errRegister: null,
+
+            loadingLogin: false,
+            errLogin: null,
+
+            loadingLogout: false,
+            errLogout: null
         };
     },
-    getters: {},
+    getters: {
+        isLoadingRegister: (state) => state.loadingRegister,
+        errorRegister: (state) => state.errRegister,
+
+        isLoadingLogin: (state) => state.loadingLogin,
+        errorLogin: (state) => state.errLogin,
+
+        isLoadingLogout: (state) => state.loadingLogout,
+        errorLogout: (state) => state.errLogout,
+    },
     actions: {
         async postRegister(payload: FormData) {
+            this.loadingRegister = true
             return register(payload)
                 .then((response) => {
                     router.push({ name: "Login" })
@@ -26,17 +45,24 @@ export const useAuthStore = defineStore("auth", {
                     });
                 })
                 .catch((error) => {
+                    this.errRegister = error
                     toast.error(error.message, {
                         timeout: 5000,
                     });
                 })
+                .finally(() => {
+                    this.loadingRegister = false
+                })
         },
+
         async postLogin(payload: Object) {
+            this.loadingLogin = true
             return login(payload)
                 .then((response) => {
                     this.account = response.account
                     this.accountStatus = response.accountStatus
                     this.token = response.token
+
                     localStorage.setItem("account", JSON.stringify(response.account))
                     localStorage.setItem("token", response.token)
 
@@ -51,18 +77,27 @@ export const useAuthStore = defineStore("auth", {
                     });
                 })
                 .catch((error) => {
-                    if (error.status === 401) {
-                        toast.warning(error.response.data.error, {
-                            timeout: 5000,
-                        });
+                    if (error.status) {
+                        if (error.status === 401) {
+                            toast.warning(error.message, {
+                                timeout: 5000,
+                            });
+                        } else {
+                            toast.error(error.message, {
+                                timeout: 5000,
+                            });
+                        }
                     } else {
-                        toast.error(error.message, {
-                            timeout: 5000,
-                        });
+                        this.errLogin = error
                     }
-                });
+                })
+                .finally(() => {
+                    this.loadingLogin = false
+                })
         },
+
         async postLogout() {
+            this.loadingLogout = true
             return logout()
                 .then((response) => {
                     this.$reset()
@@ -73,10 +108,14 @@ export const useAuthStore = defineStore("auth", {
                         timeout: 5000,
                     });
                 })
-                .catch((_) => {
+                .catch((error) => {
+                    this.errLogout = error
                     toast.error("Failed to logout: Internal server error", {
                         timeout: 5000,
                     });
+                })
+                .finally(() => {
+                    this.loadingLogout = false
                 })
         },
     },

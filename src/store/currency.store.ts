@@ -5,18 +5,18 @@ export const useSymbolStore = defineStore("store", {
     state: () => {
         return {
             symbols: {},
-            isLoadingSymbols: false,
-            errorSymbols: null
+            loadingSymbols: false,
+            errSymbols: null
         };
     },
     getters: {
         symbols: (state) => state.symbols,
-        isLoadingSymbols: (state) => state.isLoadingSymbols,
-        errorSymbols: (state) => state.errorSymbols
+        isLoadingSymbols: (state) => state.loadingSymbols,
+        errorSymbols: (state) => state.errSymbols
     },
     actions: {
         async getSymbols() {
-            this.isLoadingSymbols = true
+            this.loadingSymbols = true
             return fetchSymbols()
                 .then((response) => {
                     this.$patch({
@@ -25,10 +25,10 @@ export const useSymbolStore = defineStore("store", {
                 })
                 .catch((error) => {
                     console.error(error);
-                    this.errorSymbols = error
+                    this.errSymbols = error
                 })
                 .finally(() => {
-                    this.isLoadingSymbols = false
+                    this.loadingSymbols = false
                 })
         }
     },
