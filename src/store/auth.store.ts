@@ -67,7 +67,7 @@ export const useAuthStore = defineStore("auth", {
                 .then((response) => {
                     this.$reset()
                     localStorage.clear()
-                    window.location.href = "/"
+                    router.push({ name: "Landing" })
 
                     toast.success(response.message, {
                         timeout: 5000,
