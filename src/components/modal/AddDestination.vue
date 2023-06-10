@@ -12,9 +12,10 @@ const {
     destName, 
     isLoadingCheckDestination, 
     errorCheckDestination,
+    isLoadingAddDestination,
     errorAddDestination } = storeToRefs(transferStore)
 
-const emit = defineEmits(["showModal", "addedAcc"]);
+const emit = defineEmits(["showModal", "accountAdded"]);
 
 const requestedNumber = ref("");
 const invalidNumber = ref(false);
@@ -35,11 +36,12 @@ const addDestination = () => {
         destination_number: requestedNumber.value,
     };
 
-    transferStore.postAddDestination(data)
-    if (errorAddDestination.value === null) {
-        emit("showModal", false);
-        emit("addedAcc", true);
-    }
+    transferStore.postAddDestination(data).then(() => {
+        if (!isLoadingAddDestination.value && errorAddDestination.value === null) {
+            emit("showModal", false);
+            emit("accountAdded", true);
+        }
+    })    
 };
 
 watch(

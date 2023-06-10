@@ -46,13 +46,12 @@ export const useTransferStore = defineStore("transfer", {
                     this.$patch({
                         destinations: response.destinations
                     })
+                    this.loadingDestinations = false
                 })
                 .catch((error) => {
                     this.errDestinations = error
-                    toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingDestinations = false
+                    toast.error(error.message);
                 })
         },
 
@@ -62,12 +61,11 @@ export const useTransferStore = defineStore("transfer", {
                 .then((response) => {
                     this.errCheckDestination = null
                     this.destName = response.name
+                    this.loadingCheckDestination = false
                 })  
                 .catch((error) => {
                     this.errCheckDestination = error
                     toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingCheckDestination = false
                 })
         },
@@ -77,14 +75,13 @@ export const useTransferStore = defineStore("transfer", {
             return addDestination(payload)
                 .then((response) => {
                     this.errAddDestination = null
+                    this.loadingAddDestination = false
                     toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errAddDestination = error
-                    toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingAddDestination = false
+                    toast.error(error.message);
                 })
         },
 
@@ -92,14 +89,13 @@ export const useTransferStore = defineStore("transfer", {
             this.loadingTransfer = true
             return transfer(payload)
                 .then((response) => {
+                    this.loadingTransfer = false
                     toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errTransfer = error
-                    toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingTransfer = false
+                    toast.error(error.message);
                 })
         }
     },

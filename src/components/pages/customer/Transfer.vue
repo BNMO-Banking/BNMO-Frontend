@@ -22,8 +22,6 @@ const {
 
 symbolStore.getSymbols()
 
-console.log(symbols.value);
-
 const { 
     transferDestinations, 
     isLoadingDestinations, 
@@ -41,13 +39,13 @@ const form = ref({
 
 // Setting destination refs
 const showModal = ref(false);
-const addedAcc = ref(false);
+const accountAdded = ref(false);
 
 const transfer = () => {
     const data = {
         source_id: form.value.source_id,
         destination: form.value.destination,
-        amount: form.value.amount,
+        amount: Number(form.value.amount),
         currency: form.value.currency,
     };
     
@@ -55,10 +53,10 @@ const transfer = () => {
 };
 
 watch(
-    addedAcc,
+    accountAdded,
     () => {
         transferStore.getTransferDestinations(account.value.ID);
-        addedAcc.value = false;
+        accountAdded.value = false;
     },
     { immediate: true }
 );
@@ -85,7 +83,7 @@ watch(
     <AddDestination
         v-if="showModal"
         @show-modal="(flag: boolean) => showModal = flag"
-        @added-acc="(flag: boolean) => addedAcc = flag"
+        @account-added="(flag: boolean) => accountAdded = flag"
     />
     <h1 class="text-6xl font-extrabold uppercase text-center m-8">
         - Transfer -
@@ -136,7 +134,7 @@ watch(
                 <select
                     v-if="!isLoadingDestinations"
                     class="rounded-md border border-main-blue p-2 w-full"
-                    @change="form.destination"
+                    @change="form.destination = $event.target.value"
                 >
                     <option v-if="transferDestinations.length === 0" selected disabled>
                         No destinations found
@@ -190,7 +188,7 @@ watch(
                 <select 
                     v-if="!isLoadingSymbols"
                     class="rounded-md border border-main-blue p-2 w-full"
-                    @change="form.currency"
+                    @change="form.currency = $event.target.value"
                 >
                     <option
                         v-for="(name, code) in symbols"
