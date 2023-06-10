@@ -23,6 +23,9 @@ const validateRequest = (id: number, isAccepted: boolean) => {
     };
 
     store.postValidateRequest(data)
+        .then(() => {
+            store.getPendingRequests(page.value)
+        })
 };
 
 watch(

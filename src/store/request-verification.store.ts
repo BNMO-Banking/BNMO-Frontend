@@ -48,7 +48,7 @@ export const useRequestVerificationStore = defineStore("request-verification", {
             return validateRequest(payload)
                 .then((response) => {
                     this.loadingValidateRequest = false
-                    toast.success(response.data.message);
+                    toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errValidateRequest = error

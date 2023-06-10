@@ -25,6 +25,9 @@ const validateAccount = (id: number, isAccepted: boolean) => {
     };
 
     store.postValidateAccount(data)
+        .then(() => {
+            store.getPendingAccounts(page.value)
+        })
 };
 
 watch(

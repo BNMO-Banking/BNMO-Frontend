@@ -48,7 +48,7 @@ export const useAccountVerificationStore = defineStore("account-verification", {
             return validateAccount(payload)
                 .then((response) => {
                     this.loadingValidateAccount = false
-                    toast.success(response.data.message);
+                    toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errValidateAccount = error
