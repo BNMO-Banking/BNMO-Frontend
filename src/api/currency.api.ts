@@ -14,7 +14,11 @@ export const fetchSymbols = () => axios.get("/get-symbols")
         throw error;
     })
 
-export const fetchBalance = (id: number) => axios.get(`/update-balance?id=${id}`) 
+export const fetchBalance = (id: number) => axios.get("/update-balance", {
+        params: {
+            id: id
+        }
+    }) 
     .then((response) => {
         return response.data;
     })

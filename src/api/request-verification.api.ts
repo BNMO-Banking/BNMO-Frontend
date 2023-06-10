@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export const fetchPendingRequests = (page: number) => axios.get(`/admin/get-pending-request?page=${page}`)
+export const fetchPendingRequests = (page: number) => axios.get("/admin/get-pending-request", {
+        params: {
+            page: page
+        }
+    })
     .then((response) => {
         return response.data
     })
