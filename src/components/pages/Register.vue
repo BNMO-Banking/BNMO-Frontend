@@ -2,11 +2,7 @@
 import TextInput from "../form/TextInput.vue";
 import FileInput from "../form/FileInput.vue";
 import { ref, watch, computed } from "vue";
-import axios from "axios";
-import { useToast } from "vue-toastification";
-import router from "../../router/router";
-
-const toast = useToast();
+import { useAuthStore } from "../../store/auth.store";
 
 const firstName = ref("");
 const lastName = ref("");
@@ -29,20 +25,8 @@ const register = (event: Event) => {
     data.append("password", password.value);
     data.append("image", file.value as Blob, file.value?.name);
 
-    axios
-        .post("http://localhost:8080/register", data)
-        .then((response) => {
-            toast.success(response.data.message, {
-                timeout: 5000,
-            });
-            router.push("/login");
-        })
-        .catch((err) => {
-            console.log(err);
-            toast.error(err.response.data.error, {
-                timeout: 5000,
-            });
-        });
+    const authStore = useAuthStore();
+    authStore.postRegister(data)
 };
 
 watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {
