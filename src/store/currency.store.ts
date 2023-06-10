@@ -44,6 +44,8 @@ export const useCurrencyStore = defineStore("store", {
                 .then((response) => {
                     const authStore = useAuthStore()
                     authStore.account.balance = response.balance
+                    localStorage.setItem("account", JSON.stringify(authStore.account))
+
                     this.loadingBalance = false
                 })
                 .catch((error) => {

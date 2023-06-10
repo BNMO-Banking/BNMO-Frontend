@@ -1,7 +1,14 @@
 import { defineStore } from "pinia";
-import { fetchTransferDestinations, checkDestination, addDestination, transfer } from "../api/transfer.api";
+import { 
+    fetchTransferDestinations, 
+    checkDestination, 
+    addDestination, 
+    transfer, 
+    fetchTransferHistory } from "../api/transfer.api";
 import { useToast } from "vue-toastification";
 import TransferDestination from "../types/transfer-destination";
+import TransferHistory from "../types/transfer-history";
+import PageMetadata from "../types/page-metadata";
 
 const toast = useToast();
 
@@ -21,6 +28,11 @@ export const useTransferStore = defineStore("transfer", {
 
             loadingTransfer: false,
             errTransfer: null,
+
+            histories: [] as TransferHistory[],
+            metadata: {} as PageMetadata,
+            loadingHistories: false,
+            errHistories: null
         };
     },
     getters: {
@@ -37,6 +49,11 @@ export const useTransferStore = defineStore("transfer", {
 
         isLoadingTransfer: (state) => state.loadingTransfer,
         errorTransfer: (state) => state.errTransfer,
+
+        transferHistories: (state) => state.histories,
+        pageMetadata: (state) => state.metadata,
+        isLoadingTransferHistories: (state) => state.loadingHistories,
+        errorTransferHistories: (state) => state.errHistories
     },
     actions: {
         async getTransferDestinations(id: number) {
@@ -96,6 +113,23 @@ export const useTransferStore = defineStore("transfer", {
                     this.errTransfer = error
                     this.loadingTransfer = false
                     toast.error(error.message);
+                })
+        },
+
+        async getTransferHistories(id: number, page: number) {
+            this.loadingHistories = true
+            return fetchTransferHistory(id, page)
+                .then((response) => {
+                    this.$patch({
+                        histories: response.data,
+                        metadata: response.metadata
+                    })
+                    this.loadingHistories = false
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.errHistories = error
+                    this.loadingHistories = false
                 })
         }
     },
