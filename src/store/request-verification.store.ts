@@ -12,12 +12,18 @@ export const useRequestVerificationStore = defineStore("request-verification", {
         metadata: {} as PageMetadata,
         loadingPendingRequests: false,
         errPendingRequests: null,
+
+        loadingValidateRequest: false,
+        errValidateRequest: null
     }),
     getters: {
         pendingRequests: (state) => state.requests,
         pageMetadata: (state) => state.metadata,
         isLoadingPendingRequests: (state) => state.loadingPendingRequests,
-        errorPendingRequests: (state) => state.errPendingRequests
+        errorPendingRequests: (state) => state.errPendingRequests,
+
+        isLoadingValidateRequest: (state) => state.loadingValidateRequest,
+        errorValidateRequest: (state) => state.errValidateRequest
     },
     actions: {
         async getPendingRequests(page: number) {
@@ -38,7 +44,8 @@ export const useRequestVerificationStore = defineStore("request-verification", {
                 })
         },
 
-        async validateRequest(payload: Object) {
+        async postValidateRequest(payload: Object) {
+            this.loadingValidateRequest = true
             return validateRequest(payload)
                 .then((response) => {
                     toast.success(response.data.message, {
@@ -46,9 +53,13 @@ export const useRequestVerificationStore = defineStore("request-verification", {
                     });
                 })
                 .catch((error) => {
+                    this.errValidateRequest = error
                     toast.error(error.message, {
                         timeout: 5000,
                     });
+                })
+                .finally(() => {
+                    this.loadingValidateRequest = false
                 })
         }
     }
