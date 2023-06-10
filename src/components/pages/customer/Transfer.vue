@@ -47,7 +47,7 @@ const transfer = () => {
     const data = {
         source_id: form.value.source_id,
         destination: form.value.destination,
-        amount: Number(form.value.amount),
+        amount: parseInt(form.value.amount),
         currency: form.value.currency,
     };
     
@@ -226,7 +226,7 @@ onUnmounted(() => {
             <button
                 class="normal-button bg-main-blue border-main-blue hover:text-white hover:scale-[1.02]"
                 type="submit"
-                v-if="Number(form.amount) >= 0"
+                v-if="parseInt(form.amount) >= 0"
                 @click="transfer"
             >
                 Transfer
