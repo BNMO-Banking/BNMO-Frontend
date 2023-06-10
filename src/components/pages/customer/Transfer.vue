@@ -44,10 +44,11 @@ const showModal = ref(false);
 const accountAdded = ref(false);
 
 const transfer = () => {
+    const amount = parseInt(form.value.amount.replace(/,/g, ""))
     const data = {
         source_id: form.value.source_id,
         destination: form.value.destination,
-        amount: parseInt(form.value.amount),
+        amount: amount,
         currency: form.value.currency,
     };
     
