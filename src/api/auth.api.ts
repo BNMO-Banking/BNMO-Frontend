@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const register = (data: Object) => axios.post("http://localhost:8080/register", data)
+export const register = (data: Object) => axios.post("/register", data)
     .then((response) => {
         return response.data
     })
@@ -12,10 +12,11 @@ export const register = (data: Object) => axios.post("http://localhost:8080/regi
             };
         }
         throw error;
-    })
+    });
 
-export const login = (data: Object) => axios.post("http://localhost:8080/login", data)
+export const login = (data: Object) => axios.post("/login", data)
     .then((response) => {
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
         return response.data;
     })
     .catch((error) => {
@@ -28,7 +29,7 @@ export const login = (data: Object) => axios.post("http://localhost:8080/login",
         throw error;
     });
 
-export const logout = () => axios.post("http://localhost:8080/logout", null)
+export const logout = () => axios.post("/logout", null)
     .then((response) => {
         return response.data;
     })
@@ -40,4 +41,4 @@ export const logout = () => axios.post("http://localhost:8080/logout", null)
             };
         }
         throw error;
-    })
+    });

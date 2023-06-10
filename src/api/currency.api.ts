@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchSymbols = () => axios.get("http://localhost:8080/get-symbols")
+export const fetchSymbols = () => axios.get("/get-symbols")
     .then((response) => {
         return response.data;
     })
