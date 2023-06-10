@@ -39,15 +39,14 @@ export const useAuthStore = defineStore("auth", {
             return register(payload)
                 .then((response) => {
                     router.push({ name: "Login" })
-
+                    
+                    this.loadingRegister = false
                     toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errRegister = error
-                    toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingRegister = false
+                    toast.error(error.message);
                 })
         },
 
@@ -68,9 +67,11 @@ export const useAuthStore = defineStore("auth", {
                         router.push({ name: "Transfer"});
                     }
 
+                    this.loadingLogin = false
                     toast.success(response.message);
                 })
                 .catch((error) => {
+                    this.loadingLogin = false
                     if (error.status) {
                         if (error.status === 401) {
                             toast.warning(error.message);
@@ -80,9 +81,6 @@ export const useAuthStore = defineStore("auth", {
                     } else {
                         this.errLogin = error
                     }
-                })
-                .finally(() => {
-                    this.loadingLogin = false
                 })
         },
 
@@ -94,14 +92,13 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.clear()
                     router.push({ name: "Landing" })
 
+                    this.loadingLogout = false
                     toast.success(response.message);
                 })
                 .catch((error) => {
                     this.errLogout = error
-                    toast.error("Failed to logout: Internal server error");
-                })
-                .finally(() => {
                     this.loadingLogout = false
+                    toast.error("Failed to logout: Internal server error");
                 })
         },
     },

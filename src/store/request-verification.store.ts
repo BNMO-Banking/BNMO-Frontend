@@ -34,12 +34,11 @@ export const useRequestVerificationStore = defineStore("request-verification", {
                         requests: response.data,
                         metadata: response.metadata
                     })
+                    this.loadingPendingRequests = false
                 })
                 .catch((error) => {
                     console.error(error)
                     this.errPendingRequests = error
-                })
-                .finally(() => {
                     this.loadingPendingRequests = false
                 })
         },
@@ -48,14 +47,13 @@ export const useRequestVerificationStore = defineStore("request-verification", {
             this.loadingValidateRequest = true
             return validateRequest(payload)
                 .then((response) => {
+                    this.loadingValidateRequest = false
                     toast.success(response.data.message);
                 })
                 .catch((error) => {
                     this.errValidateRequest = error
-                    toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingValidateRequest = false
+                    toast.error(error.message);
                 })
         }
     }

@@ -34,12 +34,11 @@ export const useAccountVerificationStore = defineStore("account-verification", {
                         accounts: response.data,
                         metadata: response.metadata
                     })
+                    this.loadingPendingAccounts = false
                 })
                 .catch((error) => {
                     console.error(error)
                     this.errPendingAccounts = error
-                })
-                .finally(() => {
                     this.loadingPendingAccounts = false
                 })
         },
@@ -48,14 +47,13 @@ export const useAccountVerificationStore = defineStore("account-verification", {
             this.loadingValidateAccount = true
             return validateAccount(payload)
                 .then((response) => {
+                    this.loadingValidateAccount = false
                     toast.success(response.data.message);
                 })
                 .catch((error) => {
                     this.errValidateAccount = error
-                    toast.error(error.message);
-                })
-                .finally(() => {
                     this.loadingValidateAccount = false
+                    toast.error(error.message);
                 })
         }
     }
