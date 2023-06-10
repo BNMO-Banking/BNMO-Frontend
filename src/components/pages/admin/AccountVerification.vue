@@ -117,12 +117,12 @@ const imageData = ref("");
                 Prev Page
             </button>
             <h4 class="text-xl font-extrabold uppercase text-center">
-                {{ page }} / {{ pageMetadata.total }}
+                {{ page }} / {{ pageMetadata.last_page }}
             </h4>
             <button
                 class="navbar-button bg-main-green border-main-green hover:scale-105 hover:text-white"
                 @click="page++"
-                v-if="page + 1 <= pageMetadata.total"
+                v-if="page + 1 <= pageMetadata.last_page"
             >
                 Next Page
             </button>
