@@ -9,19 +9,24 @@ const toast = useToast();
 export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
-            account: {} as Account,
+            account: JSON.parse(localStorage.getItem("account")!) || {} as Account,
             accountStatus: "",
-            token: localStorage.getItem('token') || "",
+            token: localStorage.getItem("token") || "",
         };
     },
     getters: {},
     actions: {
-        async postRegister(payload: Object) {
+        async postRegister(payload: FormData) {
             return register(payload)
                 .then((response) => {
                     router.push({ name: "Login" })
 
                     toast.success(response.message, {
+                        timeout: 5000,
+                    });
+                })
+                .catch((error) => {
+                    toast.error(error.message, {
                         timeout: 5000,
                     });
                 })
@@ -31,6 +36,8 @@ export const useAuthStore = defineStore("auth", {
                 .then((response) => {
                     this.account = response.account
                     this.accountStatus = response.accountStatus
+                    this.token = response.token
+                    localStorage.setItem("account", JSON.stringify(response.account))
                     localStorage.setItem("token", response.token)
 
                     if (this.account.is_admin) {
@@ -60,7 +67,7 @@ export const useAuthStore = defineStore("auth", {
                 .then((response) => {
                     this.$reset()
                     localStorage.clear()
-                    window.location.href = '/login';
+                    window.location.href = "/"
 
                     toast.success(response.message, {
                         timeout: 5000,

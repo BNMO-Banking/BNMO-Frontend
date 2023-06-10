@@ -6,7 +6,7 @@ export const useSymbolStore = defineStore("store", {
         return {
             symbols: {},
             isLoadingSymbols: false,
-            errorSymbols: false
+            errorSymbols: null
         };
     },
     getters: {
@@ -16,6 +16,7 @@ export const useSymbolStore = defineStore("store", {
     },
     actions: {
         async getSymbols() {
+            this.isLoadingSymbols = true
             return fetchSymbols()
                 .then((response) => {
                     this.$patch({
@@ -23,7 +24,11 @@ export const useSymbolStore = defineStore("store", {
                     })
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.error(error);
+                    this.errorSymbols = error
+                })
+                .finally(() => {
+                    this.isLoadingSymbols = false
                 })
         }
     },
