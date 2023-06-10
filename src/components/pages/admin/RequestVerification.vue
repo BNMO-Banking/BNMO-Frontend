@@ -8,7 +8,12 @@ const page = ref(1);
 
 const store = useRequestVerificationStore()
 
-const { pendingRequests, pageMetadata, isLoadingPendingRequests, errorPendingRequests } = storeToRefs(store)
+const { 
+    pendingRequests, 
+    pageMetadata, 
+    isLoadingPendingRequests, 
+    errorPendingRequests } = storeToRefs(store)
+    
 store.getPendingRequests(page.value)
 
 const validateRequest = (id: number, isAccepted: boolean) => {
