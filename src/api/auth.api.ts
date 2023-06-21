@@ -46,3 +46,49 @@ export const logout = () => axios.post("/logout", null)
         }
         throw error;
     });
+
+export const checkPin = async (id: number) => axios.get("/check-pin", {
+        params: {
+            id: id
+        }
+    })
+    .then((response) => {
+        return response.data
+    })
+    .catch((error) => {
+        if (error.response) {
+            throw {
+                status: error.response.status,
+                message: error.response.data.error,
+            };
+        }
+        throw error;
+    });
+
+export const changePin = async (data: Object) => axios.put("/change-pin", data)
+    .then((response) => {
+        return response.data
+    })
+    .catch((error) => {
+        if (error.response) {
+            throw {
+                status: error.response.status,
+                message: error.response.data.error,
+            };
+        }
+        throw error;
+    });
+
+export const changePassword = async (data: Object) => axios.put("/change-password", data)
+    .then((response) => {
+        return response.data
+    })
+    .catch((error) => {
+        if (error.response) {
+            throw {
+                status: error.response.status,
+                message: error.response.data.error,
+            };
+        }
+        throw error;
+    });

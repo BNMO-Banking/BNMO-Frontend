@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { register, login, logout } from "../api/auth.api";
+import { register, login, logout, checkPin, changePin, changePassword } from "../api/auth.api";
 import { useToast } from "vue-toastification";
 import Account from "../types/account-type";
 import router from "../router/router";
@@ -20,7 +20,17 @@ export const useAuthStore = defineStore("auth", {
             errLogin: null,
 
             loadingLogout: false,
-            errLogout: null
+            errLogout: null,
+
+            pinSet: false,
+            loadingCheckPin: false,
+            errCheckPin: null,
+
+            loadingChangePin: false,
+            errChangePin: null,
+
+            loadingChangePassword: false,
+            errChangePassword: null,
         };
     },
     getters: {
@@ -32,6 +42,16 @@ export const useAuthStore = defineStore("auth", {
 
         isLoadingLogout: (state) => state.loadingLogout,
         errorLogout: (state) => state.errLogout,
+
+        checkPinSet: (state) => state.pinSet,
+        isLoadingCheckPin: (state) => state.loadingCheckPin,
+        errorCheckPin: (state) => state.errCheckPin,
+
+        isLoadingChangePin: (state) => state.loadingChangePin,
+        errorChangePin: (state) => state.errChangePin,
+
+        isLoadingChangePassword: (state) => state.loadingChangePassword,
+        errorChangePassword: (state) => state.errChangePassword,
     },
     actions: {
         async postRegister(payload: FormData) {
@@ -101,5 +121,33 @@ export const useAuthStore = defineStore("auth", {
                     toast.error("Failed to logout: Internal server error");
                 })
         },
+
+        async getCheckPin(id: number) {
+            this.loadingCheckPin = true
+            return checkPin(id)
+                .then((response) => {
+                    this.pinSet = response.pin_set
+                    this.loadingCheckPin = false
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.errCheckPin = error
+                    this.loadingCheckPin = false
+                })
+        },
+
+        async putChangePin(payload: Object) {
+            this.loadingChangePin = true
+            return changePin(payload)
+                .then((response) => {
+                    this.pinSet = response.pin_set
+                    this.loadingCheckPin = false
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.errCheckPin = error
+                    this.loadingCheckPin = false
+                })
+        }
     },
 });
