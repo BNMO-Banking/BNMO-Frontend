@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { request, fetchRequestHistory } from "../api/request.api";
 import { useToast } from "vue-toastification";
-import RequestHistory from "../types/request-history";
-import PageMetadata from "../types/page-metadata";
+import type RequestHistory from "../types/request-history";
+import type PageMetadata from "../types/page-metadata";
 
 const toast = useToast();
 

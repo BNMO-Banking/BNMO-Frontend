@@ -5,7 +5,7 @@ defineProps([
     "labelText",
     "class",
     "required",
-    "inputValue",
+    "inputValue"
 ]);
 </script>
 

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAccountStore } from "../store/account";
-import { useToast } from "vue-toastification";
+// import { useAccountStore } from "../store/account";
+// import { useToast } from "vue-toastification";
+// import { useAuthStore } from "../store/auth";
 
 // Public modules
 const Landing = () => import("../components/pages/Landing.vue");
@@ -8,11 +9,9 @@ const Login = () => import("../components/pages/Login.vue");
 const Register = () => import("../components/pages/Register.vue");
 
 // Admin modules
-const AccountVerification = () =>
-    import("../components/pages/admin/AccountVerification.vue");
+const AccountVerification = () => import("../components/pages/admin/AccountVerification.vue");
 const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
-const RequestVerification = () =>
-    import("../components/pages/admin/RequestVerification.vue");
+const RequestVerification = () => import("../components/pages/admin/RequestVerification.vue");
 
 // Customer modules
 const Request = () => import("../components/pages/customer/Request.vue");
@@ -59,36 +58,25 @@ const router = createRouter({
 });
 
 // Navigation guard
-router.beforeEach((to, _) => {
-    const toast = useToast();
-    const store = useAccountStore();
-    if (
-        store.ID === 0 &&
-        to.name !== "Login" &&
-        to.name !== "Register" &&
-        to.name !== "Landing"
-    ) {
-        toast.error("Access denied. Login required", {
-            timeout: 5000,
-        });
-        return { name: "Login" };
-    } else {
-        // Handle customer trying to access admin pages
-        if (!store.is_admin && to.fullPath.includes("/admin")) {
-            console.log("customeradmin");
-            return { name: "Unauthorized" };
-            // Handle admin trying to access customer pages
-        } else if (
-            store.is_admin &&
-            (to.name === "Transfer" ||
-                to.name === "Request" ||
-                to.name === "History" ||
-                to.name === "Profile")
-        ) {
-            console.log("admincustomer");
-            return { name: "Unauthorized" };
-        }
-    }
-});
+// router.beforeEach((to, _) => {
+//     const toast = useToast();
+//     const store = useAuthStore();
+//     if (store.ID === 0 && to.name !== "Login" && to.name !== "Register" && to.name !== "Landing") {
+//         toast.error("Access denied. Login required", {
+//             timeout: 5000,
+//         });
+//         return { name: "Login" };
+//     } else {
+//         // Handle customer trying to access admin pages
+//         if (!store.is_admin && to.fullPath.includes("/admin")) {
+//             console.log("customeradmin");
+//             return { name: "Unauthorized" };
+//             // Handle admin trying to access customer pages
+//         } else if (store.is_admin && (to.name === "Transfer" || to.name === "Request" || to.name === "History" || to.name === "Profile")) {
+//             console.log("admincustomer");
+//             return { name: "Unauthorized" };
+//         }
+//     }
+// });
 
 export default router;

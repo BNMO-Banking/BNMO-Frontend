@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { register, login, logout, checkPin, changePin, changePassword } from "../api/auth.api";
 import { useToast } from "vue-toastification";
-import Account from "../types/account-type";
+import type Account from "../types/model/account.type";
 import router from "../router/router";
 
 const toast = useToast();

@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { fetchPendingAccounts, validateAccount } from "../api/account-verification.api";
 import { useToast } from "vue-toastification";
-import RequestAccount from "../types/account-request";
-import PageMetadata from "../types/page-metadata";
+import type RequestAccount from "../types/account-request";
+import type PageMetadata from "../types/page-metadata";
 
 const toast = useToast();
 

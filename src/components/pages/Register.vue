@@ -26,7 +26,7 @@ const register = (event: Event) => {
     data.append("image", file.value as Blob, file.value?.name);
 
     const authStore = useAuthStore();
-    authStore.postRegister(data)
+    authStore.postRegister(data);
 };
 
 watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {

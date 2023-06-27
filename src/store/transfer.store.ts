@@ -6,9 +6,9 @@ import {
     transfer, 
     fetchTransferHistory } from "../api/transfer.api";
 import { useToast } from "vue-toastification";
-import TransferDestination from "../types/transfer-destination";
-import TransferHistory from "../types/transfer-history";
-import PageMetadata from "../types/page-metadata";
+import type TransferDestination from "../types/transfer-destination";
+import type TransferHistory from "../types/transfer-history";
+import type PageMetadata from "../types/page-metadata";
 
 const toast = useToast();
 
