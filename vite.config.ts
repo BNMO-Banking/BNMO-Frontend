@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import eslint from "vite-plugin-eslint";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,8 +8,8 @@ export default defineConfig({
         host: "0.0.0.0",
         port: 3000,
         watch: {
-            usePolling: true,
-        },
+            usePolling: true
+        }
     },
-    plugins: [vue()],
+    plugins: [vue(), eslint()]
 });
