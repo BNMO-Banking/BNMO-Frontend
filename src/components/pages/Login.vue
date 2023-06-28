@@ -24,6 +24,7 @@ const login = (event: Event) => {
                 label="Email or username"
                 placeholder="Email or username"
                 type="text"
+                class="drop-shadow-lg"
                 required
             />
             <TextInput
@@ -32,6 +33,7 @@ const login = (event: Event) => {
                 label="Password"
                 placeholder="Password"
                 type="password"
+                class="drop-shadow-lg"
                 required
             />
             <button class="normal-button bg-main-green" type="submit">Login</button>
