@@ -26,12 +26,12 @@ watch(
     },
     {
         deep: true,
-        immediate: true,
+        immediate: true
     }
 );
 
 const logout = () => {
-    authStore.postLogout().then(() => ( isLoggedIn.value = false ))
+    authStore.postLogout().then(() => (isLoggedIn.value = false));
 };
 </script>
 
@@ -54,11 +54,7 @@ const logout = () => {
             Login
         </RouterLink>
         <RouterLink
-            v-else-if="
-                isLoggedIn &&
-                !isAdmin &&
-                router.currentRoute.value.name !== `Profile`
-            "
+            v-else-if="isLoggedIn && !isAdmin && router.currentRoute.value.name !== `Profile`"
             class="navbar-button hover:bg-main-green hover:border-main-green"
             to="/profile"
         >
