@@ -35,11 +35,11 @@ const editData = (event: Event) => {
         last_name: lastName.value,
         email: email.value,
         username: username.value,
-        balance: Number(balance.value),
+        balance: Number(balance.value)
     };
     axios
         .put("http://localhost:8080/admin/edit-data", data, {
-            withCredentials: true,
+            withCredentials: true
         })
         .then((response) => {
             toast.success(response.data.message);
@@ -61,15 +61,10 @@ const editData = (event: Event) => {
             class="flex flex-col rounded-md bg-white items-center gap-y-4 justify-center p-8 w-1/3"
             @click.stop
         >
-            <h4 class="text-3xl font-bold uppercase text-center" v-once>
-                Edit Data
-            </h4>
-            <form
-                class="flex flex-col items-center justify-center w-full p-4 gap-y-4"
-            >
+            <h4 class="text-3xl font-bold uppercase text-center" v-once>Edit Data</h4>
+            <form class="flex flex-col items-center justify-center w-full p-4 gap-y-4">
                 <ValuedTextInput
                     :optional-value="firstName"
-                    v-model:input-value="firstName"
                     input-id="first-name"
                     label-text="First Name"
                     placeholder="Enter the new first name"
@@ -78,7 +73,6 @@ const editData = (event: Event) => {
                 />
                 <ValuedTextInput
                     :optional-value="lastName"
-                    v-model:input-value="lastName"
                     input-id="last-name"
                     label-text="Last Name"
                     placeholder="Enter the new last name"
@@ -87,7 +81,6 @@ const editData = (event: Event) => {
                 />
                 <ValuedTextInput
                     :optional-value="email"
-                    v-model:input-value="email"
                     input-id="email"
                     label-text="Email"
                     placeholder="Enter the new email"
@@ -96,7 +89,6 @@ const editData = (event: Event) => {
                 />
                 <ValuedTextInput
                     :optional-value="username"
-                    v-model:input-value="username"
                     input-id="username"
                     label-text="Username"
                     placeholder="Enter the new username"
@@ -105,7 +97,6 @@ const editData = (event: Event) => {
                 />
                 <ValuedTextInput
                     :optional-value="balance"
-                    v-model:input-value="balance"
                     input-id="balance"
                     label-text="Balance"
                     placeholder="Enter the new balance"

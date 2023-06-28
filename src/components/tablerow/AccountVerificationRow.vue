@@ -20,10 +20,7 @@ defineEmits(["openModal", "imageData", "accept", "reject"]);
         <td>
             <button
                 class="table-button bg-main-yellow border-main-yellow hover:scale-110 my-2"
-                @click="
-                    $emit('openModal', true),
-                        $emit('imageData', data.image_path)
-                "
+                @click="$emit('openModal', true), $emit('imageData', data.image_path)"
             >
                 Open Image
             </button>

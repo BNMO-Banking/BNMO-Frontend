@@ -8,9 +8,7 @@ const currentHistory = ref("request");
 
 <template>
     <main class="flex flex-col flex-1 w-full">
-        <h1 class="text-6xl font-extrabold uppercase text-center mt-8 mb-4">
-            - History -
-        </h1>
+        <h1 class="text-6xl font-extrabold uppercase text-center mt-8 mb-4">- History -</h1>
         <div class="flex items-center justify-center gap-x-8 text-2xl p-4">
             <button
                 v-if="currentHistory == `transfer`"

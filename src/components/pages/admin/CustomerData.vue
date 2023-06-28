@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import VerifyImage from "../../modal/VerifyImage.vue";
-import EditData from "../../modal/EditData.vue";
+// import EditData from "../../modal/EditData.vue";
 import axios from "axios";
 import router from "../../../router/router";
 import CustomerData from "../../../types/customer-data";
@@ -15,7 +15,7 @@ const emptyData = ref(false);
 const getCustomerData = () => {
     axios
         .get("http://localhost:8080/admin/get-customer-data", {
-            withCredentials: true,
+            withCredentials: true
         })
         .then((response) => {
             datas.value = response.data.data;
@@ -31,11 +31,11 @@ watch(
         getCustomerData();
     },
     {
-        immediate: true,
+        immediate: true
     }
 );
 
-watch(datas, () => {});
+// watch(datas, () => {});
 
 // Refs and watch for opening details
 const openedId = ref([] as number[]);
@@ -98,11 +98,7 @@ watch(deleteData, (newFlag) => {
         @show-modal="(flag: boolean) => showImageModal = flag"
         :image_path="imageData"
     />
-    <EditData
-        v-if="showEditData"
-        @show-modal="(flag: boolean) => showEditData = flag"
-        :data="editData"
-    />
+    <!-- <EditData v-if="showEditData" @show-modal="(flag: boolean) => showEditData = flag" /> -->
     <UserHistory
         v-if="showHistoryData"
         @show-modal="(flag: boolean) => showHistoryData = flag"
@@ -122,9 +118,7 @@ watch(deleteData, (newFlag) => {
         :type="`delete`"
     />
     <main class="flex flex-col flex-1 w-full">
-        <h1 class="text-6xl font-extrabold uppercase text-center m-8" v-once>
-            - Customer Data -
-        </h1>
+        <h1 class="text-6xl font-extrabold uppercase text-center m-8" v-once>- Customer Data -</h1>
         <table class="mx-8 mb-6">
             <thead class="border bg-main-green" v-once>
                 <tr>
@@ -132,15 +126,12 @@ watch(deleteData, (newFlag) => {
                     <th scope="col" class="p-4 w-[15%] text-lg">First Name</th>
                     <th scope="col" class="p-4 w-[15%] text-lg">Last Name</th>
                     <th scope="col" class="p-4 w-[20%] text-lg">Email</th>
-                    <th scope="col" class="p-4 w-[30%] text-lg">
-                        Register Time
-                    </th>
+                    <th scope="col" class="p-4 w-[30%] text-lg">Register Time</th>
                     <th scope="col" class="p-4 w-[10%] text-lg">Action</th>
                 </tr>
             </thead>
-            <tbody class="text-center">
+            <tbody v-if="!emptyData" class="text-center">
                 <CustomerDataRow
-                    v-if="!emptyData"
                     v-for="(data, index) in datas"
                     :key="data.ID"
                     :data="data"

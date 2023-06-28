@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import AxiosErrorType from "../types/axios/default-response.type";
 
 export const fetchPendingAccounts = (page: number) =>
     axios
@@ -11,7 +10,7 @@ export const fetchPendingAccounts = (page: number) =>
         .then((response) => {
             return response.data;
         })
-        .catch((error: AxiosError<AxiosErrorType>) => {
+        .catch((error) => {
             if (error.response) {
                 throw {
                     status: error.response.status,
@@ -21,7 +20,7 @@ export const fetchPendingAccounts = (page: number) =>
             throw error;
         });
 
-export const validateAccount = (data: Object) =>
+export const validateAccount = (data: object) =>
     axios
         .post("/admin/validate-account", data)
         .then((response) => {

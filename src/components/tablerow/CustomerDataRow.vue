@@ -14,13 +14,13 @@ const emit = defineEmits([
     "editData",
     "openHistory",
     "openReset",
-    "openDelete",
+    "openDelete"
 ]);
 
 const editData = () => {
     emit("editData", {
         flag: true,
-        data: props.data,
+        data: props.data
     });
 };
 
@@ -28,7 +28,7 @@ const openRequestHistory = () => {
     emit("openHistory", {
         flag: true,
         id: props.data.ID,
-        type: "request",
+        type: "request"
     });
 };
 
@@ -36,31 +36,27 @@ const openTransferHistory = () => {
     emit("openHistory", {
         flag: true,
         id: props.data.ID,
-        type: "transfer",
+        type: "transfer"
     });
 };
 
 const resetPin = () => {
     emit("openReset", {
         flag: true,
-        id: props.data.ID,
+        id: props.data.ID
     });
 };
 
 const deleteData = () => {
     emit("openDelete", {
         flag: true,
-        id: props.data.ID,
+        id: props.data.ID
     });
 };
 </script>
 
 <template>
-    <tr
-        :class="
-            openedId.includes(data.ID) ? `shadow-md` : `border-b border-black`
-        "
-    >
+    <tr :class="openedId.includes(data.ID) ? `shadow-md` : `border-b border-black`">
         <td>{{ index }}</td>
         <td>{{ data.first_name }}</td>
         <td>{{ data.last_name }}</td>
@@ -74,7 +70,7 @@ const deleteData = () => {
                     day: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
-                    second: "2-digit",
+                    second: "2-digit"
                 })
             }}
         </td>
@@ -162,7 +158,7 @@ const deleteData = () => {
                     {{
                         data.balance.toLocaleString("en-US", {
                             style: "currency",
-                            currency: "IDR",
+                            currency: "IDR"
                         })
                     }}
                 </p>
