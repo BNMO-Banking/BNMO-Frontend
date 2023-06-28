@@ -15,9 +15,9 @@ const login = (event: Event) => {
 </script>
 
 <template>
-    <main class="flex flex-1 justify-center my-16 mx-32 items-center gap-x-32">
-        <form class="flex flex-col w-1/4 gap-y-4" @submit="login">
-            <h1 class="text-6xl font-extrabold uppercase text-center mb-4">- Login -</h1>
+    <main class="flex flex-1 justify-center my-16 mx-0 sm:mx-32 items-center gap-x-32">
+        <form class="flex flex-col w-1/2 lg:w-1/3 xl:w-1/4 gap-y-4" @submit="login">
+            <h1 class="font-extrabold uppercase text-center mb-4">- Login -</h1>
             <TextInput
                 v-model="form.email_username"
                 id="email_username"
@@ -35,15 +35,15 @@ const login = (event: Event) => {
                 required
             />
             <button class="normal-button bg-main-green" type="submit">Login</button>
-            <div class="flex gap-x-1 justify-center">
-                <p>Don't have an account?</p>
+            <p class="text-center">
+                Don't have an account?
                 <RouterLink to="/register" class="text-blue-400 visited:text-blue-700 underline"
                     >Create one</RouterLink
                 >
-            </div>
+            </p>
         </form>
         <div
-            class="flex flex-col items-center justify-center rounded-full bg-main-green w-[32rem] h-[32rem]"
+            class="hidden flex-col items-center justify-center rounded-full bg-main-green w-[32rem] h-[32rem] xl:flex"
         >
             <img src="/Logo.png" alt="Big Logo" class="w-1/2" />
             <h1 class="text-3xl text-center font-extrabold">YOUR SOLUTION FOR MONEY</h1>
