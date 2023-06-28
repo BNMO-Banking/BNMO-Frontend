@@ -30,12 +30,9 @@ const transfersDatas = ref<TransferHistory[]>();
 
 const getRequestHistory = () => {
     axios
-        .get(
-            `http://localhost:8080/request-history?id=${props.id}&page=${page.value}`,
-            {
-                withCredentials: true,
-            }
-        )
+        .get(`http://localhost:8080/request-history?id=${props.id}&page=${page.value}`, {
+            withCredentials: true
+        })
         .then((response) => {
             requestsDatas.value = response.data.data;
             totalPage.value = response.data.metadata.last_page;
@@ -50,12 +47,9 @@ const getRequestHistory = () => {
 
 const getTransferHistory = () => {
     axios
-        .get(
-            `http://localhost:8080/transfer-history?id=${props.id}&page=${page.value}`,
-            {
-                withCredentials: true,
-            }
-        )
+        .get(`http://localhost:8080/transfer-history?id=${props.id}&page=${page.value}`, {
+            withCredentials: true
+        })
         .then((response) => {
             console.log(response.data);
             transfersDatas.value = response.data.data;
@@ -79,7 +73,7 @@ watch(
         }
     },
     {
-        immediate: true,
+        immediate: true
     }
 );
 </script>
@@ -94,30 +88,18 @@ watch(
             @click.stop
         >
             <h4 class="text-3xl font-bold uppercase text-center" v-once>
-                {{
-                    type === "request"
-                        ? "User request history"
-                        : "User transfer history"
-                }}
+                {{ type === "request" ? "User request history" : "User transfer history" }}
             </h4>
             <table v-if="type === `request`" class="mx-8 my-6">
                 <thead class="border bg-main-green" v-once>
                     <tr>
                         <th scope="col" class="p-4 w-[5%] text-lg">ID</th>
-                        <th scope="col" class="p-4 w-[15%] text-lg">
-                            Request Type
-                        </th>
-                        <th scope="col" class="p-4 w-[10%] text-lg">
-                            Currency
-                        </th>
+                        <th scope="col" class="p-4 w-[15%] text-lg">Request Type</th>
+                        <th scope="col" class="p-4 w-[10%] text-lg">Currency</th>
                         <th scope="col" class="p-4 w-[15%] text-lg">Amount</th>
-                        <th scope="col" class="p-4 w-[20%] text-lg">
-                            Converted Amount
-                        </th>
+                        <th scope="col" class="p-4 w-[20%] text-lg">Converted Amount</th>
                         <th scope="col" class="p-4 w-[10%] text-lg">Status</th>
-                        <th scope="col" class="p-4 w-[25%] text-lg">
-                            Timestamp
-                        </th>
+                        <th scope="col" class="p-4 w-[25%] text-lg">Timestamp</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -146,11 +128,7 @@ watch(
                 >
                     Prev Page
                 </button>
-                <button
-                    class="navbar-button bg-main-red border-main-red"
-                    disabled
-                    v-else
-                >
+                <button class="navbar-button bg-main-red border-main-red" disabled v-else>
                     Prev Page
                 </button>
                 <h4 class="text-xl font-extrabold uppercase text-center">
@@ -163,11 +141,7 @@ watch(
                 >
                     Next Page
                 </button>
-                <button
-                    class="navbar-button bg-main-red border-main-red"
-                    disabled
-                    v-else
-                >
+                <button class="navbar-button bg-main-red border-main-red" disabled v-else>
                     Next Page
                 </button>
             </div>
@@ -176,20 +150,12 @@ watch(
                 <thead class="border bg-main-green" v-once>
                     <tr>
                         <th scope="col" class="p-4 w-[5%] text-lg">ID</th>
-                        <th scope="col" class="p-4 w-[15%] text-lg">
-                            Destination
-                        </th>
-                        <th scope="col" class="p-4 w-[10%] text-lg">
-                            Currency
-                        </th>
+                        <th scope="col" class="p-4 w-[15%] text-lg">Destination</th>
+                        <th scope="col" class="p-4 w-[10%] text-lg">Currency</th>
                         <th scope="col" class="p-4 w-[15%] text-lg">Amount</th>
-                        <th scope="col" class="p-4 w-[20%] text-lg">
-                            Converted Amount
-                        </th>
+                        <th scope="col" class="p-4 w-[20%] text-lg">Converted Amount</th>
                         <th scope="col" class="p-4 w-[10%] text-lg">Status</th>
-                        <th scope="col" class="p-4 w-[25%] text-lg">
-                            Timestamp
-                        </th>
+                        <th scope="col" class="p-4 w-[25%] text-lg">Timestamp</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -218,11 +184,7 @@ watch(
                 >
                     Prev Page
                 </button>
-                <button
-                    class="navbar-button bg-main-red border-main-red"
-                    disabled
-                    v-else
-                >
+                <button class="navbar-button bg-main-red border-main-red" disabled v-else>
                     Prev Page
                 </button>
                 <h4 class="text-xl font-extrabold uppercase text-center">
@@ -235,11 +197,7 @@ watch(
                 >
                     Next Page
                 </button>
-                <button
-                    class="navbar-button bg-main-red border-main-red"
-                    disabled
-                    v-else
-                >
+                <button class="navbar-button bg-main-red border-main-red" disabled v-else>
                     Next Page
                 </button>
             </div>

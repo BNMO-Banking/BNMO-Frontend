@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import NavbarAdmin from "./NavbarAdmin.vue";
 import NavbarCustomer from "./NavbarCustomer.vue";
 import router from "../../router/router";
@@ -10,25 +10,25 @@ const isAdmin = ref(false);
 
 const authStore = useAuthStore();
 
-watch(
-    authStore,
-    () => {
-        if (authStore.account.ID) {
-            isLoggedIn.value = true;
-            if (authStore.account.is_admin) {
-                isAdmin.value = true;
-            } else {
-                isAdmin.value = false;
-            }
-        } else {
-            isLoggedIn.value = false;
-        }
-    },
-    {
-        deep: true,
-        immediate: true
-    }
-);
+// watch(
+//     authStore,
+//     () => {
+//         if (authStore.account.ID) {
+//             isLoggedIn.value = true;
+//             if (authStore.account.is_admin) {
+//                 isAdmin.value = true;
+//             } else {
+//                 isAdmin.value = false;
+//             }
+//         } else {
+//             isLoggedIn.value = false;
+//         }
+//     },
+//     {
+//         deep: true,
+//         immediate: true
+//     }
+// );
 
 const logout = () => {
     authStore.postLogout().then(() => (isLoggedIn.value = false));

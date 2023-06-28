@@ -1,15 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-    <header
-        class="flex flex-col bg-main-green justify-center items-center py-8 gap-y-4"
-    >
+    <header class="flex flex-col bg-main-green justify-center items-center py-8 gap-y-4">
         <img src="/Logo.png" alt="Big Logo" class="w-96" />
         <h1 class="text-3xl font-extrabold">YOUR SOLUTION FOR MONEY</h1>
     </header>
-    <section
-        class="flex justify-between items-center bg-white py-8 px-16 gap-x-16"
-    >
+    <section class="flex justify-between items-center bg-white py-8 px-16 gap-x-16">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -25,34 +21,28 @@
             />
         </svg>
         <p class="w-3/4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-            fringilla tincidunt lacus eu blandit. Nunc aliquam congue tortor eu
-            rutrum. Pellentesque eget justo convallis, luctus erat vel,
-            efficitur nisi. Integer nisl tellus, imperdiet imperdiet auctor vel,
-            interdum vel elit. Nullam commodo pretium eleifend. Donec eget erat
-            accumsan, condimentum ante et, feugiat odio. Quisque sit amet felis
-            vel ligula vestibulum iaculis. Suspendisse posuere imperdiet dolor
-            at sagittis. Vivamus rutrum quam dolor, et convallis metus vulputate
-            sit amet. Mauris fringilla libero augue, eget rhoncus lacus
-            facilisis non. Sed sed purus non ex efficitur pulvinar. Sed in nibh
-            purus. Aenean sem tortor, luctus.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla tincidunt
+            lacus eu blandit. Nunc aliquam congue tortor eu rutrum. Pellentesque eget justo
+            convallis, luctus erat vel, efficitur nisi. Integer nisl tellus, imperdiet imperdiet
+            auctor vel, interdum vel elit. Nullam commodo pretium eleifend. Donec eget erat
+            accumsan, condimentum ante et, feugiat odio. Quisque sit amet felis vel ligula
+            vestibulum iaculis. Suspendisse posuere imperdiet dolor at sagittis. Vivamus rutrum quam
+            dolor, et convallis metus vulputate sit amet. Mauris fringilla libero augue, eget
+            rhoncus lacus facilisis non. Sed sed purus non ex efficitur pulvinar. Sed in nibh purus.
+            Aenean sem tortor, luctus.
         </p>
     </section>
-    <section
-        class="flex justify-between items-center bg-main-green py-8 px-16 gap-x-16"
-    >
+    <section class="flex justify-between items-center bg-main-green py-8 px-16 gap-x-16">
         <p class="w-3/4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-            fringilla tincidunt lacus eu blandit. Nunc aliquam congue tortor eu
-            rutrum. Pellentesque eget justo convallis, luctus erat vel,
-            efficitur nisi. Integer nisl tellus, imperdiet imperdiet auctor vel,
-            interdum vel elit. Nullam commodo pretium eleifend. Donec eget erat
-            accumsan, condimentum ante et, feugiat odio. Quisque sit amet felis
-            vel ligula vestibulum iaculis. Suspendisse posuere imperdiet dolor
-            at sagittis. Vivamus rutrum quam dolor, et convallis metus vulputate
-            sit amet. Mauris fringilla libero augue, eget rhoncus lacus
-            facilisis non. Sed sed purus non ex efficitur pulvinar. Sed in nibh
-            purus. Aenean sem tortor, luctus.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla tincidunt
+            lacus eu blandit. Nunc aliquam congue tortor eu rutrum. Pellentesque eget justo
+            convallis, luctus erat vel, efficitur nisi. Integer nisl tellus, imperdiet imperdiet
+            auctor vel, interdum vel elit. Nullam commodo pretium eleifend. Donec eget erat
+            accumsan, condimentum ante et, feugiat odio. Quisque sit amet felis vel ligula
+            vestibulum iaculis. Suspendisse posuere imperdiet dolor at sagittis. Vivamus rutrum quam
+            dolor, et convallis metus vulputate sit amet. Mauris fringilla libero augue, eget
+            rhoncus lacus facilisis non. Sed sed purus non ex efficitur pulvinar. Sed in nibh purus.
+            Aenean sem tortor, luctus.
         </p>
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,25 +59,18 @@
             />
         </svg>
     </section>
-    <section
-        class="flex flex-col justify-center items-center bg-white py-8 px-16 gap-y-4"
-    >
+    <section class="flex flex-col justify-center items-center bg-white py-8 px-16 gap-y-4">
         <p class="text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at
-            eros risus. Sed ac pretium lorem. Donec convallis quam eget eros
-            mollis vehicula dignissim et sem. Sed lobortis neque quam, quis
-            ultrices metus consequat quis. Nullam ullamcorper in ex eget
-            eleifend. Donec at odio ac quam ullamcorper dapibus. Mauris quis
-            lorem ut ligula auctor rhoncus. Maecenas quis efficitur leo. Etiam
-            vel purus ligula. Integer odio nulla, maximus eget lorem eget,
-            vehicula lobortis nulla. Curabitur id massa sagittis, aliquam sem
-            ut, sodales lorem. Sed ullamcorper orci nec magna commodo, sed
-            vestibulum quam volutpat. Sed eget est rutrum, viverra ipsum ac,
-            placerat.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at eros risus. Sed ac
+            pretium lorem. Donec convallis quam eget eros mollis vehicula dignissim et sem. Sed
+            lobortis neque quam, quis ultrices metus consequat quis. Nullam ullamcorper in ex eget
+            eleifend. Donec at odio ac quam ullamcorper dapibus. Mauris quis lorem ut ligula auctor
+            rhoncus. Maecenas quis efficitur leo. Etiam vel purus ligula. Integer odio nulla,
+            maximus eget lorem eget, vehicula lobortis nulla. Curabitur id massa sagittis, aliquam
+            sem ut, sodales lorem. Sed ullamcorper orci nec magna commodo, sed vestibulum quam
+            volutpat. Sed eget est rutrum, viverra ipsum ac, placerat.
         </p>
-        <RouterLink
-            class="normal-button hover:bg-main-green hover:border-main-green"
-            to="/register"
+        <RouterLink class="normal-button hover:bg-main-green hover:border-main-green" to="/register"
             >Get Started</RouterLink
         >
     </section>

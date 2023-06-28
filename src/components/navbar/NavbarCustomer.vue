@@ -3,13 +3,13 @@ import router from "../../router/router";
 const adminLinks = [
     { name: "Transfer", link: "/transfer" },
     { name: "Request", link: "/request" },
-    { name: "History", link: "/history" },
+    { name: "History", link: "/history" }
 ];
 </script>
 
 <template>
     <ul class="flex gap-x-4">
-        <li v-for="link in adminLinks">
+        <li v-for="link in adminLinks" :key="link.link">
             <RouterLink
                 :key="link.link"
                 :to="link.link"

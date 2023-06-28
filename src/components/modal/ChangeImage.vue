@@ -3,10 +3,10 @@ import axios from "axios";
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import FileDropZone from "../form/FileDropZone.vue";
 import { useToast } from "vue-toastification";
-import { useAccountStore } from "../../store/account";
+// import { useAccountStore } from "../../store/account";
 
 const toast = useToast();
-const store = useAccountStore();
+// const store = useAccountStore();
 
 const props = defineProps<{
     id: number;
@@ -35,11 +35,11 @@ const changeImage = () => {
         data.append("new_image", files.value![0] as Blob, files.value![0].name);
         axios
             .put("http://localhost:8080/change-image", data, {
-                withCredentials: true,
+                withCredentials: true
             })
             .then((response) => {
                 toast.success(response.data.message);
-                store.image_path = response.data.image;
+                // store.image_path = response.data.image;
                 emit("showModal", false);
             })
             .catch((err) => {
@@ -52,8 +52,9 @@ const files = ref<FileList>();
 const uploaded = ref(false);
 
 watch(files, () => {
-    (document.getElementById("preview-image") as HTMLImageElement).src =
-        URL.createObjectURL(files.value![0]);
+    (document.getElementById("preview-image") as HTMLImageElement).src = URL.createObjectURL(
+        files.value![0]
+    );
     uploaded.value = true;
 });
 </script>
@@ -63,10 +64,7 @@ watch(files, () => {
         class="fixed flex z-[5] justify-center items-center w-full h-screen bg-black/50"
         @click="$emit('showModal', false)"
     >
-        <div
-            class="flex flex-col rounded-md bg-white items-center justify-center p-4"
-            @click.stop
-        >
+        <div class="flex flex-col rounded-md bg-white items-center justify-center p-4" @click.stop>
             <FileDropZone
                 @files-dropped="(list: FileList) => files = list"
                 #default="{ dropZoneActive }"
@@ -114,24 +112,10 @@ watch(files, () => {
                             </h5>
                             <p>Supports image files only (JPG, PNG, etc)</p>
                         </div>
-                        <input
-                            type="file"
-                            id="file-input"
-                            hidden
-                            accept="image/*"
-                            @change="files = $event.target.files"
-                        />
+                        <input type="file" id="file-input" hidden accept="image/*" />
                     </label>
-                    <div
-                        :class="
-                            uploaded
-                                ? `flex flex-col items-center justify-center`
-                                : `hidden`
-                        "
-                    >
-                        <h1 class="text-3xl font-extrabold uppercase">
-                            Image Preview
-                        </h1>
+                    <div :class="uploaded ? `flex flex-col items-center justify-center` : `hidden`">
+                        <h1 class="text-3xl font-extrabold uppercase">Image Preview</h1>
                         <img id="preview-image" class="max-w-60 max-h-48" />
                     </div>
                 </div>

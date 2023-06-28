@@ -16,7 +16,7 @@ defineProps<{
             {{
                 data.amount.toLocaleString("en-US", {
                     style: "currency",
-                    currency: data.currency,
+                    currency: data.currency
                 })
             }}
         </td>
@@ -24,20 +24,14 @@ defineProps<{
             {{
                 data.converted_amount.toLocaleString("en-US", {
                     style: "currency",
-                    currency: "IDR",
+                    currency: "IDR"
                 })
             }}
         </td>
-        <td
-            class="py-2 uppercase text-main-green font-bold"
-            v-if="data.status == `success`"
-        >
+        <td class="py-2 uppercase text-main-green font-bold" v-if="data.status == `success`">
             {{ data.status }}
         </td>
-        <td
-            class="py-2 uppercase text-main-red font-bold"
-            v-else-if="data.status == `failed`"
-        >
+        <td class="py-2 uppercase text-main-red font-bold" v-else-if="data.status == `failed`">
             {{ data.status }}
         </td>
         <td class="py-2">
@@ -49,7 +43,7 @@ defineProps<{
                     day: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
-                    second: "2-digit",
+                    second: "2-digit"
                 })
             }}
         </td>

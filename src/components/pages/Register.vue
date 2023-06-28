@@ -50,16 +50,10 @@ const showError = computed(() => {
 
 <template>
     <main class="flex flex-1 justify-center my-16 mx-32 items-center gap-x-32">
-        <form
-            class="flex flex-col w-1/3 gap-y-4"
-            @submit="(event: Event) => register(event)"
-        >
-            <h1 class="text-6xl font-extrabold uppercase text-center mb-4">
-                - Register -
-            </h1>
+        <form class="flex flex-col w-1/3 gap-y-4" @submit="(event: Event) => register(event)">
+            <h1 class="text-6xl font-extrabold uppercase text-center mb-4">- Register -</h1>
             <div class="flex justify-center items-center gap-x-4">
                 <TextInput
-                    v-model:input-value="firstName"
                     input-id="firstName"
                     label-text="First name"
                     placeholder="Enter your first name"
@@ -68,7 +62,6 @@ const showError = computed(() => {
                     required="true"
                 />
                 <TextInput
-                    v-model:input-value="lastName"
                     input-id="lastName"
                     label-text="Last name"
                     placeholder="Enter your last name"
@@ -79,7 +72,6 @@ const showError = computed(() => {
             </div>
             <div class="flex justify-center items-center gap-x-4">
                 <TextInput
-                    v-model:input-value="username"
                     input-id="username"
                     label-text="Username"
                     placeholder="Enter your username"
@@ -88,7 +80,6 @@ const showError = computed(() => {
                     required="true"
                 />
                 <TextInput
-                    v-model:input-value="email"
                     input-id="email"
                     label-text="Email"
                     placeholder="Enter your email"
@@ -99,7 +90,6 @@ const showError = computed(() => {
             </div>
             <div class="flex justify-center items-center gap-x-4">
                 <TextInput
-                    v-model:input-value="password"
                     input-id="password"
                     label-text="Password"
                     placeholder="Enter your password"
@@ -108,7 +98,6 @@ const showError = computed(() => {
                     required="true"
                 />
                 <TextInput
-                    v-model:input-value="confirmPassword"
                     input-id="confirmPassword"
                     label-text="Confirm Password"
                     placeholder="Re-enter your password"
@@ -118,7 +107,6 @@ const showError = computed(() => {
                 />
             </div>
             <FileInput
-                v-model:input-value="file"
                 input-id="image"
                 label-text="Image"
                 class="hover:bg-main-green rounded-full px-4 py-2"
@@ -134,9 +122,7 @@ const showError = computed(() => {
             </button>
             <div class="flex gap-x-1 justify-center">
                 <p>Already have an account?</p>
-                <RouterLink
-                    to="/login"
-                    class="text-blue-400 visited:text-blue-700 underline"
+                <RouterLink to="/login" class="text-blue-400 visited:text-blue-700 underline"
                     >Log in</RouterLink
                 >
             </div>
@@ -145,9 +131,7 @@ const showError = computed(() => {
             class="flex flex-col items-center justify-center rounded-full bg-main-green w-[32rem] h-[32rem]"
         >
             <img src="/Logo.png" alt="Big Logo" class="w-1/2" />
-            <h1 class="text-3xl text-center font-extrabold">
-                YOUR SOLUTION FOR MONEY
-            </h1>
+            <h1 class="text-3xl text-center font-extrabold">YOUR SOLUTION FOR MONEY</h1>
         </div>
     </main>
 </template>

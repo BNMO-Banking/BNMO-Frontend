@@ -1,26 +1,22 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted, nextTick } from "vue";
 import ValuedTextInput from "../../form/ValuedTextInput.vue";
-import { useAuthStore } from "../../../store/auth.store";
+// import { useAuthStore } from "../../../store/auth.store";
 import { useCurrencyStore } from "../../../store/currency.store";
-import { useRequestStore } from "../../../store/request.store";
+// import { useRequestStore } from "../../../store/request.store";
 import { storeToRefs } from "pinia";
+// import { RequestReqAxios } from "../../../types/axios/request.type";
 
 let intervalId: number;
 
-const authStore = useAuthStore();
+// const authStore = useAuthStore();
 const currencyStore = useCurrencyStore();
-const requestStore = useRequestStore();
+// const requestStore = useRequestStore();
 
-const { account } = storeToRefs(authStore);
+// const { account } = storeToRefs(authStore);
 
-const {
-    symbols,
-    isLoadingSymbols,
-    errorSymbols,
-    isLoadingBalance,
-    errBalance
-} = storeToRefs(currencyStore);
+const { symbols, isLoadingSymbols, errorSymbols, isLoadingBalance, errBalance } =
+    storeToRefs(currencyStore);
 
 currencyStore.getSymbols();
 
@@ -35,37 +31,35 @@ const subtractForm = ref({
     currency: "AED"
 });
 
-const request = (type: string) => {
-    let data: Object;
-    if (type === "add") {
-        const amount = parseInt(addForm.value.amount.replace(/,/g, ""));
-        data = {
-            destination_id: account.value.ID,
-            request_type: type,
-            amount: amount,
-            currency: addForm.value.currency
-        };
-    } else if (type === "subtract") {
-        const amount = parseInt(subtractForm.value.amount.replace(/,/g, ""));
-        data = {
-            destination_id: account.value.ID,
-            request_type: type,
-            amount: amount,
-            currency: subtractForm.value.currency
-        };
-    } else {
-        return;
-    }
+// const request = (type: string) => {
+//     let data: RequestReqAxios;
+//     if (type === "add") {
+//         const amount = parseInt(addForm.value.amount.replace(/,/g, ""));
+//         data = {
+//             destination_id: account.value.ID,
+//             request_type: type,
+//             amount: amount,
+//             currency: addForm.value.currency
+//         };
+//     } else if (type === "subtract") {
+//         const amount = parseInt(subtractForm.value.amount.replace(/,/g, ""));
+//         data = {
+//             destination_id: account.value.ID,
+//             request_type: type,
+//             amount: amount,
+//             currency: subtractForm.value.currency
+//         };
+//     } else {
+//         return;
+//     }
 
-    requestStore.postRequest(data);
-};
+//     requestStore.postRequest(data);
+// };
 
 watch(
     () => addForm.value.amount,
     (newValue) => {
-        const result = newValue
-            .replace(/\D/g, "")
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const result = newValue.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         nextTick(() => (addForm.value.amount = result));
     }
 );
@@ -73,16 +67,14 @@ watch(
 watch(
     () => subtractForm.value.amount,
     (newValue) => {
-        const result = newValue
-            .replace(/\D/g, "")
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const result = newValue.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         nextTick(() => (subtractForm.value.amount = result));
     }
 );
 
 onMounted(() => {
     intervalId = setInterval(() => {
-        currencyStore.getUpdatedBalance(account.value.ID);
+        // currencyStore.getUpdatedBalance(account.value.ID);
     }, 15000);
 });
 
@@ -92,28 +84,18 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <h1 class="text-6xl font-extrabold uppercase text-center m-8">
-        - Request -
-    </h1>
-    <h2
-        class="text-3xl font-extrabold uppercase text-center"
-        v-if="isLoadingBalance"
-    >
+    <h1 class="text-6xl font-extrabold uppercase text-center m-8">- Request -</h1>
+    <h2 class="text-3xl font-extrabold uppercase text-center" v-if="isLoadingBalance">
         Fetching balance...
     </h2>
     <h2 class="text-3xl font-extrabold uppercase text-center" v-else>
-        Current balance: IDR {{ account.balance.toLocaleString("en-US") }}
+        <!-- Current balance: IDR {{ account.balance.toLocaleString("en-US") }} -->
     </h2>
-    <h2
-        class="text-3xl font-extrabold uppercase text-center text-main-red"
-        v-if="errBalance"
-    >
+    <h2 class="text-3xl font-extrabold uppercase text-center text-main-red" v-if="errBalance">
         {{ errBalance }}
     </h2>
     <main class="flex flex-1 items-center justify-center gap-x-8">
-        <div
-            class="flex flex-col p-4 shadow-md w-2/5 border-2 border-main-green gap-y-4"
-        >
+        <div class="flex flex-col p-4 shadow-md w-2/5 border-2 border-main-green gap-y-4">
             <div class="flex items-center gap-x-4">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -133,15 +115,12 @@ onUnmounted(() => {
             <span class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">To:</h4>
                 <h4 class="font-bold uppercase w-full">
-                    {{ account.account_number }}
+                    <!-- {{ account.account_number }} -->
                 </h4>
             </span>
             <div class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">Currency:</h4>
-                <div
-                    v-if="isLoadingSymbols"
-                    class="flex w-full items-center justify-center"
-                >
+                <div v-if="isLoadingSymbols" class="flex w-full items-center justify-center">
                     <svg
                         aria-hidden="true"
                         class="w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-main-green"
@@ -160,32 +139,20 @@ onUnmounted(() => {
                     </svg>
                     <p>Fetching currencies...</p>
                 </div>
-                <div
-                    v-if="errorSymbols"
-                    class="flex w-full items-center justify-center"
-                >
+                <div v-if="errorSymbols" class="flex w-full items-center justify-center">
                     <p>{{ errorSymbols }}</p>
                 </div>
                 <select
                     v-if="!isLoadingSymbols"
                     class="rounded-md border border-main-green p-2 w-full"
-                    @change="
-                        addForm.currency = (
-                            $event.target as HTMLSelectElement
-                        ).value
-                    "
+                    @change="addForm.currency = ($event.target as HTMLSelectElement).value"
                 >
-                    <option
-                        v-for="(name, code) in symbols"
-                        :key="code"
-                        :value="code"
-                    >
+                    <option v-for="(name, code) in symbols" :key="code" :value="code">
                         {{ code }} - {{ name }}
                     </option>
                 </select>
             </div>
             <ValuedTextInput
-                v-model:input-value="addForm.amount"
                 :optional-value="addForm.amount"
                 input-id="add-amount"
                 label-text="Amount"
@@ -197,7 +164,6 @@ onUnmounted(() => {
                 class="normal-button bg-main-green border-main-green hover:text-white hover:scale-[1.02]"
                 type="submit"
                 v-if="parseInt(addForm.amount) >= 0"
-                @click="request(`add`)"
             >
                 Request
             </button>
@@ -210,9 +176,7 @@ onUnmounted(() => {
                 Request
             </button>
         </div>
-        <div
-            class="flex flex-col p-4 shadow-md w-2/5 border-2 border-main-red gap-y-4"
-        >
+        <div class="flex flex-col p-4 shadow-md w-2/5 border-2 border-main-red gap-y-4">
             <div class="flex items-center gap-x-4">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -227,22 +191,17 @@ onUnmounted(() => {
                     />
                 </svg>
 
-                <h2 class="text-3xl font-extrabold uppercase">
-                    Subtract balance
-                </h2>
+                <h2 class="text-3xl font-extrabold uppercase">Subtract balance</h2>
             </div>
             <span class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">From:</h4>
                 <h4 class="font-bold uppercase w-full">
-                    {{ account.account_number }}
+                    <!-- {{ account.account_number }} -->
                 </h4>
             </span>
             <div class="flex w-full items-center gap-x-4">
                 <h4 class="font-bold uppercase w-1/4">Currency:</h4>
-                <div
-                    v-if="isLoadingSymbols"
-                    class="flex w-full items-center justify-center"
-                >
+                <div v-if="isLoadingSymbols" class="flex w-full items-center justify-center">
                     <svg
                         aria-hidden="true"
                         class="w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-main-green"
@@ -261,32 +220,20 @@ onUnmounted(() => {
                     </svg>
                     <p>Fetching currencies...</p>
                 </div>
-                <div
-                    v-if="errorSymbols"
-                    class="flex w-full items-center justify-center"
-                >
+                <div v-if="errorSymbols" class="flex w-full items-center justify-center">
                     <p>{{ errorSymbols }}</p>
                 </div>
                 <select
                     v-if="!isLoadingSymbols"
                     class="rounded-md border border-main-red p-2 w-full"
-                    @change="
-                        subtractForm.currency = (
-                            $event.target as HTMLSelectElement
-                        ).value
-                    "
+                    @change="subtractForm.currency = ($event.target as HTMLSelectElement).value"
                 >
-                    <option
-                        v-for="(name, code) in symbols"
-                        :key="code"
-                        :value="code"
-                    >
+                    <option v-for="(name, code) in symbols" :key="code" :value="code">
                         {{ code }} - {{ name }}
                     </option>
                 </select>
             </div>
             <ValuedTextInput
-                v-model:input-value="subtractForm.amount"
                 :optional-value="subtractForm.amount"
                 input-id="subtract-amount"
                 label-text="Amount"
@@ -298,7 +245,6 @@ onUnmounted(() => {
                 class="normal-button bg-main-red border-main-red hover:text-white hover:scale-[1.02]"
                 type="submit"
                 v-if="parseInt(subtractForm.amount) >= 0"
-                @click="request(`subtract`)"
             >
                 Request
             </button>

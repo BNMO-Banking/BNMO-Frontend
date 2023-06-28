@@ -14,16 +14,10 @@ defineEmits(["accept", "reject"]);
     <tr class="border-b border-black">
         <td>{{ index }}</td>
         <td>{{ data.account_number }}</td>
-        <td
-            class="uppercase text-main-green font-bold"
-            v-if="data.request_type == `add`"
-        >
+        <td class="uppercase text-main-green font-bold" v-if="data.request_type == `add`">
             {{ data.request_type }}
         </td>
-        <td
-            class="uppercase text-main-red font-bold"
-            v-else-if="data.request_type == `subtract`"
-        >
+        <td class="uppercase text-main-red font-bold" v-else-if="data.request_type == `subtract`">
             {{ data.request_type }}
         </td>
         <td>{{ data.currency }}</td>
@@ -31,7 +25,7 @@ defineEmits(["accept", "reject"]);
             {{
                 data.amount.toLocaleString("en-US", {
                     style: "currency",
-                    currency: data.currency,
+                    currency: data.currency
                 })
             }}
         </td>
@@ -39,7 +33,7 @@ defineEmits(["accept", "reject"]);
             {{
                 data.converted_amount.toLocaleString("en-US", {
                     style: "currency",
-                    currency: "IDR",
+                    currency: "IDR"
                 })
             }}
         </td>
