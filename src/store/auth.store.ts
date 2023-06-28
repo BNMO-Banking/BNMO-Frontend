@@ -1,12 +1,10 @@
 import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
-import { register, login, logout } from "../api/auth.api";
 import { useToast } from "vue-toastification";
-import type Account from "../types/model/account.type";
 import router from "../router/router";
 import { type DefaultErrorResponse } from "../types/axios/default-response.type";
 import type { DefaultError, DefaultResponse } from "../types/axios/default-response.type";
-import type { LoginResAccount, LoginResAxios, RegisterResAxios } from "../types/axios/auth.type";
+import type { LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
 import { AccountRole } from "../enum/acctype.enum";
 
 const toast = useToast();
@@ -15,7 +13,7 @@ export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
             account:
-                (JSON.parse(localStorage.getItem("account")!) as LoginResAccount) ||
+                (JSON.parse(localStorage.getItem("account") || "") as LoginResAccount) ||
                 ({} as LoginResAccount),
             accountStatus: "",
             token: localStorage.getItem("token") || "",
@@ -67,7 +65,7 @@ export const useAuthStore = defineStore("auth", {
                 });
         },
 
-        async postLogin(payload: Object) {
+        async postLogin(payload: object) {
             this.loadingLogin = true;
             await axios
                 .post("/auth/login", payload)

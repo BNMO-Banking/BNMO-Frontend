@@ -3,7 +3,7 @@ import type {
     RequestReqAxios,
     RequestResAxios
 } from "../types/axios/request.type";
-import type ErrorMessageType from "../types/axios/axios-error.type";
+import type DefaultError from "../types/axios/default-response.type";
 
 export const request = (data: RequestReqAxios): Promise<RequestResAxios> =>
     axios
@@ -11,7 +11,7 @@ export const request = (data: RequestReqAxios): Promise<RequestResAxios> =>
         .then((response: AxiosResponse<RequestResAxios>) => {
             return response.data;
         })
-        .catch((error: AxiosError<ErrorMessageType>) => {
+        .catch((error: AxiosError<DefaultError>) => {
             if (error.response) {
                 throw {
                     status: error.response.status,
