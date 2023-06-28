@@ -4,7 +4,7 @@ import { useToast } from "vue-toastification";
 import router from "../router/router";
 import { type DefaultErrorResponse } from "../types/axios/default-response.type";
 import type { DefaultError, DefaultResponse } from "../types/axios/default-response.type";
-import type { LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
+import type { LoginReqAxios, LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
 import { AccountRole } from "../enum/acctype.enum";
 
 const toast = useToast();
@@ -65,7 +65,7 @@ export const useAuthStore = defineStore("auth", {
                 });
         },
 
-        async postLogin(payload: object) {
+        async postLogin(payload: LoginReqAxios) {
             this.loadingLogin = true;
             await axios
                 .post("/auth/login", payload)
