@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import { useAccountStore } from "../store/account";
-// import { useToast } from "vue-toastification";
-// import { useAuthStore } from "../store/auth";
 
 // Public modules
 const Landing = () => import("../components/pages/Landing.vue");
@@ -29,32 +26,32 @@ const routes = [
     {
         path: "/admin/accountverification",
         name: "Account Verification",
-        component: AccountVerification,
+        component: AccountVerification
     },
     {
         path: "/admin/customerdata",
         name: "Customer Data",
-        component: CustomerData,
+        component: CustomerData
     },
     {
         path: "/admin/requestverification",
         name: "Request Verification",
-        component: RequestVerification,
+        component: RequestVerification
     },
     { path: "/request", name: "Request", component: Request },
     { path: "/transfer", name: "Transfer", component: Transfer },
     {
         path: "/history",
         name: "History",
-        component: History,
+        component: History
     },
     { path: "/profile", name: "Profile", component: Profile },
-    { path: "/unauthorized", name: "Unauthorized", component: Unauthorized },
+    { path: "/unauthorized", name: "Unauthorized", component: Unauthorized }
 ];
 
 const router = createRouter({
     history: createWebHistory(),
-    routes: routes,
+    routes: routes
 });
 
 // Navigation guard

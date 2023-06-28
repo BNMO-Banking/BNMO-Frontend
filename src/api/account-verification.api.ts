@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import AxiosErrorType from "../types/axios/axios-error.type";
+import AxiosErrorType from "../types/axios/default-response.type";
 
 export const fetchPendingAccounts = (page: number) =>
     axios

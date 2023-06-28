@@ -7,7 +7,8 @@ const config = {
     singleQuote: false,
     jsxSingleQuote: true,
     arrowParens: "always",
-    endOfLine: "auto"
+    endOfLine: "auto",
+    printWidth: 100
 };
 
 module.exports = config;

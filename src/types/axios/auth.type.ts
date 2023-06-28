@@ -1,22 +1,25 @@
 import type { AxiosResponse } from "axios";
-import type Account from "../model/account.type";
 
 export interface RegisterResAxios extends AxiosResponse {
     message: string;
 }
 
 export interface LoginReqAxios {
-    email: string;
+    email_username: string;
     password: string;
 }
 
-export interface LoginResAxios extends AxiosResponse {
-    account: Account;
-    token: string;
-    accountStatus: string;
-    message: string;
+export interface LoginResAccount {
+    id: string;
+    email: string;
+    username: string;
+    account_type: string;
+    account_role: string;
 }
 
-export interface LogoutResAxios extends AxiosResponse {
+export interface LoginResAxios extends AxiosResponse {
+    account: LoginResAccount;
+    pin_status: boolean;
+    token: string;
     message: string;
 }

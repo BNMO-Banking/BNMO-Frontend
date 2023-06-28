@@ -1,36 +1,32 @@
 import { defineStore } from "pinia";
-import { register, login, logout, checkPin, changePin, changePassword } from "../api/auth.api";
+import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
-import type Account from "../types/model/account.type";
 import router from "../router/router";
+import { type DefaultErrorResponse } from "../types/axios/default-response.type";
+import type { DefaultError, DefaultResponse } from "../types/axios/default-response.type";
+import type { LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
+import { AccountRole } from "../enum/acctype.enum";
 
 const toast = useToast();
 
 export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
-            account: JSON.parse(localStorage.getItem("account")!) as Account || {} as Account,
+            account:
+                (JSON.parse(localStorage.getItem("account") || "") as LoginResAccount) ||
+                ({} as LoginResAccount),
             accountStatus: "",
             token: localStorage.getItem("token") || "",
+            pin_status: false,
 
             loadingRegister: false,
-            errRegister: null,
+            errRegister: {} as DefaultErrorResponse,
 
             loadingLogin: false,
-            errLogin: null,
+            errLogin: {} as DefaultErrorResponse,
 
             loadingLogout: false,
-            errLogout: null,
-
-            pinSet: false,
-            loadingCheckPin: false,
-            errCheckPin: null,
-
-            loadingChangePin: false,
-            errChangePin: null,
-
-            loadingChangePassword: false,
-            errChangePassword: null,
+            errLogout: {} as DefaultErrorResponse
         };
     },
     getters: {
@@ -41,113 +37,100 @@ export const useAuthStore = defineStore("auth", {
         errorLogin: (state) => state.errLogin,
 
         isLoadingLogout: (state) => state.loadingLogout,
-        errorLogout: (state) => state.errLogout,
-
-        checkPinSet: (state) => state.pinSet,
-        isLoadingCheckPin: (state) => state.loadingCheckPin,
-        errorCheckPin: (state) => state.errCheckPin,
-
-        isLoadingChangePin: (state) => state.loadingChangePin,
-        errorChangePin: (state) => state.errChangePin,
-
-        isLoadingChangePassword: (state) => state.loadingChangePassword,
-        errorChangePassword: (state) => state.errChangePassword,
+        errorLogout: (state) => state.errLogout
     },
     actions: {
         async postRegister(payload: FormData) {
-            this.loadingRegister = true
-            return register(payload)
-                .then((response) => {
-                    router.push({ name: "Login" })
-                    
-                    this.loadingRegister = false
-                    toast.success(response.message);
+            this.loadingRegister = true;
+            await axios
+                .post("/auth/register", payload, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
                 })
-                .catch((error) => {
-                    this.errRegister = error
-                    this.loadingRegister = false
-                    toast.error(error.message);
+                .then((response: AxiosResponse<DefaultResponse>) => {
+                    void router.push({ name: "Login" });
+                    this.loadingRegister = false;
+                    toast.success(response.data.message);
                 })
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errRegister.status = error.response.status;
+                            this.errRegister.message = error.response.data.message;
+                        }
+                        this.loadingRegister = false;
+                        return toast.error(this.errRegister.message);
+                    }
+                });
         },
 
-        async postLogin(payload: Object) {
-            this.loadingLogin = true
-            return login(payload)
-                .then((response) => {
-                    this.account = response.account
-                    this.accountStatus = response.accountStatus
-                    this.token = response.token
+        async postLogin(payload: object) {
+            this.loadingLogin = true;
+            await axios
+                .post("/auth/login", payload)
+                .then((response: AxiosResponse<LoginResAxios>) => {
+                    axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+                    this.account = response.data.account;
+                    this.token = response.data.token;
+                    this.pin_status = response.data.pin_status;
 
-                    localStorage.setItem("account", JSON.stringify(response.account))
-                    localStorage.setItem("token", response.token)
+                    localStorage.setItem("account", JSON.stringify(response.data.account));
+                    localStorage.setItem("token", response.data.token);
 
-                    if (this.account.is_admin) {
-                        router.push({ name: "Request Verification" });
+                    if (this.account.account_role === AccountRole.ADMIN) {
+                        void router.push({ name: "Request Verification" });
                     } else {
-                        router.push({ name: "Transfer"});
-                    }
-
-                    this.loadingLogin = false
-                    toast.success(response.message);
-                })
-                .catch((error) => {
-                    this.loadingLogin = false
-                    if (error.status) {
-                        if (error.status === 401) {
-                            toast.warning(error.message);
+                        if (!this.pin_status) {
+                            // Move to insert pin page
                         } else {
-                            toast.error(error.message);
+                            void router.push({ name: "Transfer" });
                         }
-                    } else {
-                        this.errLogin = error
                     }
+
+                    this.loadingLogin = false;
+                    return toast.success(response.data.message);
                 })
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errLogin.status = error.response.status;
+                            this.errLogin.message = error.response.data.message;
+                        }
+                        this.loadingLogin = false;
+
+                        if (this.errLogin.status === 401) {
+                            return toast.warning(this.errLogin.message);
+                        } else {
+                            return toast.error(this.errLogin.message);
+                        }
+                    }
+                });
         },
 
         async postLogout() {
-            this.loadingLogout = true
-            return logout()
-                .then((response) => {
-                    this.$reset()
-                    localStorage.clear()
-                    router.push({ name: "Landing" })
+            this.loadingLogout = true;
+            await axios
+                .post("/auth/logout", null)
+                .then((response: AxiosResponse<DefaultResponse>) => {
+                    this.$reset();
+                    localStorage.clear();
+                    void router.push({ name: "Landing" });
 
-                    this.loadingLogout = false
-                    toast.success(response.message);
+                    this.loadingLogout = false;
+                    toast.success(response.data.message);
                 })
-                .catch((error) => {
-                    this.errLogout = error
-                    this.loadingLogout = false
-                    toast.error("Failed to logout: Internal server error");
-                })
-        },
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errLogin.status = error.response.status;
+                            this.errLogin.message = error.response.data.message;
+                        }
+                        this.loadingLogout = false;
 
-        async getCheckPin(id: number) {
-            this.loadingCheckPin = true
-            return checkPin(id)
-                .then((response) => {
-                    this.pinSet = response.pin_set
-                    this.loadingCheckPin = false
-                })
-                .catch((error) => {
-                    console.error(error)
-                    this.errCheckPin = error
-                    this.loadingCheckPin = false
-                })
-        },
-
-        async putChangePin(payload: Object) {
-            this.loadingChangePin = true
-            return changePin(payload)
-                .then((response) => {
-                    this.pinSet = response.pin_set
-                    this.loadingCheckPin = false
-                })
-                .catch((error) => {
-                    console.error(error)
-                    this.errCheckPin = error
-                    this.loadingCheckPin = false
-                })
+                        return toast.error("Logout failed");
+                    }
+                });
         }
-    },
+    }
 });
