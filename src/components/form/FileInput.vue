@@ -1,12 +1,5 @@
 <script setup lang="ts">
-defineProps([
-    "inputId",
-    "placeholder",
-    "labelText",
-    "class",
-    "required",
-    "inputValue"
-]);
+defineProps(["inputId", "placeholder", "labelText", "class", "required", "inputValue"]);
 </script>
 
 <template>
