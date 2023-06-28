@@ -14,10 +14,14 @@ body {
     }
 
     .normal-button {
-        @apply rounded-xl px-4 py-2 border-2 border-black uppercase hover:transition font-bold;
+        @apply p-2 font-bold hover:transition hover:scale-105;
     }
 
     .table-button {
         @apply rounded-xl px-4 py-2 border-2 uppercase hover:transition font-bold;
+    }
+
+    .text-input {
+        @apply border border-black p-2 drop-shadow-lg hover:scale-[1.03];
     }
 }

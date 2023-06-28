@@ -1,26 +1,51 @@
 <script setup lang="ts">
-defineEmits(["update:inputValue"]);
-defineProps([
-    "inputId",
-    "placeholder",
-    "labelText",
-    "inputType",
-    "class",
-    "required",
-    "inputValue",
-]);
+defineProps({
+    modelValue: {
+        type: String,
+        required: true,
+        default: ""
+    },
+    id: {
+        type: String,
+        required: true
+    },
+    label: {
+        type: String,
+        required: true
+    },
+    placeholder: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    extraStyle: {
+        type: String,
+        required: false,
+        default: ""
+    },
+    required: {
+        type: Boolean
+    }
+});
+
+const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }>();
 </script>
 
 <template>
     <div class="flex flex-col w-full">
-        <label :for="inputId">{{ labelText }}</label>
+        <label :for="id">{{ label }}</label>
         <input
-            @input="$emit('update:inputValue', $event.target.value)"
-            :id="inputId"
+            :value="modelValue"
+            @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+            :id="id"
             :placeholder="placeholder"
-            :type="inputType"
-            :class="class"
+            :type="type"
+            :class="extraStyle"
             :required="required"
+            class="text-input"
         />
     </div>
 </template>

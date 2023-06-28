@@ -78,7 +78,7 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.setItem("account", JSON.stringify(response.data.account));
                     localStorage.setItem("token", response.data.token);
 
-                    if (this.account.account_role === AccountRole.ADMIN) {
+                    if (this.account.account_type === AccountRole.ADMIN) {
                         void router.push({ name: "Request Verification" });
                     } else {
                         if (!this.pin_status) {
