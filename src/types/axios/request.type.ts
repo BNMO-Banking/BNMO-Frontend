@@ -1,17 +1,9 @@
-import { AxiosResponse } from "axios";
-
-export enum RequestType {
-    ADD = "add",
-    SUBTRACT = "subtract"
-}
+import { RequestType } from "../../enum/reqtype.enum";
 
 export interface RequestReqAxios {
-    destination_id: string;
+    id: string;
     request_type: RequestType;
-    amount: number;
     currency: string;
-}
-
-export interface RequestResAxios extends AxiosResponse {
-    message: string;
+    amount: number;
+    pin: string;
 }
