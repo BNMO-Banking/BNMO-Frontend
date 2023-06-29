@@ -9,19 +9,15 @@ const toggleActive = () => {
 };
 
 const dropFile = (event: DragEvent) => {
-    console.log("drop file jalan");
     active.value = !active.value;
-    console.log((event.dataTransfer as DataTransfer).files[0]);
     emit("upload-file", (event.dataTransfer as DataTransfer).files[0]);
 };
 
 const selectFile = (event: Event) => {
-    console.log("select file jalan");
     const input = event.target as HTMLInputElement;
     if (!input.files) {
         return;
     }
-    console.log(input.files[0]);
     emit("upload-file", input.files[0]);
 };
 </script>

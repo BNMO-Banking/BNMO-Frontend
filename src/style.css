@@ -40,6 +40,6 @@ body {
     }
 
     .drop-zone {
-        @apply border-2 border-dashed border-black shadow-lg flex flex-col justify-center items-center h-48;
+        @apply border-2 border-dashed border-black flex flex-col justify-center items-center h-48;
     }
 }

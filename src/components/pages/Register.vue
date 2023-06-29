@@ -2,7 +2,7 @@
 import TextInput from "../form/TextInput.vue";
 // import FileInput from "../form/FileInput.vue";
 import { RegisterReqAxios } from "../../types/axios/auth.type";
-import { ref, computed, Ref, watch } from "vue";
+import { ref, computed } from "vue";
 import { useAuthStore } from "../../store/auth.store";
 import TextAreaInput from "../form/TextAreaInput.vue";
 import FileDropZone from "../form/FileDropZone.vue";
@@ -51,16 +51,6 @@ const register = (event: Event) => {
 //         errorMessage.value = "Password must be 8 characters or more";
 //     }
 // });
-
-watch(
-    form,
-    (newForm: Ref<RegisterReqAxios>) => {
-        console.log(newForm);
-    },
-    {
-        deep: true
-    }
-);
 
 const showError = computed(() => {
     return errorMessage.value !== "";
