@@ -28,7 +28,7 @@ body {
     }
 
     .normal-button {
-        @apply p-2 font-bold hover:transition hover:scale-105;
+        @apply flex items-center justify-center p-2 font-bold hover:transition hover:scale-105;
     }
 
     .table-button {
@@ -37,5 +37,9 @@ body {
 
     .text-input {
         @apply border border-black p-2 hover:scale-[1.03];
+    }
+
+    .drop-zone {
+        @apply border-2 border-dashed border-black shadow-lg flex flex-col justify-center items-center h-48;
     }
 }

@@ -2,12 +2,19 @@
 import TextInput from "../form/TextInput.vue";
 // import FileInput from "../form/FileInput.vue";
 import { RegisterReqAxios } from "../../types/axios/auth.type";
-import { ref, computed } from "vue";
+import { ref, computed, Ref, watch } from "vue";
 import { useAuthStore } from "../../store/auth.store";
 import TextAreaInput from "../form/TextAreaInput.vue";
+import FileDropZone from "../form/FileDropZone.vue";
 
 const form = ref({} as RegisterReqAxios);
+const previewSrc = ref("");
 const errorMessage = ref("");
+
+const uploadFile = (file: File) => {
+    form.value.id_card = file;
+    previewSrc.value = URL.createObjectURL(file);
+};
 
 const register = (event: Event) => {
     event.preventDefault();
@@ -44,6 +51,16 @@ const register = (event: Event) => {
 //         errorMessage.value = "Password must be 8 characters or more";
 //     }
 // });
+
+watch(
+    form,
+    (newForm: Ref<RegisterReqAxios>) => {
+        console.log(newForm);
+    },
+    {
+        deep: true
+    }
+);
 
 const showError = computed(() => {
     return errorMessage.value !== "";
@@ -150,7 +167,7 @@ const showError = computed(() => {
             </div>
 
             <h3 class="col-span-2 mt-8">Verification & Security</h3>
-            <div class="grid grid-rows-2 lg:grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="grid grid-rows-auto-3 lg:grid-rows-auto-2 grid-cols-1 lg:grid-cols-2 gap-4">
                 <TextInput
                     v-model="form.password"
                     id="password"
@@ -167,12 +184,40 @@ const showError = computed(() => {
                     type="password"
                     required
                 />
+                <div class="flex flex-col">
+                    <p>ID Card</p>
+                    <FileDropZone @upload-file="uploadFile"></FileDropZone>
+                </div>
+                <div class="flex flex-col">
+                    <p>Preview</p>
+                    <img
+                        v-if="previewSrc.length > 0"
+                        :src="previewSrc"
+                        class="h-48 justify-self-center self-center"
+                    />
+                    <div
+                        v-else
+                        class="flex flex-col items-center justify-center w-full h-full border-2 border-black border-dashed"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-12 h-12"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                            />
+                        </svg>
+                        <p>Your ID Card will be shown here for preview</p>
+                    </div>
+                </div>
             </div>
-            <!-- <FileInput
-                input-id="image"
-                label-text="Image"
-                class="hover:bg-main-green rounded-full px-4 py-2"
-            /> -->
+
             <p v-if="showError" class="text-main-red font-bold text-center">
                 {{ errorMessage }}
             </p>
