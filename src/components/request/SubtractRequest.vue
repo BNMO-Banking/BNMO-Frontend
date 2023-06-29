@@ -9,6 +9,7 @@ import { useRequestStore } from "../../store/request.store";
 import { RequestReqAxios } from "../../types/axios/request.type";
 import { RequestType } from "../../enum/reqtype.enum";
 import CheckboxInput from "../form/CheckboxInput.vue";
+import EnterPin from "../../components/modal/EnterPin.vue";
 
 const authStore = useAuthStore();
 const currencyStore = useCurrencyStore();
@@ -19,6 +20,7 @@ const { symbols, isLoadingSymbols } = storeToRefs(currencyStore);
 const form = ref({} as RequestReqAxios);
 const confirmation = ref(false);
 const tnc = ref(false);
+const pinModal = ref(false);
 
 const selectCurrency = (event: Event) => {
     const selected = event.target as HTMLSelectElement;
@@ -35,13 +37,16 @@ const tcCheck = (event: Event) => {
     tnc.value = check.checked;
 };
 
-const request = () => {
+const request = (pin: string) => {
+    form.value.amount = Number(form.value.amount);
+    form.value.pin = pin;
     requestStore.postRequest(form.value);
+    pinModal.value = false;
 };
 
 onMounted(() => {
     form.value.id = account.value.id;
-    form.value.request_type = RequestType.ADD;
+    form.value.request_type = RequestType.SUBTRACT;
     form.value.currency = "AED";
 });
 
@@ -49,6 +54,11 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
 </script>
 
 <template>
+    <EnterPin
+        v-if="pinModal"
+        @close-modal="pinModal = false"
+        @pin="(pin: string) => request(pin)"
+    />
     <div
         class="grid grid-rows-auto-7 grid-cols-1 p-4 shadow-md border-2 border-main-red gap-y-4 justify-self-center"
     >
@@ -113,7 +123,7 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             class="normal-button bg-main-red border-main-red hover:text-white hover:scale-[1.02]"
             type="submit"
             v-if="form.amount >= 0 && tnc"
-            @click="request"
+            @click="pinModal = true"
         >
             Request
         </button>

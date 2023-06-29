@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
-import type RequestHistory from "../types/request-history";
-import type PageMetadata from "../types/page-metadata";
 import type { RequestReqAxios } from "../types/axios/request.type";
 import {
     DefaultError,
@@ -16,22 +14,12 @@ export const useRequestStore = defineStore("request", {
     state: () => {
         return {
             loadingRequest: false,
-            errRequest: {} as DefaultErrorResponse,
-
-            histories: [] as RequestHistory[],
-            metadata: {} as PageMetadata,
-            loadingHistories: false,
-            errHistories: null
+            errRequest: {} as DefaultErrorResponse
         };
     },
     getters: {
         isLoadingRequest: (state) => state.loadingRequest,
-        errorRequest: (state) => state.errRequest,
-
-        requestHistories: (state) => state.histories,
-        pageMetadata: (state) => state.metadata,
-        isLoadingRequestHistories: (state) => state.loadingHistories,
-        errorRequestHistories: (state) => state.errHistories
+        errorRequest: (state) => state.errRequest
     },
     actions: {
         async postRequest(payload: RequestReqAxios) {

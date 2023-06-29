@@ -15,8 +15,8 @@ const tc = ref(false);
     <main
         class="grid grid-rows-2 lg:grid-rows-1 grid-cols-1 lg:grid-cols-2 items-center justify-center mx-8 mb-8 lg:mx-32 gap-x-8 gap-y-4"
     >
-        <TermsConditions v-if="tc" @close-modal="tc = false" />
         <AddRequest @tc_clicked="(flag: boolean) => tc = flag" />
         <SubtractRequest @tc_clicked="(flag: boolean) => tc = flag" />
+        <TermsConditions v-if="tc" @close-modal="tc = false" />
     </main>
 </template>
