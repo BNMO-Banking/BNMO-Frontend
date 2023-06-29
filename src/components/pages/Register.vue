@@ -6,6 +6,10 @@ import TextInput from "../form/TextInput.vue";
 import TextAreaInput from "../form/TextAreaInput.vue";
 import SlotTextInput from "../form/SlotTextInput.vue";
 import FileDropZone from "../form/FileDropZone.vue";
+import MultiSelectInput from "../form/MultiSelectInput.vue";
+import { useAddressStore } from "../../store/address.store";
+import { storeToRefs } from "pinia";
+import SpinnerLoading from "../form/SpinnerLoading.vue";
 
 const form = ref({} as RegisterReqAxios);
 const previewSrc = ref("");
@@ -35,6 +39,21 @@ const register = (event: Event) => {
 
     const authStore = useAuthStore();
     authStore.postRegister(data);
+};
+
+const addressStore = useAddressStore();
+addressStore.getProvinces();
+const { provinces, isLoadingProvinces, regencies, isLoadingRegencies } = storeToRefs(addressStore);
+
+const selectProvince = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    addressStore.getRegencies(selected.value);
+    form.value.state = selected.innerHTML;
+};
+
+const selectRegency = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    form.value.city = selected.value;
 };
 </script>
 
@@ -106,22 +125,33 @@ const register = (event: Event) => {
                     placeholder="Enter your second address line"
                     type="text"
                 />
-                <TextInput
-                    v-model="form.city"
-                    id="city"
-                    label="City"
-                    placeholder="Enter your city"
-                    type="text"
-                    required
-                />
-                <TextInput
-                    v-model="form.state"
+                <MultiSelectInput
                     id="state"
                     label="State"
-                    placeholder="Enter your state"
-                    type="text"
                     required
-                />
+                    :is-loading="isLoadingProvinces"
+                    @select-event="selectProvince"
+                >
+                    <option selected disabled>Select your state</option>
+                    <option v-for="data in provinces" :key="data.id" :value="data.id">
+                        {{ data.name }}
+                    </option>
+                </MultiSelectInput>
+                <MultiSelectInput
+                    id="city"
+                    label="City"
+                    required
+                    :is-loading="isLoadingRegencies"
+                    @select-event="selectRegency"
+                >
+                    <option v-if="regencies.length === 0" selected disabled>
+                        Please choose your state first
+                    </option>
+                    <option v-else selected disabled>Select your city</option>
+                    <option v-for="data in regencies" :key="data.id" :value="data.name">
+                        {{ data.name }}
+                    </option>
+                </MultiSelectInput>
                 <TextInput
                     v-model="form.postal_code"
                     id="postal_code"
