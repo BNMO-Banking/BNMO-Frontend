@@ -9,7 +9,6 @@ import FileDropZone from "../form/FileDropZone.vue";
 import MultiSelectInput from "../form/MultiSelectInput.vue";
 import { useAddressStore } from "../../store/address.store";
 import { storeToRefs } from "pinia";
-import SpinnerLoading from "../form/SpinnerLoading.vue";
 
 const form = ref({} as RegisterReqAxios);
 const previewSrc = ref("");
@@ -48,7 +47,7 @@ const { provinces, isLoadingProvinces, regencies, isLoadingRegencies } = storeTo
 const selectProvince = (event: Event) => {
     const selected = event.target as HTMLSelectElement;
     addressStore.getRegencies(selected.value);
-    form.value.state = selected.innerHTML;
+    form.value.state = selected.selectedOptions[0].innerText;
 };
 
 const selectRegency = (event: Event) => {
