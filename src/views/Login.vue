@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { LoginReqAxios } from "../../types/axios/auth.type";
-import SlotTextInput from "../form/SlotTextInput.vue";
 import { ref } from "vue";
-import { useAuthStore } from "../../store/auth.store";
+import { LoginReqAxios } from "../types/axios/auth.type";
+import SlotTextInput from "../components/form/SlotTextInput.vue";
+import { useAuthStore } from "../store/auth.store";
 
 const form = ref({} as LoginReqAxios);
 

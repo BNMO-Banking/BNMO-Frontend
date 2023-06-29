@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { RegisterReqAxios } from "../../types/axios/auth.type";
-import { useAuthStore } from "../../store/auth.store";
-import TextInput from "../form/TextInput.vue";
-import TextAreaInput from "../form/TextAreaInput.vue";
-import SlotTextInput from "../form/SlotTextInput.vue";
-import FileDropZone from "../form/FileDropZone.vue";
-import MultiSelectInput from "../form/MultiSelectInput.vue";
-import { useAddressStore } from "../../store/address.store";
+import { RegisterReqAxios } from "../types/axios/auth.type";
+import TextInput from "../components/form/TextInput.vue";
+import TextAreaInput from "../components/form/TextAreaInput.vue";
+import SlotTextInput from "../components/form/SlotTextInput.vue";
+import FileDropZone from "../components/form/FileDropZone.vue";
+import MultiSelectInput from "../components/form/MultiSelectInput.vue";
+import { useAuthStore } from "../store/auth.store";
+import { useAddressStore } from "../store/address.store";
 import { storeToRefs } from "pinia";
 
 const form = ref({} as RegisterReqAxios);
