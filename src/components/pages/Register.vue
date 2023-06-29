@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import TextInput from "../form/TextInput.vue";
-// import FileInput from "../form/FileInput.vue";
+import { ref } from "vue";
 import { RegisterReqAxios } from "../../types/axios/auth.type";
-import { ref, computed } from "vue";
 import { useAuthStore } from "../../store/auth.store";
+import TextInput from "../form/TextInput.vue";
 import TextAreaInput from "../form/TextAreaInput.vue";
+import SlotTextInput from "../form/SlotTextInput.vue";
 import FileDropZone from "../form/FileDropZone.vue";
 
 const form = ref({} as RegisterReqAxios);
 const previewSrc = ref("");
-const errorMessage = ref("");
 
 const uploadFile = (file: File) => {
     form.value.id_card = file;
@@ -23,7 +22,7 @@ const register = (event: Event) => {
     data.append("last_name", form.value.last_name);
     data.append("email", form.value.email);
     data.append("username", form.value.username);
-    data.append("phone_number", form.value.phone_number);
+    data.append("phone_number", "+62" + form.value.phone_number);
     data.append("address_line1", form.value.address_line1);
     data.append("address_line2", form.value.address_line2);
     data.append("city", form.value.city);
@@ -37,24 +36,6 @@ const register = (event: Event) => {
     const authStore = useAuthStore();
     authStore.postRegister(data);
 };
-
-// watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {
-//     console.log(file.value);
-//     if (newPassword.length >= 8) {
-//         console.log("masuk");
-//         if (newPassword !== newConfirmPassword) {
-//             errorMessage.value = "Incorrect confirm password";
-//         } else {
-//             errorMessage.value = "";
-//         }
-//     } else {
-//         errorMessage.value = "Password must be 8 characters or more";
-//     }
-// });
-
-const showError = computed(() => {
-    return errorMessage.value !== "";
-});
 </script>
 
 <template>
@@ -95,14 +76,19 @@ const showError = computed(() => {
                     type="text"
                     required
                 />
-                <TextInput
+                <SlotTextInput
                     v-model="form.phone_number"
                     id="phone_number"
                     label="Phone number"
                     placeholder="Enter your phone number"
                     type="text"
                     required
-                />
+                    ><p
+                        class="flex items-center border-l border-t border-b border-black bg-gray-300 px-2 h-full"
+                    >
+                        +62
+                    </p></SlotTextInput
+                >
             </div>
 
             <h3 class="col-span-2 mt-8">Address Information</h3>
@@ -203,14 +189,10 @@ const showError = computed(() => {
                                 d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                             />
                         </svg>
-                        <p>Your ID Card will be shown here for preview</p>
+                        <p class="text-center">Your ID Card will be shown here for preview</p>
                     </div>
                 </div>
             </div>
-
-            <p v-if="showError" class="text-main-red font-bold text-center">
-                {{ errorMessage }}
-            </p>
             <button
                 class="normal-button bg-main-green border-main-green hover:text-white hover:scale-105"
                 type="submit"

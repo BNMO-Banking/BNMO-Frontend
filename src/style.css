@@ -39,6 +39,10 @@ body {
         @apply border border-black p-2 hover:scale-[1.03];
     }
 
+    .slot-text-input {
+        @apply border border-black p-2;
+    }
+
     .drop-zone {
         @apply border-2 border-dashed border-black flex flex-col justify-center items-center h-48;
     }

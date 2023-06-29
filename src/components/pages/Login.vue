@@ -16,7 +16,7 @@ const login = (event: Event) => {
 
 <template>
     <main class="flex flex-1 justify-center my-16 mx-0 sm:mx-32 items-center gap-x-32">
-        <form class="flex flex-col w-1/2 lg:w-1/3 xl:w-1/4 gap-y-4" @submit="login">
+        <form class="flex flex-col w-3/4 lg:w-1/3 xl:w-1/4 gap-y-4" @submit="login">
             <h1 class="font-extrabold uppercase text-center mb-4">- Login -</h1>
             <TextInput
                 v-model="form.email_username"

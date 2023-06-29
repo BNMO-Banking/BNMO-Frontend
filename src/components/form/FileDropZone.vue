@@ -39,7 +39,7 @@ const selectFile = (event: Event) => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-10 h-10"
+                class="w-10 h-10 hidden lg:block"
             >
                 <path
                     stroke-linecap="round"
@@ -54,7 +54,7 @@ const selectFile = (event: Event) => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-12 h-12"
+                class="w-12 h-12 hidden lg:block"
             >
                 <path
                     stroke-linecap="round"
@@ -62,11 +62,13 @@ const selectFile = (event: Event) => {
                     d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
                 />
             </svg>
-            <p v-if="!active">Drag and drop your file</p>
-            <p v-else>Drop your file</p>
+            <p v-if="!active" class="hidden lg:block">Drag and drop your file</p>
+            <p v-else class="hidden lg:block">Drop your file</p>
         </div>
-        <p>-------------------- or --------------------</p>
-        <label for="drop-zone-file" class="normal-button bg-main-green w-1/4 cursor-pointer"
+        <p class="hidden lg:block">-------------------- or --------------------</p>
+        <label
+            for="drop-zone-file"
+            class="normal-button bg-main-green w-1/2 lg:w-1/4 cursor-pointer"
             >Browse file</label
         >
         <input
