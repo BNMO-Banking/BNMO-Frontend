@@ -58,4 +58,12 @@ body {
     .drop-zone {
         @apply border-2 border-dashed border-black flex flex-col justify-center items-center h-48;
     }
+
+    .modal-base {
+        @apply fixed flex items-center justify-center top-0 left-0 right-0 z-[5] w-full h-screen overflow-hidden bg-slate-400/40;
+    }
+
+    .modal-box {
+        @apply bg-white;
+    }
 }

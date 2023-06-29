@@ -44,6 +44,8 @@ onMounted(() => {
     form.value.request_type = RequestType.ADD;
     form.value.currency = "AED";
 });
+
+const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
 </script>
 
 <template>
@@ -63,7 +65,7 @@ onMounted(() => {
                     clip-rule="evenodd"
                 />
             </svg>
-            <h2 class="uppercase">Add balance</h2>
+            <h3 class="uppercase">Add balance</h3>
         </div>
         <p class="text-center">
             You can request <b>additional</b> funds from any currency listed, directly to your
@@ -101,7 +103,12 @@ onMounted(() => {
             {{ form.amount ? form.amount : 0 }} to be credited to my account.</CheckboxInput
         >
         <CheckboxInput id="check_tc_add" required @checked="tcCheck"
-            >I hereby agree to the terms and conditions</CheckboxInput
+            >I hereby agree to the
+            <span
+                class="text-blue-700 hover:underline cursor-pointer"
+                @click="emit('tc_clicked', true)"
+                >terms and conditions</span
+            ></CheckboxInput
         >
         <button
             class="normal-button bg-main-green border-main-green hover:text-white hover:scale-[1.02]"
