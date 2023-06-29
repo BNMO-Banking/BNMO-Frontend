@@ -37,7 +37,7 @@ export const useRequestStore = defineStore("request", {
         async postRequest(payload: RequestReqAxios) {
             this.loadingRequest = true;
             await axios
-                .post("/request-money", payload)
+                .post("/request/add", payload)
                 .then((response: AxiosResponse<DefaultResponse>) => {
                     this.loadingRequest = false;
                     return toast.success(response.data.message);
