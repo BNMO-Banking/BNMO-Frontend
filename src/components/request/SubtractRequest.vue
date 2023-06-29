@@ -63,7 +63,7 @@ onMounted(() => {
                     clip-rule="evenodd"
                 />
             </svg>
-            <h2 class="text-3xl font-extrabold uppercase">Subtract balance</h2>
+            <h2 class="uppercase">Subtract balance</h2>
         </div>
         <p class="text-center">
             You can request the <b>deduction</b> of funds from your account for any listed currency.
@@ -95,11 +95,11 @@ onMounted(() => {
                 </option>
             </MultiSelectInput>
         </SlotTextInput>
-        <CheckboxInput id="check_conf" required @checked="confCheck"
+        <CheckboxInput id="check_conf_sub" required @checked="confCheck"
             >I hereby confirm my request for {{ form.currency }}
             {{ form.amount ? form.amount : 0 }} to be deducted from my account.</CheckboxInput
         >
-        <CheckboxInput id="check_tc" required @checked="tcCheck"
+        <CheckboxInput id="check_tc_sub" required @checked="tcCheck"
             >I hereby agree to the terms and conditions</CheckboxInput
         >
         <button
