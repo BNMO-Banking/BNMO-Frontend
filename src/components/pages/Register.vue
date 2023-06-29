@@ -1,119 +1,226 @@
 <script setup lang="ts">
-import TextInput from "../form/TextInput.vue";
-import FileInput from "../form/FileInput.vue";
-import { ref, watch, computed } from "vue";
+import { ref } from "vue";
+import { RegisterReqAxios } from "../../types/axios/auth.type";
 import { useAuthStore } from "../../store/auth.store";
+import TextInput from "../form/TextInput.vue";
+import TextAreaInput from "../form/TextAreaInput.vue";
+import SlotTextInput from "../form/SlotTextInput.vue";
+import FileDropZone from "../form/FileDropZone.vue";
+import MultiSelectInput from "../form/MultiSelectInput.vue";
+import { useAddressStore } from "../../store/address.store";
+import { storeToRefs } from "pinia";
 
-const firstName = ref("");
-const lastName = ref("");
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
+const form = ref({} as RegisterReqAxios);
+const previewSrc = ref("");
 
-const file = ref<File>();
-
-const errorMessage = ref("");
+const uploadFile = (file: File) => {
+    form.value.id_card = file;
+    previewSrc.value = URL.createObjectURL(file);
+};
 
 const register = (event: Event) => {
     event.preventDefault();
     const data = new FormData();
-    data.append("first_name", firstName.value);
-    data.append("last_name", lastName.value);
-    data.append("username", username.value);
-    data.append("email", email.value);
-    data.append("password", password.value);
-    data.append("image", file.value as Blob, file.value?.name);
+    data.append("first_name", form.value.first_name);
+    data.append("last_name", form.value.last_name);
+    data.append("email", form.value.email);
+    data.append("username", form.value.username);
+    data.append("phone_number", "+62" + form.value.phone_number);
+    data.append("address_line1", form.value.address_line1);
+    data.append("address_line2", form.value.address_line2);
+    data.append("city", form.value.city);
+    data.append("state", form.value.state);
+    data.append("postal_code", form.value.postal_code);
+    data.append("country", form.value.country);
+    data.append("id_card", form.value.id_card as Blob, form.value.id_card.name);
+    data.append("password", form.value.password);
+    data.append("confirm_password", form.value.confirm_password);
 
     const authStore = useAuthStore();
     authStore.postRegister(data);
 };
 
-watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {
-    console.log(file.value);
-    if (newPassword.length >= 8) {
-        console.log("masuk");
-        if (newPassword !== newConfirmPassword) {
-            errorMessage.value = "Incorrect confirm password";
-        } else {
-            errorMessage.value = "";
-        }
-    } else {
-        errorMessage.value = "Password must be 8 characters or more";
-    }
-});
+const addressStore = useAddressStore();
+addressStore.getProvinces();
+const { provinces, isLoadingProvinces, regencies, isLoadingRegencies } = storeToRefs(addressStore);
 
-const showError = computed(() => {
-    return errorMessage.value !== "";
-});
+const selectProvince = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    addressStore.getRegencies(selected.value);
+    form.value.state = selected.selectedOptions[0].innerText;
+};
+
+const selectRegency = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    form.value.city = selected.value;
+};
 </script>
 
 <template>
-    <main class="flex flex-1 justify-center my-16 mx-32 items-center gap-x-32">
-        <form class="flex flex-col w-1/3 gap-y-4" @submit="(event: Event) => register(event)">
-            <h1 class="text-6xl font-extrabold uppercase text-center mb-4">- Register -</h1>
-            <div class="flex justify-center items-center gap-x-4">
+    <main class="flex flex-1 justify-center my-16 mx-0 sm:mx-32 items-center gap-x-32">
+        <form class="flex flex-col w-3/4 gap-y-4" @submit="(event: Event) => register(event)">
+            <h1 class="text-center mb-4">- Register -</h1>
+            <h3 class="col-span-2">Personal Information</h3>
+            <hr class="w-full border-t border-black" />
+            <div class="grid grid-rows-5 lg:grid-rows-3 grid-cols-1 lg:grid-cols-2 gap-4">
                 <TextInput
-                    input-id="firstName"
-                    label-text="First name"
+                    v-model="form.first_name"
+                    id="firstName"
+                    label="First name"
                     placeholder="Enter your first name"
-                    input-type="text"
-                    class="rounded-xl px-4 py-2 border shadow-md appearance-none"
-                    required="true"
+                    type="text"
+                    required
                 />
                 <TextInput
-                    input-id="lastName"
-                    label-text="Last name"
+                    v-model="form.last_name"
+                    id="lastName"
+                    label="Last name"
                     placeholder="Enter your last name"
-                    input-type="text"
-                    class="rounded-xl px-4 py-2 border shadow-md appearance-none"
-                    required="true"
-                />
-            </div>
-            <div class="flex justify-center items-center gap-x-4">
-                <TextInput
-                    input-id="username"
-                    label-text="Username"
-                    placeholder="Enter your username"
-                    input-type="text"
-                    class="rounded-xl px-4 py-2 border shadow-md appearance-none"
-                    required="true"
+                    type="text"
+                    required
                 />
                 <TextInput
-                    input-id="email"
-                    label-text="Email"
+                    v-model="form.email"
+                    id="email"
+                    label="Email"
                     placeholder="Enter your email"
-                    input-type="email"
-                    class="rounded-xl px-4 py-2 border shadow-md appearance-none"
-                    required="true"
+                    type="email"
+                    required
+                />
+                <TextInput
+                    v-model="form.username"
+                    id="username"
+                    label="Username"
+                    placeholder="Enter your username"
+                    type="text"
+                    required
+                />
+                <SlotTextInput
+                    v-model="form.phone_number"
+                    id="phone_number"
+                    label="Phone number"
+                    placeholder="Enter your phone number"
+                    type="text"
+                    required
+                    ><p class="slot-input-left-side h-full">+62</p></SlotTextInput
+                >
+            </div>
+
+            <h3 class="col-span-2 mt-8">Address Information</h3>
+            <hr class="w-full border-t border-black" />
+            <div class="grid grid-rows-auto-6 lg:grid-rows-auto-3 grid-cols-1 lg:grid-cols-2 gap-4">
+                <TextAreaInput
+                    v-model="form.address_line1"
+                    id="addressline1"
+                    label="Address line 1"
+                    placeholder="Enter your first address line"
+                    type="text"
+                    required
+                />
+                <TextAreaInput
+                    v-model="form.address_line2"
+                    id="addressline2"
+                    label="Address line 2 (Optional)"
+                    placeholder="Enter your second address line"
+                    type="text"
+                />
+                <MultiSelectInput
+                    id="state"
+                    label="State"
+                    required
+                    :is-loading="isLoadingProvinces"
+                    @select-event="selectProvince"
+                >
+                    <option selected disabled>Select your state</option>
+                    <option v-for="data in provinces" :key="data.id" :value="data.id">
+                        {{ data.name }}
+                    </option>
+                </MultiSelectInput>
+                <MultiSelectInput
+                    id="city"
+                    label="City"
+                    required
+                    :is-loading="isLoadingRegencies"
+                    @select-event="selectRegency"
+                >
+                    <option v-if="regencies.length === 0" selected disabled>
+                        Please choose your state first
+                    </option>
+                    <option v-else selected disabled>Select your city</option>
+                    <option v-for="data in regencies" :key="data.id" :value="data.name">
+                        {{ data.name }}
+                    </option>
+                </MultiSelectInput>
+                <TextInput
+                    v-model="form.postal_code"
+                    id="postal_code"
+                    label="Postal code"
+                    placeholder="Enter your postal code"
+                    type="text"
+                    required
+                />
+                <TextInput
+                    v-model="form.country"
+                    id="country"
+                    label="Country"
+                    placeholder="Enter your country"
+                    type="text"
+                    required
                 />
             </div>
-            <div class="flex justify-center items-center gap-x-4">
+
+            <h3 class="col-span-2 mt-8">Verification & Security</h3>
+            <hr class="w-full border-t border-black" />
+            <div class="grid grid-rows-auto-3 lg:grid-rows-auto-2 grid-cols-1 lg:grid-cols-2 gap-4">
                 <TextInput
-                    input-id="password"
-                    label-text="Password"
+                    v-model="form.password"
+                    id="password"
+                    label="Password"
                     placeholder="Enter your password"
-                    input-type="password"
-                    class="rounded-xl px-4 py-2 border shadow-md appearance-none"
-                    required="true"
+                    type="password"
+                    required
                 />
                 <TextInput
-                    input-id="confirmPassword"
-                    label-text="Confirm Password"
+                    v-model="form.confirm_password"
+                    id="confirmPassword"
+                    label="Confirm Password"
                     placeholder="Re-enter your password"
-                    input-type="password"
-                    class="rounded-xl px-4 py-2 border shadow-md appearance-none"
-                    required="true"
+                    type="password"
+                    required
                 />
+                <div class="flex flex-col">
+                    <p>ID Card</p>
+                    <FileDropZone @upload-file="uploadFile"></FileDropZone>
+                </div>
+                <div class="flex flex-col">
+                    <p>Preview</p>
+                    <img
+                        v-if="previewSrc.length > 0"
+                        :src="previewSrc"
+                        class="h-48 justify-self-center self-center"
+                    />
+                    <div
+                        v-else
+                        class="flex flex-col items-center justify-center w-full h-full border-2 border-black border-dashed"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-12 h-12"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                            />
+                        </svg>
+                        <p class="text-center">Your ID Card will be shown here for preview</p>
+                    </div>
+                </div>
             </div>
-            <FileInput
-                input-id="image"
-                label-text="Image"
-                class="hover:bg-main-green rounded-full px-4 py-2"
-            />
-            <p v-if="showError" class="text-main-red font-bold text-center">
-                {{ errorMessage }}
-            </p>
             <button
                 class="normal-button bg-main-green border-main-green hover:text-white hover:scale-105"
                 type="submit"
@@ -127,11 +234,5 @@ const showError = computed(() => {
                 >
             </div>
         </form>
-        <div
-            class="flex flex-col items-center justify-center rounded-full bg-main-green w-[32rem] h-[32rem]"
-        >
-            <img src="/Logo.png" alt="Big Logo" class="w-1/2" />
-            <h1 class="text-3xl text-center font-extrabold">YOUR SOLUTION FOR MONEY</h1>
-        </div>
     </main>
 </template>

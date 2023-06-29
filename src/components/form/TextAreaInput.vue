@@ -28,6 +28,16 @@ defineProps({
     },
     required: {
         type: Boolean
+    },
+    row: {
+        type: String,
+        required: false,
+        default: "3"
+    },
+    col: {
+        type: String,
+        required: false,
+        default: "50"
     }
 });
 
@@ -37,7 +47,7 @@ const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }
 <template>
     <div class="flex flex-col w-full">
         <label :for="id">{{ label }}</label>
-        <input
+        <textarea
             :value="modelValue"
             @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
             :id="id"
@@ -45,7 +55,9 @@ const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }
             :type="type"
             :class="extraStyle"
             :required="required"
+            :rows="row"
+            :cols="col"
             class="text-input"
-        />
+        ></textarea>
     </div>
 </template>

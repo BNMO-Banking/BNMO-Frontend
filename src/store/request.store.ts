@@ -46,7 +46,7 @@ export const useRequestStore = defineStore("request", {
                     if (axios.isAxiosError(error)) {
                         if (error.response && error.response.data) {
                             this.errRequest.status = error.response.status;
-                            this.errRequest.message = error.response.data.message;
+                            this.errRequest.message = error.response.data.error;
                         }
                         this.loadingRequest = false;
                         return toast.error(this.errRequest.message);

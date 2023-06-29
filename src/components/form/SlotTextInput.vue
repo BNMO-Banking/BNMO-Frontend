@@ -35,17 +35,20 @@ const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }
 </script>
 
 <template>
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full hover:scale-[1.03]">
         <label :for="id">{{ label }}</label>
-        <input
-            :value="modelValue"
-            @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-            :id="id"
-            :placeholder="placeholder"
-            :type="type"
-            :class="extraStyle"
-            :required="required"
-            class="text-input"
-        />
+        <div class="flex w-full items-center justify-center">
+            <slot></slot>
+            <input
+                :value="modelValue"
+                @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+                :id="id"
+                :placeholder="placeholder"
+                :type="type"
+                :class="extraStyle"
+                :required="required"
+                class="slot-text-input w-full"
+            />
+        </div>
     </div>
 </template>

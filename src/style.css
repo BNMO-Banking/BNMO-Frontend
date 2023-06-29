@@ -8,16 +8,50 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
+@layer base {
+    h1 {
+        @apply font-extrabold uppercase text-4xl md:text-5xl 2xl:text-6xl;
+    }
+
+    h2 {
+        @apply font-bold text-2xl md:text-3xl 2xl:text-4xl;
+    }
+
+    h3 {
+        @apply font-bold text-lg md:text-xl 2xl:text-2xl;
+    }
+}
+
 @layer components {
     .navbar-button {
         @apply rounded-full px-4 py-2 border-2 border-black uppercase hover:transition font-bold;
     }
 
     .normal-button {
-        @apply rounded-xl px-4 py-2 border-2 border-black uppercase hover:transition font-bold;
+        @apply flex items-center justify-center p-2 font-bold hover:transition hover:scale-105;
     }
 
     .table-button {
         @apply rounded-xl px-4 py-2 border-2 uppercase hover:transition font-bold;
+    }
+
+    .text-input {
+        @apply border border-black p-2 hover:scale-[1.03] hover:transition;
+    }
+
+    .slot-text-input {
+        @apply border border-black p-2;
+    }
+
+    .slot-input-left-side {
+        @apply flex items-center border-l border-t border-b border-black bg-gray-300 p-2;
+    }
+
+    .multi-select-input {
+        @apply border border-black p-2 hover:scale-[1.03] hover:transition;
+    }
+
+    .drop-zone {
+        @apply border-2 border-dashed border-black flex flex-col justify-center items-center h-48;
     }
 }

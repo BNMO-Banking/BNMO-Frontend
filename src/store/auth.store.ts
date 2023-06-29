@@ -57,7 +57,7 @@ export const useAuthStore = defineStore("auth", {
                     if (axios.isAxiosError(error)) {
                         if (error.response && error.response.data) {
                             this.errRegister.status = error.response.status;
-                            this.errRegister.message = error.response.data.message;
+                            this.errRegister.message = error.response.data.error;
                         }
                         this.loadingRegister = false;
                         return toast.error(this.errRegister.message);
@@ -78,7 +78,7 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.setItem("account", JSON.stringify(response.data.account));
                     localStorage.setItem("token", response.data.token);
 
-                    if (this.account.account_role === AccountRole.ADMIN) {
+                    if (this.account.account_type === AccountRole.ADMIN) {
                         void router.push({ name: "Request Verification" });
                     } else {
                         if (!this.pin_status) {
@@ -95,7 +95,7 @@ export const useAuthStore = defineStore("auth", {
                     if (axios.isAxiosError(error)) {
                         if (error.response && error.response.data) {
                             this.errLogin.status = error.response.status;
-                            this.errLogin.message = error.response.data.message;
+                            this.errLogin.message = error.response.data.error;
                         }
                         this.loadingLogin = false;
 
@@ -124,7 +124,7 @@ export const useAuthStore = defineStore("auth", {
                     if (axios.isAxiosError(error)) {
                         if (error.response && error.response.data) {
                             this.errLogin.status = error.response.status;
-                            this.errLogin.message = error.response.data.message;
+                            this.errLogin.message = error.response.data.error;
                         }
                         this.loadingLogout = false;
 
