@@ -21,6 +21,6 @@ const emit = defineEmits<{ (event: "checked", payload: Event): void }>();
             :required="required"
             @change="emit('checked', $event)"
         />
-        <label :for="id"><slot></slot></label>
+        <label><slot></slot></label>
     </div>
 </template>
