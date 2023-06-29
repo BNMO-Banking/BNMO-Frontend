@@ -43,6 +43,7 @@ const register = (event: Event) => {
         <form class="flex flex-col w-3/4 gap-y-4" @submit="(event: Event) => register(event)">
             <h1 class="text-center mb-4">- Register -</h1>
             <h3 class="col-span-2">Personal Information</h3>
+            <hr class="w-full border-t border-black" />
             <div class="grid grid-rows-5 lg:grid-rows-3 grid-cols-1 lg:grid-cols-2 gap-4">
                 <TextInput
                     v-model="form.first_name"
@@ -88,6 +89,7 @@ const register = (event: Event) => {
             </div>
 
             <h3 class="col-span-2 mt-8">Address Information</h3>
+            <hr class="w-full border-t border-black" />
             <div class="grid grid-rows-auto-6 lg:grid-rows-auto-3 grid-cols-1 lg:grid-cols-2 gap-4">
                 <TextAreaInput
                     v-model="form.address_line1"
@@ -139,6 +141,7 @@ const register = (event: Event) => {
             </div>
 
             <h3 class="col-span-2 mt-8">Verification & Security</h3>
+            <hr class="w-full border-t border-black" />
             <div class="grid grid-rows-auto-3 lg:grid-rows-auto-2 grid-cols-1 lg:grid-cols-2 gap-4">
                 <TextInput
                     v-model="form.password"
