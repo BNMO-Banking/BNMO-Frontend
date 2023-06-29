@@ -83,11 +83,7 @@ const register = (event: Event) => {
                     placeholder="Enter your phone number"
                     type="text"
                     required
-                    ><p
-                        class="flex items-center border-l border-t border-b border-black bg-gray-300 px-2 h-full"
-                    >
-                        +62
-                    </p></SlotTextInput
+                    ><p class="slot-input-left-side h-full">+62</p></SlotTextInput
                 >
             </div>
 
