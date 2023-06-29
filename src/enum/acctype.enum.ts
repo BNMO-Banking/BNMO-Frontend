@@ -1,4 +1,4 @@
-export enum AccountRole {
+export enum AccountType {
     CUSTOMER = "CUSTOMER",
     ADMIN = "ADMIN"
 }

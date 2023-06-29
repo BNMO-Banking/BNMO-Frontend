@@ -5,7 +5,7 @@ import router from "../router/router";
 import { type DefaultErrorResponse } from "../types/axios/default-response.type";
 import type { DefaultError, DefaultResponse } from "../types/axios/default-response.type";
 import type { LoginReqAxios, LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
-import { AccountRole } from "../enum/acctype.enum";
+import { AccountType } from "../enum/acctype.enum";
 
 const toast = useToast();
 
@@ -13,7 +13,7 @@ export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
             account:
-                (JSON.parse(localStorage.getItem("account") || "") as LoginResAccount) ||
+                (JSON.parse(localStorage.getItem("account") || "{}") as LoginResAccount) ||
                 ({} as LoginResAccount),
             accountStatus: "",
             token: localStorage.getItem("token") || "",
@@ -78,7 +78,7 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.setItem("account", JSON.stringify(response.data.account));
                     localStorage.setItem("token", response.data.token);
 
-                    if (this.account.account_type === AccountRole.ADMIN) {
+                    if (this.account.account_type === AccountType.ADMIN) {
                         void router.push({ name: "Request Verification" });
                     } else {
                         if (!this.pin_status) {
