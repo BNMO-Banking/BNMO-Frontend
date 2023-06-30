@@ -11,4 +11,5 @@ export default interface RequestData {
     account_number: string;
     phone_number: string;
     created_at: Date;
+    updated_at: Date;
 }
