@@ -6,7 +6,7 @@ import MultiSelectInput from "../form/MultiSelectInput.vue";
 import { useAuthStore } from "../../store/auth.store";
 import { useCurrencyStore } from "../../store/currency.store";
 import { useRequestStore } from "../../store/request.store";
-import { RequestReqAxios } from "../../types/axios/request.type";
+import RequestReqAxios from "../../types/model/request.type";
 import { RequestType } from "../../enum/reqtype.enum";
 import CheckboxInput from "../form/CheckboxInput.vue";
 import EnterPin from "../../components/modal/EnterPin.vue";
@@ -139,3 +139,4 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
         </button>
     </div>
 </template>
+../../types/model/request.type
