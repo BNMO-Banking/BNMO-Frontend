@@ -84,10 +84,10 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             accordingly.
         </p>
         <span class="flex w-full items-center gap-x-4">
-            <h4 class="font-bold uppercase w-1/8">To:</h4>
-            <h4 class="font-bold uppercase w-full">
+            <h5 class="font-bold uppercase w-1/8">To:</h5>
+            <h5 class="font-bold uppercase w-full">
                 {{ account.account_number }}
-            </h4>
+            </h5>
         </span>
         <SlotTextInput
             v-model="form.amount"

@@ -82,10 +82,10 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             Our administrative team will promptly verify your request and notify you accordingly.
         </p>
         <span class="flex w-full items-center gap-x-4">
-            <h4 class="font-bold uppercase w-1/8">From:</h4>
-            <h4 class="font-bold uppercase w-full">
+            <h5 class="font-bold uppercase w-1/8">From:</h5>
+            <h5 class="font-bold uppercase w-full">
                 {{ account.account_number }}
-            </h4>
+            </h5>
         </span>
         <SlotTextInput
             v-model="form.amount"
