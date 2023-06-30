@@ -1,14 +1,15 @@
 import { defineStore } from "pinia";
-import { 
-    fetchTransferDestinations, 
-    checkDestination, 
-    addDestination, 
-    transfer, 
-    fetchTransferHistory } from "../api/transfer.api";
+import {
+    fetchTransferDestinations,
+    checkDestination,
+    addDestination,
+    transfer,
+    fetchTransferHistory
+} from "../api/transfer.api";
 import { useToast } from "vue-toastification";
 import type TransferDestination from "../types/transfer-destination";
 import type TransferHistory from "../types/transfer-history";
-import type PageMetadata from "../types/page-metadata";
+import type PageMetadata from "../types/model/page-metadata.type";
 
 const toast = useToast();
 
@@ -18,7 +19,7 @@ export const useTransferStore = defineStore("transfer", {
             destinations: [] as TransferDestination[],
             loadingDestinations: false,
             errDestinations: null,
-            
+
             destName: "",
             loadingCheckDestination: false,
             errCheckDestination: null,
@@ -57,80 +58,80 @@ export const useTransferStore = defineStore("transfer", {
     },
     actions: {
         async getTransferDestinations(id: number) {
-            this.loadingDestinations = true
+            this.loadingDestinations = true;
             return fetchTransferDestinations(id)
                 .then((response) => {
                     this.$patch({
                         destinations: response.destinations
-                    })
-                    this.loadingDestinations = false
+                    });
+                    this.loadingDestinations = false;
                 })
                 .catch((error) => {
-                    this.errDestinations = error
-                    this.loadingDestinations = false
+                    this.errDestinations = error;
+                    this.loadingDestinations = false;
                     toast.error(error.message);
-                })
+                });
         },
 
         async postCheckDestination(payload: Object) {
-            this.loadingCheckDestination = true
+            this.loadingCheckDestination = true;
             return checkDestination(payload)
                 .then((response) => {
-                    this.errCheckDestination = null
-                    this.destName = response.name
-                    this.loadingCheckDestination = false
-                })  
-                .catch((error) => {
-                    this.errCheckDestination = error
-                    toast.error(error.message);
-                    this.loadingCheckDestination = false
+                    this.errCheckDestination = null;
+                    this.destName = response.name;
+                    this.loadingCheckDestination = false;
                 })
+                .catch((error) => {
+                    this.errCheckDestination = error;
+                    toast.error(error.message);
+                    this.loadingCheckDestination = false;
+                });
         },
 
         async postAddDestination(payload: Object) {
-            this.loadingAddDestination = true
+            this.loadingAddDestination = true;
             return addDestination(payload)
                 .then((response) => {
-                    this.errAddDestination = null
-                    this.loadingAddDestination = false
+                    this.errAddDestination = null;
+                    this.loadingAddDestination = false;
                     toast.success(response.message);
                 })
                 .catch((error) => {
-                    this.errAddDestination = error
-                    this.loadingAddDestination = false
+                    this.errAddDestination = error;
+                    this.loadingAddDestination = false;
                     toast.error(error.message);
-                })
+                });
         },
 
         async postTransfer(payload: Object) {
-            this.loadingTransfer = true
+            this.loadingTransfer = true;
             return transfer(payload)
                 .then((response) => {
-                    this.loadingTransfer = false
+                    this.loadingTransfer = false;
                     toast.success(response.message);
                 })
                 .catch((error) => {
-                    this.errTransfer = error
-                    this.loadingTransfer = false
+                    this.errTransfer = error;
+                    this.loadingTransfer = false;
                     toast.error(error.message);
-                })
+                });
         },
 
         async getTransferHistories(id: number, page: number) {
-            this.loadingHistories = true
+            this.loadingHistories = true;
             return fetchTransferHistory(id, page)
                 .then((response) => {
                     this.$patch({
                         histories: response.data,
                         metadata: response.metadata
-                    })
-                    this.loadingHistories = false
+                    });
+                    this.loadingHistories = false;
                 })
                 .catch((error) => {
-                    console.error(error)
-                    this.errHistories = error
-                    this.loadingHistories = false
-                })
+                    console.error(error);
+                    this.errHistories = error;
+                    this.loadingHistories = false;
+                });
         }
-    },
+    }
 });

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
-import type { RequestReqAxios } from "../types/axios/request.type";
+import type RequestReqAxios from "../types/model/request.type";
 import {
     DefaultError,
     DefaultErrorResponse,

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
 import { type DefaultErrorResponse } from "../types/axios/default-response.type";
-import { ProvincesData, RegenciesData } from "../types/axios/address.type";
+import { ProvincesData, RegenciesData } from "../types/model/address.type";
 
 const toast = useToast();
 const addressAxios = axios.create({

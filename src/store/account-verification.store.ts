@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { fetchPendingAccounts, validateAccount } from "../api/account-verification.api";
 import { useToast } from "vue-toastification";
 import type RequestAccount from "../types/account-request";
-import type PageMetadata from "../types/page-metadata";
+import type PageMetadata from "../types/model/page-metadata.type";
 
 const toast = useToast();
 
@@ -27,34 +27,34 @@ export const useAccountVerificationStore = defineStore("account-verification", {
     },
     actions: {
         async getPendingAccounts(page: number) {
-            this.loadingPendingAccounts = true
+            this.loadingPendingAccounts = true;
             return fetchPendingAccounts(page)
                 .then((response) => {
                     this.$patch({
                         accounts: response.data,
                         metadata: response.metadata
-                    })
-                    this.loadingPendingAccounts = false
+                    });
+                    this.loadingPendingAccounts = false;
                 })
                 .catch((error) => {
-                    console.error(error)
-                    this.errPendingAccounts = error
-                    this.loadingPendingAccounts = false
-                })
+                    console.error(error);
+                    this.errPendingAccounts = error;
+                    this.loadingPendingAccounts = false;
+                });
         },
 
         async postValidateAccount(payload: Object) {
-            this.loadingValidateAccount = true
+            this.loadingValidateAccount = true;
             return validateAccount(payload)
                 .then((response) => {
-                    this.loadingValidateAccount = false
+                    this.loadingValidateAccount = false;
                     toast.success(response.message);
                 })
                 .catch((error) => {
-                    this.errValidateAccount = error
-                    this.loadingValidateAccount = false
+                    this.errValidateAccount = error;
+                    this.loadingValidateAccount = false;
                     toast.error(error.message);
-                })
+                });
         }
     }
-})
+});
