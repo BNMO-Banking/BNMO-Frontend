@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-// import RequestVerificationRow from "../../tablerow/RequestVerificationRow.vue";
+import { ref, watch, onMounted } from "vue";
+import router from "../../router/router";
 import { useRequestVerificationStore } from "../../store/request-verification.store";
 import { storeToRefs } from "pinia";
 import SpinnerLoading from "../../components/form/SpinnerLoading.vue";
 import ListRow from "../../components/requestverification/ListRow.vue";
 import ListHeader from "../../components/requestverification/ListHeader.vue";
+// import { Status } from "../../enum/status.enum";
 
-const page = ref(1);
+const page = ref<number>(1);
 const width = ["w-[2%]", "w-[13%]", "w-[35%]", "w-[37.5%]", "w-[12.5%]"];
+const checkAll = ref(false);
 
 const store = useRequestVerificationStore();
 
@@ -16,19 +18,20 @@ const { pendingRequests, pageMetadata, isLoadingPendingRequests } = storeToRefs(
 
 store.getPendingRequests(page.value);
 
-// const validateRequest = (id: number, isAccepted: boolean) => {
-//     const data = {
-//         request_id: id,
-//         status: isAccepted ? "accepted" : "rejected"
-//     };
-
-//     store.postValidateRequest(data).then(() => {
-//         store.getPendingRequests(page.value);
-//     });
+// const validateRequest = (id: string, isAccepted: boolean, remarks: string | null) => {
+//     store.postValidateRequest(id, isAccepted ? Status.ACCEPTED : Status.REJECTED, remarks);
 // };
 
 watch(page, () => {
     store.getPendingRequests(page.value);
+    router.push({ name: "Request Verification", query: { page: page.value } });
+    checkAll.value = false;
+});
+
+onMounted(() => {
+    if (router.currentRoute.value.query.page !== null) {
+        page.value = parseInt(router.currentRoute.value.query.page.toString());
+    }
 });
 </script>
 
@@ -36,12 +39,13 @@ watch(page, () => {
     <h1 class="text-center m-8">- Request Verification -</h1>
     <main class="flex flex-col flex-1 mx-16 my-8 gap-y-4">
         <div v-if="!isLoadingPendingRequests" class="flex flex-col w-full gap-y-4">
-            <ListHeader :width="width" />
+            <ListHeader :width="width" @checked="checkAll = !checkAll" />
             <ListRow
                 v-for="request in pendingRequests"
                 :key="request.id"
                 :data="request"
                 :width="width"
+                :checked="checkAll"
             />
         </div>
         <div class="flex w-full items-center justify-center">

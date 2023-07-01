@@ -6,9 +6,11 @@ import {
     DefaultErrorResponse,
     DefaultResponse
 } from "../types/axios/default-response.type";
-import { RequestDataList } from "../types/axios/request-verif.type";
+import { RejectRemarksReq, RequestDataList } from "../types/axios/request-verif.type";
 import PageMetadata from "../types/model/page-metadata.type";
 import RequestData from "../types/model/request-data.type";
+import { Status } from "../enum/status.enum";
+import router from "../router/router";
 
 const toast = useToast();
 
@@ -59,12 +61,20 @@ export const useRequestVerificationStore = defineStore("request-verification", {
                 });
         },
 
-        async postValidateRequest(id: string, status: string) {
+        async postValidateRequest(id: string, status: string, remarks: RejectRemarksReq) {
             this.loadingValidateRequest = true;
             await axios
-                .put(`/request-verif/validate/${id}/${status}`, null)
+                .put(
+                    `/request-verif/validate/${id}/${status}`,
+                    status === Status.ACCEPTED ? null : remarks
+                )
                 .then((response: AxiosResponse<DefaultResponse>) => {
                     this.loadingValidateRequest = false;
+                    if (router.currentRoute.value.query.page !== null) {
+                        this.getPendingRequests(
+                            parseInt(router.currentRoute.value.query.page.toString())
+                        );
+                    }
                     return toast.success(response.data.message);
                 })
                 .catch((error: AxiosError<DefaultError>) => {
