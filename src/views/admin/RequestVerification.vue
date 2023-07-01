@@ -57,7 +57,10 @@ onMounted(() => {
         >
             No request to verify
         </h3>
-        <div class="flex justify-center items-center gap-x-16" v-if="pendingRequests.length !== 0">
+        <div
+            class="flex justify-center items-center gap-x-16"
+            v-if="pendingRequests.length !== 0 && !isLoadingPendingRequests"
+        >
             <button
                 class="navbar-button bg-main-green border-main-green hover:scale-105 hover:text-white"
                 @click="page--"
