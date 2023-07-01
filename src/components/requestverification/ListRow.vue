@@ -44,7 +44,7 @@ onMounted(() => {
 
 <template>
     <div
-        class="w-full flex p-4 items-center justify-between gap-x-4"
+        class="w-full flex flex-col xl:flex-row p-4 items-center justify-between gap-y-4 xl:gap-x-4"
         :class="
             data.request_type === RequestType.ADD
                 ? `bg-main-green/20 hover:bg-main-green/30 border-2 border-main-green`
@@ -53,12 +53,15 @@ onMounted(() => {
     >
         <input
             :class="width[0]"
-            class="w-4 h-4"
+            class="w-4 h-4 hidden xl:block"
             type="checkbox"
             :checked="checked"
             @change="emit('checked', data.id)"
         />
-        <div :class="width[1]" class="flex items-center justify-center gap-x-2 p-4">
+        <div
+            :class="width[1]"
+            class="flex w-full items-center xl:justify-center gap-x-2 p-0 xl:p-4"
+        >
             <svg
                 v-if="data.request_type === RequestType.ADD"
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,25 +90,28 @@ onMounted(() => {
             </svg>
             <h3>{{ data.request_type }}</h3>
         </div>
-        <div :class="width[2]" class="flex flex-col border-l-2 border-r-2 border-black pl-2">
-            <div class="flex gap-x-2">
-                <p class="w-2/5">Requester</p>
-                <p>:</p>
+        <div
+            :class="width[2]"
+            class="flex w-full flex-col border-b-2 xl:border-b-0 xl:border-l-2 xl:border-r-2 border-black pl-0 xl:pl-2"
+        >
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-2/5 font-bold">Requester</p>
+                <p class="hidden lg:flex">:</p>
                 <p>{{ data.first_name }} {{ data.last_name }}</p>
             </div>
-            <div class="flex gap-x-2">
-                <p class="w-2/5">Account number</p>
-                <p>:</p>
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-2/5 font-bold">Account number</p>
+                <p class="hidden lg:flex">:</p>
                 <p>{{ data.account_number }}</p>
             </div>
-            <div class="flex gap-x-2">
-                <p class="w-2/5">Phone number</p>
-                <p>:</p>
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-2/5 font-bold">Phone number</p>
+                <p class="hidden lg:flex">:</p>
                 <p>{{ data.phone_number }}</p>
             </div>
-            <div class="flex gap-x-2">
-                <p class="w-2/5">Request time</p>
-                <p>:</p>
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-2/5 font-bold">Request time</p>
+                <p class="hidden lg:flex">:</p>
                 <p>
                     {{
                         new Date(data.created_at).toLocaleDateString("en-US", {
@@ -119,8 +125,8 @@ onMounted(() => {
                     }}
                 </p>
             </div>
-            <div class="flex gap-x-2">
-                <p class="w-2/5">
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-2/5 font-bold">
                     {{
                         data.status === Status.ACCEPTED
                             ? "Accept"
@@ -130,7 +136,7 @@ onMounted(() => {
                     }}
                     time
                 </p>
-                <p>:</p>
+                <p class="hidden lg:flex">:</p>
                 <p>
                     {{
                         data.status !== Status.PENDING
@@ -147,15 +153,15 @@ onMounted(() => {
                 </p>
             </div>
         </div>
-        <div :class="width[3]" class="flex flex-col border-r-2 border-black pr-2">
-            <div class="flex gap-x-2">
-                <p class="w-1/4">Status</p>
-                <p>:</p>
+        <div :class="width[3]" class="flex w-full flex-col xl:border-r-2 border-black pr-0 xl:pr-2">
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-1/4 font-bold">Status</p>
+                <p class="hidden lg:flex">:</p>
                 <p>{{ data.status }}</p>
             </div>
-            <div class="flex gap-x-2">
-                <p class="w-1/4">Conversion</p>
-                <p>:</p>
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-1/4 font-bold">Conversion</p>
+                <p class="hidden lg:flex">:</p>
                 <div class="flex gap-x-2 items-center">
                     <p>{{ data.currency }} {{ data.amount }}</p>
                     <svg
@@ -175,13 +181,13 @@ onMounted(() => {
                     <p>IDR {{ data.converted_amount }}</p>
                 </div>
             </div>
-            <div class="flex gap-x-2">
-                <p class="w-1/4">Remarks</p>
-                <p>:</p>
+            <div class="flex flex-col lg:flex-row gap-x-2">
+                <p class="w-full lg:w-1/4 font-bold">Remarks</p>
+                <p class="hidden lg:flex">:</p>
                 <textarea
                     v-model="remarks.remarks"
                     rows="3"
-                    class="border border-black overflow-auto w-[70%] resize-none"
+                    class="border border-black overflow-auto w-full lg:w-[70%] resize-none"
                     :disabled="data.status !== Status.PENDING"
                 ></textarea>
             </div>

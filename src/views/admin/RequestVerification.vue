@@ -9,7 +9,7 @@ import ListHeader from "../../components/requestverification/ListHeader.vue";
 // import { Status } from "../../enum/status.enum";
 
 const page = ref<number>(1);
-const width = ["w-[2%]", "w-[13%]", "w-[35%]", "w-[37.5%]", "w-[12.5%]"];
+const width = ["xl:w-[2%]", "xl:w-[13%]", "xl:w-[35%]", "xl:w-[37.5%]", "xl:w-[12.5%]"];
 const checkAll = ref(false);
 const checkedRequest = ref<string[]>([]);
 
@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
     <h1 class="text-center m-8">- Request Verification -</h1>
-    <main class="flex flex-col flex-1 mx-16 my-8 gap-y-4">
+    <main class="flex flex-col flex-1 mx-8 lg:mx-16 my-8 gap-y-4">
         <div v-if="!isLoadingPendingRequests" class="flex flex-col w-full gap-y-4">
             <ListHeader :width="width" @checked="checkAll = !checkAll" />
             <ListRow
@@ -74,30 +74,28 @@ onMounted(() => {
             No request to verify
         </h3>
         <div
-            class="flex justify-center items-center gap-x-16"
+            class="flex justify-center items-center gap-x-8 lg:gap-x-16"
             v-if="pendingRequests.length !== 0 && !isLoadingPendingRequests"
         >
             <button
-                class="navbar-button bg-main-green border-main-green hover:scale-105 hover:text-white"
+                class="normal-button bg-main-green border-main-green hover:scale-105 hover:text-white"
                 @click="page--"
                 v-if="page - 1 > 0"
             >
                 Prev Page
             </button>
-            <button class="navbar-button bg-main-red border-main-red" disabled v-else>
+            <button class="normal-button bg-main-red border-main-red" disabled v-else>
                 Prev Page
             </button>
-            <h4 class="text-xl font-extrabold uppercase text-center">
-                {{ page }} / {{ pageMetadata.last_page }}
-            </h4>
+            <h4 class="text-center">{{ page }} / {{ pageMetadata.last_page }}</h4>
             <button
-                class="navbar-button bg-main-green border-main-green hover:scale-105 hover:text-white"
+                class="normal-button bg-main-green border-main-green hover:scale-105 hover:text-white"
                 @click="page++"
                 v-if="page + 1 <= pageMetadata.last_page"
             >
                 Next Page
             </button>
-            <button class="navbar-button bg-main-red border-main-red" disabled v-else>
+            <button class="normal-button bg-main-red border-main-red" disabled v-else>
                 Next Page
             </button>
         </div>

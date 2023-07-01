@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { RegisterReqAxios } from "../types/axios/auth.type";
+import { RegisterReqAxios } from "../types/auth.type";
 import TextInput from "../components/form/TextInput.vue";
 import TextAreaInput from "../components/form/TextAreaInput.vue";
 import SlotTextInput from "../components/form/SlotTextInput.vue";
