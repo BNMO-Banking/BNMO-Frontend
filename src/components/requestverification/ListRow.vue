@@ -20,6 +20,8 @@ const props = defineProps({
     }
 });
 
+const emit = defineEmits<{ (event: "checked", payload: string): void }>();
+
 const remarks = ref({} as RejectRemarksReq);
 const error = ref("");
 const store = useRequestVerificationStore();
@@ -49,7 +51,13 @@ onMounted(() => {
                 : `bg-main-red/20 hover:bg-main-red/30 border-2 border-main-red`
         "
     >
-        <input :class="width[0]" class="w-4 h-4" type="checkbox" :checked="checked" />
+        <input
+            :class="width[0]"
+            class="w-4 h-4"
+            type="checkbox"
+            :checked="checked"
+            @change="emit('checked', data.id)"
+        />
         <div :class="width[1]" class="flex items-center justify-center gap-x-2 p-4">
             <svg
                 v-if="data.request_type === RequestType.ADD"
@@ -139,7 +147,7 @@ onMounted(() => {
                 </p>
             </div>
         </div>
-        <div :class="width[3]" class="flex flex-col border-r-2 border-black">
+        <div :class="width[3]" class="flex flex-col border-r-2 border-black pr-2">
             <div class="flex gap-x-2">
                 <p class="w-1/4">Status</p>
                 <p>:</p>

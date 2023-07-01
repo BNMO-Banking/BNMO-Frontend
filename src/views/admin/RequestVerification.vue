@@ -11,12 +11,17 @@ import ListHeader from "../../components/requestverification/ListHeader.vue";
 const page = ref<number>(1);
 const width = ["w-[2%]", "w-[13%]", "w-[35%]", "w-[37.5%]", "w-[12.5%]"];
 const checkAll = ref(false);
+const checkedRequest = ref<string[]>([]);
 
 const store = useRequestVerificationStore();
 
 const { pendingRequests, pageMetadata, isLoadingPendingRequests } = storeToRefs(store);
 
 store.getPendingRequests(page.value);
+
+const singleCheck = (id: string) => {
+    checkedRequest.value.push(id);
+};
 
 // const validateRequest = (id: string, isAccepted: boolean, remarks: string | null) => {
 //     store.postValidateRequest(id, isAccepted ? Status.ACCEPTED : Status.REJECTED, remarks);
@@ -26,6 +31,16 @@ watch(page, () => {
     store.getPendingRequests(page.value);
     router.push({ name: "Request Verification", query: { page: page.value } });
     checkAll.value = false;
+});
+
+watch(checkAll, () => {
+    if (checkAll.value) {
+        pendingRequests.value.forEach((item) => {
+            checkedRequest.value.push(item.id);
+        });
+    } else {
+        checkedRequest.value = [];
+    }
 });
 
 onMounted(() => {
@@ -46,6 +61,7 @@ onMounted(() => {
                 :data="request"
                 :width="width"
                 :checked="checkAll"
+                @checked="singleCheck"
             />
         </div>
         <div class="flex w-full items-center justify-center">
