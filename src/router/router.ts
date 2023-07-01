@@ -6,7 +6,7 @@ const Login = () => import("../views/Login.vue");
 const Register = () => import("../views/Register.vue");
 
 // Admin modules
-const AccountVerification = () => import("../components/pages/admin/AccountVerification.vue");
+const AccountVerification = () => import("../views/admin/AccountVerification.vue");
 const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
 const RequestVerification = () => import("../views/admin/RequestVerification.vue");
 

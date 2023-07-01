@@ -1,20 +1,26 @@
 import { defineStore } from "pinia";
-import { fetchPendingAccounts, validateAccount } from "../api/account-verification.api";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
-import type RequestAccount from "../types/account-request";
+import {
+    DefaultError,
+    DefaultErrorResponse,
+    DefaultResponse
+} from "../types/default-response.type";
 import type PageMetadata from "../types/page-metadata.type";
+import AccountData, { AccountDataList } from "../types/account-verif.type";
+import router from "../router/router";
 
 const toast = useToast();
 
 export const useAccountVerificationStore = defineStore("account-verification", {
     state: () => ({
-        accounts: [] as RequestAccount[],
+        accounts: [] as AccountData[],
         metadata: {} as PageMetadata,
         loadingPendingAccounts: false,
-        errPendingAccounts: null,
+        errPendingAccounts: {} as DefaultErrorResponse,
 
         loadingValidateAccount: false,
-        errValidateAccount: null
+        errValidateAccount: {} as DefaultErrorResponse
     }),
     getters: {
         pendingAccounts: (state) => state.accounts,
@@ -28,32 +34,53 @@ export const useAccountVerificationStore = defineStore("account-verification", {
     actions: {
         async getPendingAccounts(page: number) {
             this.loadingPendingAccounts = true;
-            return fetchPendingAccounts(page)
-                .then((response) => {
+            await axios
+                .get("/account-verif/get", {
+                    params: {
+                        page: page
+                    }
+                })
+                .then((response: AxiosResponse<AccountDataList>) => {
                     this.$patch({
-                        accounts: response.data,
-                        metadata: response.metadata
+                        accounts: response.data.data,
+                        metadata: response.data.metadata
                     });
                     this.loadingPendingAccounts = false;
                 })
-                .catch((error) => {
-                    console.error(error);
-                    this.errPendingAccounts = error;
-                    this.loadingPendingAccounts = false;
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errPendingAccounts.status = error.response.status;
+                            this.errPendingAccounts.message = error.response.data.error;
+                        }
+                        this.loadingPendingAccounts = false;
+                        return toast.error(this.errPendingAccounts.message);
+                    }
                 });
         },
 
-        async postValidateAccount(payload: Object) {
+        async postValidateAccount(id: string, status: string) {
             this.loadingValidateAccount = true;
-            return validateAccount(payload)
-                .then((response) => {
+            await axios
+                .put(`/account-verif/validate/${id}/${status}`)
+                .then((response: AxiosResponse<DefaultResponse>) => {
                     this.loadingValidateAccount = false;
-                    toast.success(response.message);
+                    if (router.currentRoute.value.query.page !== null) {
+                        this.getPendingAccounts(
+                            parseInt(router.currentRoute.value.query.page.toString())
+                        );
+                    }
+                    return toast.success(response.data.message);
                 })
-                .catch((error) => {
-                    this.errValidateAccount = error;
-                    this.loadingValidateAccount = false;
-                    toast.error(error.message);
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errValidateAccount.status = error.response.status;
+                            this.errValidateAccount.message = error.response.data.error;
+                        }
+                        this.loadingValidateAccount = false;
+                        return toast.error(this.errValidateAccount.message);
+                    }
                 });
         }
     }

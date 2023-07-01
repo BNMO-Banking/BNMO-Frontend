@@ -6,9 +6,8 @@ import {
     DefaultErrorResponse,
     DefaultResponse
 } from "../types/default-response.type";
-import { RejectRemarksReq, RequestDataList } from "../types/request-verif.type";
+import RequestData, { RejectRemarksReq, RequestDataList } from "../types/request-verif.type";
 import PageMetadata from "../types/page-metadata.type";
-import RequestData from "../types/request-verif.type";
 import { Status } from "../enum/status.enum";
 import router from "../router/router";
 

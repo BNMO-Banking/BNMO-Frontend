@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import router from "../../router/router";
 const adminLinks = [
-    { name: "Account Verification", link: "/admin/accountverification" },
-    { name: "Request Verification", link: "/admin/requestverification" },
+    { name: "Account Verification", link: "/admin/accountverification", query: { page: 1 } },
+    { name: "Request Verification", link: "/admin/requestverification", query: { page: 1 } },
     { name: "Customer Data", link: "/admin/customerdata" }
 ];
 </script>
@@ -11,8 +11,8 @@ const adminLinks = [
     <ul class="flex gap-x-4">
         <li v-for="link in adminLinks" :key="link.link">
             <RouterLink
-                :key="link.link"
-                :to="link.link"
+                :key="link.name"
+                :to="link"
                 :class="
                     link.name === router.currentRoute.value.name
                         ? `underline underline-offset-4`

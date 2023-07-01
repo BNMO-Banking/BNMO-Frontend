@@ -92,7 +92,7 @@ onMounted(() => {
         </div>
         <div
             :class="width[2]"
-            class="flex w-full flex-col border-b-2 xl:border-b-0 xl:border-l-2 xl:border-r-2 border-black pl-0 xl:pl-2"
+            class="flex w-full flex-col border-b-2 xl:border-b-0 xl:border-l-2 xl:border-r-2 border-black pl-0 xl:pl-2 gap-y-2"
         >
             <div class="flex flex-col lg:flex-row gap-x-2">
                 <p class="w-full lg:w-2/5 font-bold">Requester</p>
@@ -153,7 +153,10 @@ onMounted(() => {
                 </p>
             </div>
         </div>
-        <div :class="width[3]" class="flex w-full flex-col xl:border-r-2 border-black pr-0 xl:pr-2">
+        <div
+            :class="width[3]"
+            class="flex w-full flex-col xl:border-r-2 border-black pr-0 xl:pr-2 gap-y-2"
+        >
             <div class="flex flex-col lg:flex-row gap-x-2">
                 <p class="w-full lg:w-1/4 font-bold">Status</p>
                 <p class="hidden lg:flex">:</p>
@@ -186,7 +189,7 @@ onMounted(() => {
                 <p class="hidden lg:flex">:</p>
                 <textarea
                     v-model="remarks.remarks"
-                    rows="3"
+                    rows="4"
                     class="border border-black overflow-auto w-full lg:w-[70%] resize-none"
                     :disabled="data.status !== Status.PENDING"
                 ></textarea>
