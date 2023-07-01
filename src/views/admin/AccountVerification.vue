@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
 import router from "../../router/router";
-// import AccountVerificationRow from "../../tablerow/AccountVerificationRow.vue";
-// import VerifyImage from "../../modal/VerifyImage.vue";
 import { useAccountVerificationStore } from "../../store/account-verification.store";
 import { storeToRefs } from "pinia";
 import SpinnerLoading from "../../components/form/SpinnerLoading.vue";
@@ -56,17 +54,9 @@ onMounted(() => {
         page.value = parseInt(router.currentRoute.value.query.page.toString());
     }
 });
-
-const showModal = ref(false);
-const imageData = ref("");
 </script>
 
 <template>
-    <VerifyImage
-        v-if="showModal"
-        @show-modal="(flag: boolean) => showModal = flag"
-        :image_path="imageData"
-    />
     <h1 class="text-center m-8">- Account Verification -</h1>
     <main class="flex flex-col flex-1 mx-8 lg:mx-16 my-8 gap-y-4">
         <div v-if="!isLoadingPendingAccounts" class="flex flex-col w-full gap-y-4">
