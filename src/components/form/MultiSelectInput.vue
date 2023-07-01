@@ -24,7 +24,7 @@ const emit = defineEmits<{ (event: "select-event", payload: Event): void }>();
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col items-center justify-center h-full">
         <label v-if="label.length > 0" :for="id">{{ label }}</label>
         <SpinnerLoading :is-loading="isLoading" />
         <select
