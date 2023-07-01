@@ -2,10 +2,12 @@
 
 <template>
     <header class="flex flex-col bg-main-green justify-center items-center py-8 gap-y-4">
-        <img src="/Logo.png" alt="Big Logo" class="w-96" />
-        <h1 class="text-3xl font-extrabold">YOUR SOLUTION FOR MONEY</h1>
+        <img src="/Logo.png" alt="Big Logo" class="w-48 md:w-64 lg:w-96" />
+        <h1 class="text-center">YOUR SOLUTION FOR MONEY</h1>
     </header>
-    <section class="flex justify-between items-center bg-white py-8 px-16 gap-x-16">
+    <section
+        class="flex flex-col lg:flex-row justify-between items-center bg-white py-8 lg:px-16 gap-y-4 lg:gap-x-16"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -20,7 +22,7 @@
                 d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
             />
         </svg>
-        <p class="w-3/4">
+        <p class="w-3/4 text-center lg:text-left">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla tincidunt
             lacus eu blandit. Nunc aliquam congue tortor eu rutrum. Pellentesque eget justo
             convallis, luctus erat vel, efficitur nisi. Integer nisl tellus, imperdiet imperdiet
@@ -32,8 +34,10 @@
             Aenean sem tortor, luctus.
         </p>
     </section>
-    <section class="flex justify-between items-center bg-main-green py-8 px-16 gap-x-16">
-        <p class="w-3/4">
+    <section
+        class="flex flex-col lg:flex-row justify-between items-center bg-main-green py-8 lg:px-16 gap-y-4 lg:gap-x-16"
+    >
+        <p class="w-3/4 text-center lg:text-right">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla tincidunt
             lacus eu blandit. Nunc aliquam congue tortor eu rutrum. Pellentesque eget justo
             convallis, luctus erat vel, efficitur nisi. Integer nisl tellus, imperdiet imperdiet

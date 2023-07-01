@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import router from "../../router/router";
 const adminLinks = [
+    { name: "Dashboard", link: "/admin/dashboard" },
     { name: "Account Verification", link: "/admin/accountverification", query: { page: 1 } },
     { name: "Request Verification", link: "/admin/requestverification", query: { page: 1 } },
     { name: "Customer Data", link: "/admin/customerdata" }
