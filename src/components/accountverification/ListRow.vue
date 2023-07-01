@@ -36,7 +36,7 @@ const validateAccount = (id: string, isAccepted: boolean) => {
                 : `bg-main-yellow/20 hover:bg-main-yellow/30 border-2 border-main-yellow`
         "
     >
-        <div class="w-full flex flex-col items-center xl:flex-row xl:gap-x-4">
+        <div class="w-full flex flex-col items-center justify-between xl:flex-row xl:gap-x-4">
             <input
                 :class="width[0]"
                 class="w-4 h-4 hidden xl:block"
@@ -109,7 +109,7 @@ const validateAccount = (id: string, isAccepted: boolean) => {
             </div>
             <div
                 :class="width[2]"
-                class="flex w-full flex-col xl:border-r-2 border-black pr-0 xl:pr-2 gap-y-2 max-h-48"
+                class="flex w-full flex-col xl:border-r-2 border-black pr-0 xl:pr-2 gap-y-2"
             >
                 <div class="flex flex-col lg:flex-row gap-x-2">
                     <p class="w-full lg:w-1/4 font-bold">Status</p>
@@ -148,7 +148,7 @@ const validateAccount = (id: string, isAccepted: boolean) => {
                     </div>
                 </div>
             </div>
-            <div :class="width[4]" class="flex items-center justify-center gap-x-4">
+            <div :class="width[4]" class="flex items-center justify-center gap-x-4 mt-4 xl:mt-0">
                 <button class="action-yes" @click="validateAccount(data.id, true)">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -179,12 +179,14 @@ const validateAccount = (id: string, isAccepted: boolean) => {
                 </button>
             </div>
         </div>
-        <div class="flex w-full border-t-2 border-black">
-            <div class="flex flex-col w-1/2 py-2 px-4 border-r-2 border-black">
+        <div class="flex flex-col xl:flex-row w-full border-t-2 border-black">
+            <div
+                class="flex flex-col w-full xl:w-1/2 py-2 px-0 xl:px-4 xl:border-r-2 xl:border-black"
+            >
                 <p class="w-full lg:w-1/4 font-bold">Address line 1</p>
                 <p>{{ data.address_line_1 }}</p>
             </div>
-            <div class="flex flex-col w-1/2 py-2 px-4">
+            <div class="flex flex-col w-full xl:w-1/2 py-2 px-0 xl:px-4">
                 <p class="w-full lg:w-1/4 font-bold">Address line 2</p>
                 <p>{{ data.address_line_2 }}</p>
             </div>
