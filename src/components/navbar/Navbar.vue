@@ -7,26 +7,21 @@ import { useAuthStore } from "../../store/auth.store";
 import { storeToRefs } from "pinia";
 import { AccountType } from "../../enum/acctype.enum";
 
-const isLoggedIn = ref(false);
 const isAdmin = ref(false);
 
 const authStore = useAuthStore();
-const { account } = storeToRefs(authStore);
+const { getAccount, isLoggedIn } = storeToRefs(authStore);
 
-if (account.value.id) {
-    isLoggedIn.value = true;
-    if (account.value.account_type === AccountType.ADMIN) {
+if (getAccount.value.id) {
+    if (getAccount.value.account_type === AccountType.ADMIN) {
         isAdmin.value = true;
     } else {
         isAdmin.value = false;
     }
-} else {
-    isLoggedIn.value = false;
 }
 
 const logout = () => {
     authStore.postLogout();
-    isLoggedIn.value = false;
 };
 </script>
 

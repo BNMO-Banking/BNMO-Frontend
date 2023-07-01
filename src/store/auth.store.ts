@@ -18,6 +18,7 @@ export const useAuthStore = defineStore("auth", {
             accountStatus: "",
             token: localStorage.getItem("token") || "",
             pin_status: false,
+            is_logged_in: false,
 
             loadingRegister: false,
             errRegister: {} as DefaultErrorResponse,
@@ -30,6 +31,9 @@ export const useAuthStore = defineStore("auth", {
         };
     },
     getters: {
+        getAccount: (state) => state.account,
+        isLoggedIn: (state) => state.is_logged_in,
+
         isLoadingRegister: (state) => state.loadingRegister,
         errorRegister: (state) => state.errRegister,
 
@@ -74,6 +78,7 @@ export const useAuthStore = defineStore("auth", {
                     this.account = response.data.account;
                     this.token = response.data.token;
                     this.pin_status = response.data.pin_status;
+                    this.is_logged_in = true;
 
                     localStorage.setItem("account", JSON.stringify(response.data.account));
                     localStorage.setItem("token", response.data.token);
@@ -114,6 +119,7 @@ export const useAuthStore = defineStore("auth", {
                 .post("/auth/logout", null)
                 .then((response: AxiosResponse<DefaultResponse>) => {
                     this.$reset();
+                    this.is_logged_in = false;
                     localStorage.clear();
                     void router.push({ name: "Landing" });
 
