@@ -9,7 +9,7 @@ import {
 import { useToast } from "vue-toastification";
 import type TransferDestination from "../types/transfer-destination";
 import type TransferHistory from "../types/transfer-history";
-import type PageMetadata from "../types/model/page-metadata.type";
+import type PageMetadata from "../types/page-metadata.type";
 
 const toast = useToast();
 

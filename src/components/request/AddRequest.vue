@@ -139,4 +139,4 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
         </button>
     </div>
 </template>
-../../types/model/request.type
+../../types/model/request.type ../../types/request.type

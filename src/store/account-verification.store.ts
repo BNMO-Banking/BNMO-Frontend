@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { fetchPendingAccounts, validateAccount } from "../api/account-verification.api";
 import { useToast } from "vue-toastification";
 import type RequestAccount from "../types/account-request";
-import type PageMetadata from "../types/model/page-metadata.type";
+import type PageMetadata from "../types/page-metadata.type";
 
 const toast = useToast();
 

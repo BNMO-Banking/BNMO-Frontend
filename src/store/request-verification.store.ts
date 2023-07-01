@@ -5,10 +5,10 @@ import {
     DefaultError,
     DefaultErrorResponse,
     DefaultResponse
-} from "../types/axios/default-response.type";
-import { RejectRemarksReq, RequestDataList } from "../types/axios/request-verif.type";
-import PageMetadata from "../types/model/page-metadata.type";
-import RequestData from "../types/model/request-data.type";
+} from "../types/default-response.type";
+import { RejectRemarksReq, RequestDataList } from "../types/request-verif.type";
+import PageMetadata from "../types/page-metadata.type";
+import RequestData from "../types/request-verif.type";
 import { Status } from "../enum/status.enum";
 import router from "../router/router";
 

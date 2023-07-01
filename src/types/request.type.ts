@@ -1,4 +1,4 @@
-import { RequestType } from "../../enum/reqtype.enum";
+import { RequestType } from "../enum/reqtype.enum";
 
 export default interface RequestReqAxios {
     id: string;

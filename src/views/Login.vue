@@ -81,3 +81,4 @@ const login = (event: Event) => {
         </div>
     </main>
 </template>
+../types/auth.type

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { DefaultError, DefaultErrorResponse } from "../types/axios/default-response.type";
-import { SymbolsResponse } from "../types/axios/currency.type";
+import { DefaultError, DefaultErrorResponse } from "../types/default-response.type";
+import { SymbolsResponse } from "../types/currency.type";
 
 export const useCurrencyStore = defineStore("store", {
     state: () => {

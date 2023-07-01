@@ -2,9 +2,9 @@
 import { ref, onMounted } from "vue";
 import { RequestType } from "../../enum/reqtype.enum";
 import { Status } from "../../enum/status.enum";
-import RequestData from "../../types/model/request-data.type";
+import RequestData from "../../types/request-verif.type";
 import { useRequestVerificationStore } from "../../store/request-verification.store";
-import { RejectRemarksReq } from "../../types/axios/request-verif.type";
+import { RejectRemarksReq } from "../../types/request-verif.type";
 
 const props = defineProps({
     data: {
@@ -213,3 +213,4 @@ onMounted(() => {
         </div>
     </div>
 </template>
+../../types/request-verif.type

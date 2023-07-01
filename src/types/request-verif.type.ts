@@ -1,3 +1,6 @@
+import { AxiosResponse } from "axios";
+import PageMetadata from "./page-metadata.type";
+
 export default interface RequestData {
     id: string;
     request_type: string;
@@ -12,4 +15,13 @@ export default interface RequestData {
     phone_number: string;
     created_at: Date;
     updated_at: Date;
+}
+
+export interface RejectRemarksReq {
+    remarks: string;
+}
+
+export interface RequestDataList extends AxiosResponse {
+    data: RequestData[];
+    metadata: PageMetadata;
 }

@@ -2,9 +2,9 @@ import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
 import router from "../router/router";
-import { type DefaultErrorResponse } from "../types/axios/default-response.type";
-import type { DefaultError, DefaultResponse } from "../types/axios/default-response.type";
-import type { LoginReqAxios, LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
+import { type DefaultErrorResponse } from "../types/default-response.type";
+import type { DefaultError, DefaultResponse } from "../types/default-response.type";
+import type { LoginReqAxios, LoginResAccount, LoginResAxios } from "../types/auth.type";
 import { AccountType } from "../enum/acctype.enum";
 
 const toast = useToast();

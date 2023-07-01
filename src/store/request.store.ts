@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
-import type RequestReqAxios from "../types/model/request.type";
+import type RequestReqAxios from "../types/request.type";
 import {
     DefaultError,
     DefaultErrorResponse,
     DefaultResponse
-} from "../types/axios/default-response.type";
+} from "../types/default-response.type";
 
 const toast = useToast();
 

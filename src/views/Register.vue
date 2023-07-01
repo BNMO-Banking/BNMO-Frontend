@@ -236,3 +236,4 @@ const selectRegency = (event: Event) => {
         </form>
     </main>
 </template>
+../types/auth.type
