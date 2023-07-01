@@ -46,9 +46,11 @@ onMounted(() => {
     <div
         class="w-full flex flex-col xl:flex-row p-4 items-center justify-between gap-y-4 xl:gap-x-4"
         :class="
-            data.request_type === RequestType.ADD
+            data.status === Status.ACCEPTED
                 ? `bg-main-green/20 hover:bg-main-green/30 border-2 border-main-green`
-                : `bg-main-red/20 hover:bg-main-red/30 border-2 border-main-red`
+                : data.status === Status.REJECTED
+                ? `bg-main-red/20 hover:bg-main-red/30 border-2 border-main-red`
+                : `bg-main-yellow/20 hover:bg-main-yellow/30 border-2 border-main-yellow`
         "
     >
         <input

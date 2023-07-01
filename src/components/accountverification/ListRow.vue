@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { RequestType } from "../../enum/reqtype.enum";
 import { Status } from "../../enum/status.enum";
 import AccountData from "../../types/account-verif.type";
-import { useRequestVerificationStore } from "../../store/request-verification.store";
-import { RejectRemarksReq } from "../../types/request-verif.type";
+import { useAccountVerificationStore } from "../../store/account-verification.store";
 
-const props = defineProps({
+defineProps({
     data: {
         type: Object as () => AccountData,
         required: true
@@ -22,25 +19,22 @@ const props = defineProps({
 
 const emit = defineEmits<{ (event: "checked", payload: string): void }>();
 
-const remarks = ref({} as RejectRemarksReq);
-const error = ref("");
-const store = useRequestVerificationStore();
-const validateRequest = (id: string, isAccepted: boolean) => {
-    if (!isAccepted && remarks.value.remarks.length === 0) {
-        error.value = "Please fill the remarks section to reject";
-    } else {
-        store.postValidateRequest(
-            id,
-            isAccepted ? Status.ACCEPTED : Status.REJECTED,
-            remarks.value
-        );
-    }
+const store = useAccountVerificationStore();
+const validateAccount = (id: string, isAccepted: boolean) => {
+    store.postValidateAccount(id, isAccepted ? Status.ACCEPTED : Status.REJECTED);
 };
 </script>
 
 <template>
     <div
-        class="w-full flex flex-col bg-main-blue/20 hover:bg-main-blue/30 border-2 border-main-blue p-4 items-center gap-y-4"
+        class="w-full flex flex-col p-4 items-center gap-y-4"
+        :class="
+            data.status === Status.ACCEPTED
+                ? `bg-main-green/20 hover:bg-main-green/30 border-2 border-main-green`
+                : data.status === Status.REJECTED
+                ? `bg-main-red/20 hover:bg-main-red/30 border-2 border-main-red`
+                : `bg-main-yellow/20 hover:bg-main-yellow/30 border-2 border-main-yellow`
+        "
     >
         <div class="w-full flex flex-col items-center xl:flex-row xl:gap-x-4">
             <input
@@ -154,38 +148,35 @@ const validateRequest = (id: string, isAccepted: boolean) => {
                     </div>
                 </div>
             </div>
-            <div :class="width[4]" class="flex flex-col items-center justify-center gap-y-2">
-                <div class="flex gap-x-4">
-                    <button class="action-yes" @click="validateRequest(data.id, true)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            class="w-6 h-6"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </button>
-                    <button class="action-no" @click="validateRequest(data.id, false)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            class="w-6 h-6"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </button>
-                </div>
-                <p class="text-center text-main-red">{{ error }}</p>
+            <div :class="width[4]" class="flex items-center justify-center gap-x-4">
+                <button class="action-yes" @click="validateAccount(data.id, true)">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="w-6 h-6"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </button>
+                <button class="action-no" @click="validateAccount(data.id, false)">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="w-6 h-6"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </button>
             </div>
         </div>
         <div class="flex w-full border-t-2 border-black">
