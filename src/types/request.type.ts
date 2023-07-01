@@ -1,6 +1,6 @@
-import { RequestType } from "../../enum/reqtype.enum";
+import { RequestType } from "../enum/reqtype.enum";
 
-export interface RequestReqAxios {
+export default interface RequestReqAxios {
     id: string;
     request_type: RequestType;
     currency: string;

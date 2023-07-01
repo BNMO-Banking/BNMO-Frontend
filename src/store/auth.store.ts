@@ -2,10 +2,10 @@ import { defineStore } from "pinia";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
 import router from "../router/router";
-import { type DefaultErrorResponse } from "../types/axios/default-response.type";
-import type { DefaultError, DefaultResponse } from "../types/axios/default-response.type";
-import type { LoginReqAxios, LoginResAccount, LoginResAxios } from "../types/axios/auth.type";
-import { AccountRole } from "../enum/acctype.enum";
+import { type DefaultErrorResponse } from "../types/default-response.type";
+import type { DefaultError, DefaultResponse } from "../types/default-response.type";
+import type { LoginReqAxios, LoginResAccount, LoginResAxios } from "../types/auth.type";
+import { AccountType } from "../enum/acctype.enum";
 
 const toast = useToast();
 
@@ -13,7 +13,7 @@ export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
             account:
-                (JSON.parse(localStorage.getItem("account") || "") as LoginResAccount) ||
+                (JSON.parse(localStorage.getItem("account") || "{}") as LoginResAccount) ||
                 ({} as LoginResAccount),
             accountStatus: "",
             token: localStorage.getItem("token") || "",
@@ -30,6 +30,8 @@ export const useAuthStore = defineStore("auth", {
         };
     },
     getters: {
+        getAccount: (state) => state.account,
+
         isLoadingRegister: (state) => state.loadingRegister,
         errorRegister: (state) => state.errRegister,
 
@@ -78,8 +80,8 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.setItem("account", JSON.stringify(response.data.account));
                     localStorage.setItem("token", response.data.token);
 
-                    if (this.account.account_type === AccountRole.ADMIN) {
-                        void router.push({ name: "Request Verification" });
+                    if (this.account.account_type === AccountType.ADMIN) {
+                        void router.push({ name: "Request Verification", query: { page: 1 } });
                     } else {
                         if (!this.pin_status) {
                             // Move to insert pin page
@@ -113,7 +115,9 @@ export const useAuthStore = defineStore("auth", {
             await axios
                 .post("/auth/logout", null)
                 .then((response: AxiosResponse<DefaultResponse>) => {
-                    this.$reset();
+                    this.$patch({
+                        account: {} as LoginResAccount
+                    });
                     localStorage.clear();
                     void router.push({ name: "Landing" });
 

@@ -12,6 +12,9 @@ defineProps({
     required: {
         type: Boolean
     },
+    isSlot: {
+        type: Boolean
+    },
     isLoading: {
         type: Boolean
     }
@@ -21,14 +24,18 @@ const emit = defineEmits<{ (event: "select-event", payload: Event): void }>();
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <label :for="id">{{ label }}</label>
+    <div class="flex flex-col h-full">
+        <label v-if="label.length > 0" :for="id">{{ label }}</label>
         <SpinnerLoading :is-loading="isLoading" />
         <select
             v-if="!isLoading"
             :id="id"
-            class="multi-select-input h-full cursor-pointer"
-            :onchange="(event: Event) => emit('select-event', event)"
+            :class="
+                isSlot
+                    ? `slot-input-left-side h-full cursor-pointer`
+                    : `multi-select-input h-full cursor-pointer`
+            "
+            @change="emit('select-event', $event)"
             :required="required"
         >
             <slot></slot>

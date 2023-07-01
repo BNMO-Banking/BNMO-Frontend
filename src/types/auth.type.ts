@@ -16,9 +16,6 @@ export interface RegisterReqAxios {
     password: string;
     confirm_password: string;
 }
-export interface RegisterResAxios extends AxiosResponse {
-    message: string;
-}
 
 export interface LoginReqAxios {
     email_username: string;
@@ -29,6 +26,7 @@ export interface LoginResAccount {
     id: string;
     email: string;
     username: string;
+    account_number: string;
     account_type: string;
     account_role: string;
 }

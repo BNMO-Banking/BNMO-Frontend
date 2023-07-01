@@ -1,37 +1,40 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import NavbarAdmin from "./NavbarAdmin.vue";
 import NavbarCustomer from "./NavbarCustomer.vue";
 import router from "../../router/router";
 import { useAuthStore } from "../../store/auth.store";
+import { storeToRefs } from "pinia";
+import { AccountType } from "../../enum/acctype.enum";
 
 const isLoggedIn = ref(false);
 const isAdmin = ref(false);
 
 const authStore = useAuthStore();
+const { getAccount } = storeToRefs(authStore);
 
-// watch(
-//     authStore,
-//     () => {
-//         if (authStore.account.ID) {
-//             isLoggedIn.value = true;
-//             if (authStore.account.is_admin) {
-//                 isAdmin.value = true;
-//             } else {
-//                 isAdmin.value = false;
-//             }
-//         } else {
-//             isLoggedIn.value = false;
-//         }
-//     },
-//     {
-//         deep: true,
-//         immediate: true
-//     }
-// );
+watch(
+    getAccount,
+    () => {
+        if (getAccount.value.id) {
+            isLoggedIn.value = true;
+            if (getAccount.value.account_type === AccountType.ADMIN) {
+                isAdmin.value = true;
+            } else {
+                isAdmin.value = false;
+            }
+        } else {
+            isLoggedIn.value = false;
+        }
+    },
+    {
+        immediate: true
+    }
+);
 
 const logout = () => {
-    authStore.postLogout().then(() => (isLoggedIn.value = false));
+    authStore.postLogout();
+    isLoggedIn.value = false;
 };
 </script>
 

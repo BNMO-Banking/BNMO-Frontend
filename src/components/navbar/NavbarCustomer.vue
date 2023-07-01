@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from "../../router/router";
-const adminLinks = [
+const customerLinks = [
     { name: "Transfer", link: "/transfer" },
     { name: "Request", link: "/request" },
     { name: "History", link: "/history" }
@@ -9,7 +9,7 @@ const adminLinks = [
 
 <template>
     <ul class="flex gap-x-4">
-        <li v-for="link in adminLinks" :key="link.link">
+        <li v-for="link in customerLinks" :key="link.link">
             <RouterLink
                 :key="link.link"
                 :to="link.link"

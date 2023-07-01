@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // Public modules
-const Landing = () => import("../components/pages/Landing.vue");
-const Login = () => import("../components/pages/Login.vue");
-const Register = () => import("../components/pages/Register.vue");
+const Landing = () => import("../views/Landing.vue");
+const Login = () => import("../views/Login.vue");
+const Register = () => import("../views/Register.vue");
 
 // Admin modules
 const AccountVerification = () => import("../components/pages/admin/AccountVerification.vue");
 const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
-const RequestVerification = () => import("../components/pages/admin/RequestVerification.vue");
+const RequestVerification = () => import("../views/admin/RequestVerification.vue");
 
 // Customer modules
-const Request = () => import("../components/pages/customer/Request.vue");
+const Request = () => import("../views/customer/Request.vue");
 const Transfer = () => import("../components/pages/customer/Transfer.vue");
 const History = () => import("../components/pages/customer/History.vue");
 const Profile = () => import("../components/pages/customer/Profile.vue");

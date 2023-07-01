@@ -1,24 +1,32 @@
 import { defineStore } from "pinia";
-import { fetchPendingRequests, validateRequest } from "../api/request-verification.api";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useToast } from "vue-toastification";
-import type RequestMoney from "../types/money-request";
-import type PageMetadata from "../types/page-metadata";
+import {
+    DefaultError,
+    DefaultErrorResponse,
+    DefaultResponse
+} from "../types/default-response.type";
+import { RejectRemarksReq, RequestDataList } from "../types/request-verif.type";
+import PageMetadata from "../types/page-metadata.type";
+import RequestData from "../types/request-verif.type";
+import { Status } from "../enum/status.enum";
+import router from "../router/router";
 
 const toast = useToast();
 
 export const useRequestVerificationStore = defineStore("request-verification", {
     state: () => ({
-        requests: [] as RequestMoney[],
-        metadata: {} as PageMetadata,
+        requests: [] as RequestData[],
+        pageMetadata: {} as PageMetadata,
         loadingPendingRequests: false,
-        errPendingRequests: null,
+        errPendingRequests: {} as DefaultErrorResponse,
 
         loadingValidateRequest: false,
-        errValidateRequest: null
+        errValidateRequest: {} as DefaultErrorResponse
     }),
     getters: {
         pendingRequests: (state) => state.requests,
-        pageMetadata: (state) => state.metadata,
+        metadata: (state) => state.pageMetadata,
         isLoadingPendingRequests: (state) => state.loadingPendingRequests,
         errorPendingRequests: (state) => state.errPendingRequests,
 
@@ -27,34 +35,58 @@ export const useRequestVerificationStore = defineStore("request-verification", {
     },
     actions: {
         async getPendingRequests(page: number) {
-            this.loadingPendingRequests = true
-            return fetchPendingRequests(page)
-                .then((response) => {
+            this.loadingPendingRequests = true;
+            await axios
+                .get("/request-verif/get", {
+                    params: {
+                        page: page
+                    }
+                })
+                .then((response: AxiosResponse<RequestDataList>) => {
                     this.$patch({
-                        requests: response.data,
-                        metadata: response.metadata
-                    })
-                    this.loadingPendingRequests = false
+                        requests: response.data.data,
+                        pageMetadata: response.data.metadata
+                    });
+                    this.loadingPendingRequests = false;
                 })
                 .catch((error) => {
-                    console.error(error)
-                    this.errPendingRequests = error
-                    this.loadingPendingRequests = false
-                })
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errPendingRequests.status = error.response.status;
+                            this.errPendingRequests.message = error.response.data.error;
+                        }
+                        this.loadingPendingRequests = false;
+                        return toast.error(this.errPendingRequests.message);
+                    }
+                });
         },
 
-        async postValidateRequest(payload: Object) {
-            this.loadingValidateRequest = true
-            return validateRequest(payload)
-                .then((response) => {
-                    this.loadingValidateRequest = false
-                    toast.success(response.message);
+        async postValidateRequest(id: string, status: string, remarks: RejectRemarksReq) {
+            this.loadingValidateRequest = true;
+            await axios
+                .put(
+                    `/request-verif/validate/${id}/${status}`,
+                    status === Status.ACCEPTED ? null : remarks
+                )
+                .then((response: AxiosResponse<DefaultResponse>) => {
+                    this.loadingValidateRequest = false;
+                    if (router.currentRoute.value.query.page !== null) {
+                        this.getPendingRequests(
+                            parseInt(router.currentRoute.value.query.page.toString())
+                        );
+                    }
+                    return toast.success(response.data.message);
                 })
-                .catch((error) => {
-                    this.errValidateRequest = error
-                    this.loadingValidateRequest = false
-                    toast.error(error.message);
-                })
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errValidateRequest.status = error.response.status;
+                            this.errValidateRequest.message = error.response.data.error;
+                        }
+                        this.loadingValidateRequest = false;
+                        return toast.error(this.errValidateRequest.message);
+                    }
+                });
         }
     }
-})
+});

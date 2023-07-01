@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps({
     modelValue: {
-        type: String,
+        type: [String, Number],
         required: true,
         default: ""
     },
@@ -35,8 +35,8 @@ const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }
 </script>
 
 <template>
-    <div class="flex flex-col w-full hover:scale-[1.03]">
-        <label :for="id">{{ label }}</label>
+    <div class="flex flex-col w-full">
+        <label v-if="label.length > 0" :for="id">{{ label }}</label>
         <div class="flex w-full items-center justify-center">
             <slot></slot>
             <input
