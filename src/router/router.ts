@@ -6,9 +6,10 @@ const Login = () => import("../views/Login.vue");
 const Register = () => import("../views/Register.vue");
 
 // Admin modules
+const Dashboard = () => import("../views/admin/Dashboard.vue");
 const AccountVerification = () => import("../views/admin/AccountVerification.vue");
-const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
 const RequestVerification = () => import("../views/admin/RequestVerification.vue");
+const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
 
 // Customer modules
 const Request = () => import("../views/customer/Request.vue");
@@ -24,19 +25,24 @@ const routes = [
     { path: "/login", name: "Login", component: Login },
     { path: "/register", name: "Register", component: Register },
     {
+        path: "/admin/dashboard",
+        name: "Dashboard",
+        component: Dashboard
+    },
+    {
         path: "/admin/accountverification",
         name: "Account Verification",
         component: AccountVerification
     },
     {
-        path: "/admin/customerdata",
-        name: "Customer Data",
-        component: CustomerData
-    },
-    {
         path: "/admin/requestverification",
         name: "Request Verification",
         component: RequestVerification
+    },
+    {
+        path: "/admin/customerdata",
+        name: "Customer Data",
+        component: CustomerData
     },
     { path: "/request", name: "Request", component: Request },
     { path: "/transfer", name: "Transfer", component: Transfer },

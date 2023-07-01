@@ -2,13 +2,15 @@
 import { ref, watch } from "vue";
 import NavbarAdmin from "./NavbarAdmin.vue";
 import NavbarCustomer from "./NavbarCustomer.vue";
-import router from "../../router/router";
 import { useAuthStore } from "../../store/auth.store";
 import { storeToRefs } from "pinia";
 import { AccountType } from "../../enum/acctype.enum";
+import NavbarMobileAdmin from "./NavbarMobileAdmin.vue";
+import NavbarMobileCustomer from "./NavbarMobileCustomer.vue";
 
 const isLoggedIn = ref(false);
 const isAdmin = ref(false);
+const burger = ref(false);
 
 const authStore = useAuthStore();
 const { getAccount } = storeToRefs(authStore);
@@ -39,37 +41,54 @@ const logout = () => {
 </script>
 
 <template>
-    <nav
-        class="sticky top-0 flex z-[1] bg-white justify-between items-center py-2 px-4 gap-x-4 shadow-md"
-    >
-        <RouterLink to="/">
-            <img src="/Logo.png" alt="Logo" class="w-32" v-once />
-        </RouterLink>
-        <div class="flex items-center" v-if="isLoggedIn">
-            <NavbarAdmin v-if="isAdmin" />
-            <NavbarCustomer v-else />
+    <nav class="relative">
+        <div
+            class="sticky top-0 flex z-[1] items-center justify-between bg-white py-2 px-4 gap-x-4 shadow-md"
+        >
+            <div class="flex items-center gap-x-4">
+                <svg
+                    v-if="isLoggedIn"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 block lg:hidden"
+                    @click="burger = !burger"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                </svg>
+                <RouterLink to="/">
+                    <img src="/Logo.png" alt="Logo" class="w-32" v-once />
+                </RouterLink>
+            </div>
+            <div class="hidden lg:flex items-center" v-if="isLoggedIn && !burger">
+                <NavbarAdmin v-if="isAdmin" />
+                <NavbarCustomer v-else />
+            </div>
+            <RouterLink
+                v-if="!isLoggedIn"
+                class="navbar-button hover:bg-main-green hover:border-main-green"
+                to="/login"
+            >
+                Login
+            </RouterLink>
+            <RouterLink
+                v-else
+                class="navbar-button hover:bg-main-red hover:border-main-red"
+                to="/"
+                @click="logout"
+            >
+                Logout
+            </RouterLink>
         </div>
-        <RouterLink
-            v-if="!isLoggedIn"
-            class="navbar-button hover:bg-main-green hover:border-main-green"
-            to="/login"
-        >
-            Login
-        </RouterLink>
-        <RouterLink
-            v-else-if="isLoggedIn && !isAdmin && router.currentRoute.value.name !== `Profile`"
-            class="navbar-button hover:bg-main-green hover:border-main-green"
-            to="/profile"
-        >
-            Profile
-        </RouterLink>
-        <RouterLink
-            v-else
-            class="navbar-button hover:bg-main-red hover:border-main-red"
-            to="/"
-            @click="logout"
-        >
-            Logout
-        </RouterLink>
+        <div v-if="burger" class="flex flex-col absolute z-[1] h-screen w-3/5 bg-white">
+            <NavbarMobileAdmin v-if="isAdmin" />
+            <NavbarMobileCustomer v-else />
+        </div>
     </nav>
 </template>
