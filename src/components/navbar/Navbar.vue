@@ -41,9 +41,9 @@ const logout = () => {
 </script>
 
 <template>
-    <nav class="relative">
+    <nav class="sticky top-0">
         <div
-            class="sticky top-0 flex z-[1] items-center justify-between bg-white py-2 px-4 gap-x-4 shadow-md"
+            class="sticky top-0 flex z-[5] items-center justify-between bg-white py-2 px-4 gap-x-4 shadow-md"
         >
             <div class="flex items-center gap-x-4">
                 <svg
@@ -86,7 +86,7 @@ const logout = () => {
                 Logout
             </RouterLink>
         </div>
-        <div v-if="burger" class="flex flex-col absolute z-[1] h-screen w-3/5 bg-white">
+        <div v-if="burger" class="flex flex-col fixed z-[5] h-screen w-3/5 bg-white">
             <NavbarMobileAdmin v-if="isAdmin" />
             <NavbarMobileCustomer v-else />
         </div>
