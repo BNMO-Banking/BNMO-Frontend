@@ -95,18 +95,20 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             placeholder="Enter amount"
             type="text"
         >
-            <MultiSelectInput
-                id="sub_currency"
-                label=""
-                is-slot
-                required
-                :is-loading="isLoadingSymbols"
-                @select-event="selectCurrency"
-            >
-                <option v-for="(_, code) in symbols" :key="code" :value="code">
-                    {{ code }}
-                </option>
-            </MultiSelectInput>
+            <template #left-side>
+                <MultiSelectInput
+                    id="sub_currency"
+                    label=""
+                    is-slot
+                    required
+                    :is-loading="isLoadingSymbols"
+                    @select-event="selectCurrency"
+                >
+                    <option v-for="(_, code) in symbols" :key="code" :value="code">
+                        {{ code }}
+                    </option>
+                </MultiSelectInput>
+            </template>
         </SlotTextInput>
         <CheckboxInput id="check_conf_sub" required @checked="confCheck"
             >I hereby confirm my request for {{ form.currency }}
