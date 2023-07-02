@@ -43,6 +43,10 @@ body {
         @apply flex items-center justify-center p-2 font-bold;
     }
 
+    .slot-button {
+        @apply flex items-center justify-center p-2 font-bold;
+    }
+
     .table-button {
         @apply rounded-xl px-4 py-2 border-2 uppercase hover:transition font-bold;
     }

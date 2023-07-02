@@ -46,10 +46,10 @@ export const useProfileStore = defineStore("profile", {
                 });
         },
 
-        async editProfile(id: string) {
+        async editProfile(id: string, payload: FormData) {
             this.loadingEdit = true;
             axios
-                .put(`/profile/edit/${id}`)
+                .put(`/profile/edit/${id}`, payload)
                 .then((response: AxiosResponse<EditProfileRes>) => {
                     this.userProfile = response.data.data;
                     this.loadingEdit = false;
