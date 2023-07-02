@@ -82,7 +82,7 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             Our administrative team will promptly verify your request and notify you accordingly.
         </p>
         <span class="flex w-full items-center gap-x-2">
-            <h5 class="font-bold uppercase w-[12.5%]">From</h5>
+            <h5 class="font-bold uppercase w-1/4 lg:w-[12.5%]">From</h5>
             <p>:</p>
             <h5 class="font-bold uppercase w-full">
                 {{ account.account_number }}

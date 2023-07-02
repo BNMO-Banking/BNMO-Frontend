@@ -78,14 +78,14 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             destination on the right.
         </p>
         <span class="flex w-full items-center gap-x-2">
-            <h5 class="font-bold uppercase w-[12.5%]">From</h5>
+            <h5 class="font-bold uppercase w-1/4 lg:w-[12.5%]">From</h5>
             <p>:</p>
             <h5 class="font-bold uppercase w-full">
                 {{ account.account_number }}
             </h5>
         </span>
         <span class="flex w-full items-center gap-x-2">
-            <h5 class="font-bold uppercase w-[12.5%]">To</h5>
+            <h5 class="font-bold uppercase w-1/4 lg:w-[12.5%]">To</h5>
             <p>:</p>
             <h5 v-if="isLoadingCheckDestination" class="font-bold uppercase w-full">Fetching</h5>
             <h5 v-else class="font-bold uppercase w-full">
