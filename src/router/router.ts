@@ -13,7 +13,7 @@ const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
 
 // Customer modules
 const Request = () => import("../views/customer/Request.vue");
-const Transfer = () => import("../components/pages/customer/Transfer.vue");
+const Transfer = () => import("../views/customer/Transfer.vue");
 const History = () => import("../components/pages/customer/History.vue");
 const Profile = () => import("../components/pages/customer/Profile.vue");
 
