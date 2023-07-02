@@ -24,7 +24,7 @@ const emit = defineEmits<{ (event: "select-event", payload: Event): void }>();
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center h-full">
+    <div class="flex flex-col justify-center h-full">
         <label v-if="label.length > 0" :for="id">{{ label }}</label>
         <SpinnerLoading :is-loading="isLoading" />
         <select
@@ -33,7 +33,7 @@ const emit = defineEmits<{ (event: "select-event", payload: Event): void }>();
             :class="
                 isSlot
                     ? `slot-input-left-side h-full cursor-pointer`
-                    : `multi-select-input h-full cursor-pointer`
+                    : `multi-select-input h-full w-full cursor-pointer`
             "
             @change="emit('select-event', $event)"
             :required="required"

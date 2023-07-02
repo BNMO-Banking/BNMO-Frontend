@@ -6,7 +6,7 @@ import MultiSelectInput from "../form/MultiSelectInput.vue";
 import { useAuthStore } from "../../store/auth.store";
 import { useCurrencyStore } from "../../store/currency.store";
 import { useRequestStore } from "../../store/request.store";
-import RequestReqAxios from "../../types/model/request.type";
+import RequestReqAxios from "../../types/request.type";
 import { RequestType } from "../../enum/reqtype.enum";
 import CheckboxInput from "../form/CheckboxInput.vue";
 import EnterPin from "../../components/modal/EnterPin.vue";
@@ -83,8 +83,9 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
             account. Our administrative team will promptly verify your request and notify you
             accordingly.
         </p>
-        <span class="flex w-full items-center gap-x-4">
-            <h5 class="font-bold uppercase w-1/8">To:</h5>
+        <span class="flex w-full items-center gap-x-2">
+            <h5 class="font-bold uppercase w-1/4 lg:w-[12.5%]">To</h5>
+            <p>:</p>
             <h5 class="font-bold uppercase w-full">
                 {{ account.account_number }}
             </h5>
@@ -124,7 +125,7 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
         <button
             class="normal-button bg-main-green border-main-green hover:text-white hover:scale-[1.02]"
             type="submit"
-            v-if="form.amount >= 0 && tnc"
+            v-if="form.amount >= 0 && tnc && confirmation"
             @click="pinModal = true"
         >
             Request
