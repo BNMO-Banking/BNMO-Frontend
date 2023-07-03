@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, toRefs } from "vue";
+import { ref, onMounted, toRefs, watch } from "vue";
 import { EditProfileReq } from "../../types/profile.type";
 import TextInput from "../form/TextInput.vue";
+import MultiSelectInput from "../form/MultiSelectInput.vue";
 import { useAuthStore } from "../../store/auth.store";
 import { useProfileStore } from "../../store/profile.store";
+import { useAddressStore } from "../../store/address.store";
 import { storeToRefs } from "pinia";
 
 const props = defineProps({
@@ -43,8 +45,8 @@ const leftLabels = ref([
         data: addressLine1
     },
     {
-        label: "City",
-        data: city
+        label: "State",
+        data: state
     },
     {
         label: "Postal code",
@@ -57,8 +59,8 @@ const rightLabels = ref([
         data: addressLine2
     },
     {
-        label: "State",
-        data: state
+        label: "City",
+        data: city
     },
     {
         label: "Country",
@@ -68,8 +70,23 @@ const rightLabels = ref([
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
+const addressStore = useAddressStore();
 
 const { account } = storeToRefs(authStore);
+
+addressStore.getProvinces();
+const { provinces, isLoadingProvinces, regencies, isLoadingRegencies } = storeToRefs(addressStore);
+
+const selectProvince = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    addressStore.getRegencies(selected.value);
+    form.value.state = selected.selectedOptions[0].innerText;
+};
+
+const selectRegency = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    form.value.city = selected.value;
+};
 
 const updateProfile = () => {
     const formData = new FormData();
@@ -90,6 +107,13 @@ onMounted(() => {
     form.value.state = props.state;
     form.value.postal_code = props.postalCode;
     form.value.country = props.country;
+});
+
+watch(provinces, () => {
+    const stateData = provinces.value.find((item) => item.name === form.value.state);
+    if (stateData) {
+        addressStore.getRegencies(stateData.id);
+    }
 });
 </script>
 
@@ -148,10 +172,7 @@ onMounted(() => {
             >
                 <div class="flex flex-col" v-for="component in leftLabels" :key="component.label">
                     <h4>{{ component.label }}</h4>
-                    <p v-if="component.label === `Address line 2`">
-                        {{ component.data || "Not listed" }}
-                    </p>
-                    <p v-else>{{ component.data }}</p>
+                    <p>{{ component.data }}</p>
                 </div>
             </div>
             <div v-else class="flex flex-col w-1/2 border-r-2 border-black gap-y-2 p-4">
@@ -162,13 +183,22 @@ onMounted(() => {
                     placeholder="New address line 1"
                     type="text"
                 />
-                <TextInput
-                    v-model="form.city"
-                    id="city"
-                    label="City"
-                    placeholder="New city"
-                    type="text"
-                />
+                <MultiSelectInput
+                    id="state"
+                    label="State"
+                    required
+                    :is-loading="isLoadingProvinces"
+                    @select-event="selectProvince"
+                >
+                    <option
+                        v-for="data in provinces"
+                        :key="data.id"
+                        :value="data.id"
+                        :selected="data.name === form.state"
+                    >
+                        {{ data.name }}
+                    </option>
+                </MultiSelectInput>
                 <TextInput
                     v-model="form.postal_code"
                     id="postal_code"
@@ -180,7 +210,10 @@ onMounted(() => {
             <div v-if="!editAddress" class="flex flex-col w-1/2 gap-y-4 p-4">
                 <div class="flex flex-col" v-for="component in rightLabels" :key="component.label">
                     <h4>{{ component.label }}</h4>
-                    <p>{{ component.data }}</p>
+                    <p v-if="component.label === `Address line 2`">
+                        {{ component.data || "Not listed" }}
+                    </p>
+                    <p v-else>{{ component.data }}</p>
                 </div>
             </div>
             <div v-else class="flex flex-col w-1/2 gap-y-2 p-4">
@@ -191,13 +224,22 @@ onMounted(() => {
                     placeholder="New address line 2"
                     type="text"
                 />
-                <TextInput
-                    v-model="form.state"
-                    id="state"
-                    label="State"
-                    placeholder="New state"
-                    type="text"
-                />
+                <MultiSelectInput
+                    id="city"
+                    label="City"
+                    required
+                    :is-loading="isLoadingRegencies"
+                    @select-event="selectRegency"
+                >
+                    <option
+                        v-for="data in regencies"
+                        :key="data.id"
+                        :value="data.name"
+                        :selected="data.name === form.city"
+                    >
+                        {{ data.name }}
+                    </option>
+                </MultiSelectInput>
                 <TextInput
                     v-model="form.country"
                     id="country"

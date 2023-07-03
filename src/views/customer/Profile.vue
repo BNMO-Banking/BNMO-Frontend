@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from "vue";
 import SpinnerLoading from "../../components/form/SpinnerLoading.vue";
 import BankCard from "../../components/profile/BankCard.vue";
 import CustomerAddress from "../../components/profile/CustomerAddress.vue";
@@ -14,11 +13,6 @@ const profileStore = useProfileStore();
 const { account } = storeToRefs(authStore);
 const { profile, isLoadingProfile } = storeToRefs(profileStore);
 profileStore.getProfile(account.value.id);
-
-watch(profile, () => {
-    console.log("state changes");
-    console.log(profile.value.address_line_2);
-});
 </script>
 
 <template>
