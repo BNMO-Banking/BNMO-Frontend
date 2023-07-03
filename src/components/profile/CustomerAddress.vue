@@ -39,28 +39,26 @@ const { addressLine1, addressLine2, city, state, postalCode, country } = toRefs(
 
 const editAddress = ref(false);
 const form = ref({} as EditProfileReq);
-const leftLabels = ref([
+const labels = ref([
     {
         label: "Address line 1",
         data: addressLine1
+    },
+    {
+        label: "Address line 2",
+        data: addressLine2
     },
     {
         label: "State",
         data: state
     },
     {
-        label: "Postal code",
-        data: postalCode
-    }
-]);
-const rightLabels = ref([
-    {
-        label: "Address line 2",
-        data: addressLine2
-    },
-    {
         label: "City",
         data: city
+    },
+    {
+        label: "Postal code",
+        data: postalCode
     },
     {
         label: "Country",
@@ -119,10 +117,10 @@ watch(provinces, () => {
 
 <template>
     <div
-        class="flex flex-col justify-center w-1/2 p-4 border border-black shadow-xl h-80"
+        class="flex flex-col justify-center w-full lg:w-1/2 px-8 py-4 border border-black shadow-xl h-full lg:h-80"
         :class="editAddress ? `gap-y-2` : `gap-y-4`"
     >
-        <div class="flex justify-between items-center pr-4">
+        <div class="flex justify-between items-center">
             <h3>Address information</h3>
             <svg
                 v-if="!editAddress"
@@ -165,89 +163,82 @@ watch(provinces, () => {
                 </svg>
             </div>
         </div>
-        <div class="flex items-center justify-center">
-            <div
-                v-if="!editAddress"
-                class="flex flex-col w-1/2 border-r-2 border-black gap-y-4 p-4"
+        <div
+            v-if="!editAddress"
+            class="grid grid-rows-6 grid-cols-1 lg:grid-rows-3 lg:grid-cols-2 items-center justify-center gap-4"
+        >
+            <div class="flex flex-col" v-for="component in labels" :key="component.label">
+                <h4>{{ component.label }}</h4>
+                <p v-if="component.label === `Address line 2`">
+                    {{ component.data || "Not listed" }}
+                </p>
+                <p v-else>{{ component.data }}</p>
+            </div>
+        </div>
+        <div
+            v-else
+            class="grid grid-rows-6 grid-cols-1 lg:grid-rows-3 lg:grid-cols-2 items-center justify-center gap-4"
+        >
+            <TextInput
+                v-model="form.address_line_1"
+                id="address_line1"
+                label="Address line 1"
+                placeholder="New address line 1"
+                type="text"
+            />
+            <TextInput
+                v-model="form.address_line_2"
+                id="address_line2"
+                label="Address line 2"
+                placeholder="New address line 2"
+                type="text"
+            />
+            <MultiSelectInput
+                id="state"
+                label="State"
+                required
+                :is-loading="isLoadingProvinces"
+                @select-event="selectProvince"
             >
-                <div class="flex flex-col" v-for="component in leftLabels" :key="component.label">
-                    <h4>{{ component.label }}</h4>
-                    <p>{{ component.data }}</p>
-                </div>
-            </div>
-            <div v-else class="flex flex-col w-1/2 border-r-2 border-black gap-y-2 p-4">
-                <TextInput
-                    v-model="form.address_line_1"
-                    id="address_line1"
-                    label="Address line 1"
-                    placeholder="New address line 1"
-                    type="text"
-                />
-                <MultiSelectInput
-                    id="state"
-                    label="State"
-                    required
-                    :is-loading="isLoadingProvinces"
-                    @select-event="selectProvince"
+                <option
+                    v-for="data in provinces"
+                    :key="data.id"
+                    :value="data.id"
+                    :selected="data.name === form.state"
                 >
-                    <option
-                        v-for="data in provinces"
-                        :key="data.id"
-                        :value="data.id"
-                        :selected="data.name === form.state"
-                    >
-                        {{ data.name }}
-                    </option>
-                </MultiSelectInput>
-                <TextInput
-                    v-model="form.postal_code"
-                    id="postal_code"
-                    label="Postal code"
-                    placeholder="New postal code"
-                    type="text"
-                />
-            </div>
-            <div v-if="!editAddress" class="flex flex-col w-1/2 gap-y-4 p-4">
-                <div class="flex flex-col" v-for="component in rightLabels" :key="component.label">
-                    <h4>{{ component.label }}</h4>
-                    <p v-if="component.label === `Address line 2`">
-                        {{ component.data || "Not listed" }}
-                    </p>
-                    <p v-else>{{ component.data }}</p>
-                </div>
-            </div>
-            <div v-else class="flex flex-col w-1/2 gap-y-2 p-4">
-                <TextInput
-                    v-model="form.address_line_2"
-                    id="address_line2"
-                    label="Address line 2"
-                    placeholder="New address line 2"
-                    type="text"
-                />
-                <MultiSelectInput
-                    id="city"
-                    label="City"
-                    required
-                    :is-loading="isLoadingRegencies"
-                    @select-event="selectRegency"
+                    {{ data.name }}
+                </option>
+            </MultiSelectInput>
+            <MultiSelectInput
+                id="city"
+                label="City"
+                required
+                :is-loading="isLoadingRegencies"
+                @select-event="selectRegency"
+            >
+                <option
+                    v-for="data in regencies"
+                    :key="data.id"
+                    :value="data.name"
+                    :selected="data.name === form.city"
                 >
-                    <option
-                        v-for="data in regencies"
-                        :key="data.id"
-                        :value="data.name"
-                        :selected="data.name === form.city"
-                    >
-                        {{ data.name }}
-                    </option>
-                </MultiSelectInput>
-                <TextInput
-                    v-model="form.country"
-                    id="country"
-                    label="Country"
-                    placeholder="New country"
-                    type="text"
-                />
-            </div>
+                    {{ data.name }}
+                </option>
+            </MultiSelectInput>
+            <TextInput
+                v-model="form.postal_code"
+                id="postal_code"
+                label="Postal code"
+                placeholder="New postal code"
+                type="text"
+            />
+            <TextInput
+                v-model="form.country"
+                id="country"
+                label="Country"
+                placeholder="New country"
+                type="text"
+            />
         </div>
     </div>
 </template>

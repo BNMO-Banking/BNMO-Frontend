@@ -57,7 +57,8 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
         @pin="(pin: string) => addDest(pin)"
     />
     <div
-        class="grid grid-rows-auto-7 grid-cols-1 p-4 shadow-md border-2 border-main-yellow gap-y-4 justify-self-center"
+        class="grid grid-cols-1 p-4 shadow-md border-2 border-main-yellow gap-y-4 justify-self-center"
+        :class="destName ? `grid-rows-auto-8` : `grid-rows-auto-7`"
     >
         <div class="flex items-center gap-x-4">
             <svg

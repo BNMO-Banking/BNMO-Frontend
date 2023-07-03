@@ -40,7 +40,7 @@ body {
     }
 
     .disabled-button {
-        @apply flex items-center justify-center p-2 font-bold;
+        @apply flex items-center justify-center p-2 font-bold cursor-not-allowed;
     }
 
     .slot-button {

@@ -51,14 +51,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col w-full gap-y-4">
+    <div class="flex flex-col w-full gap-y-4 items-center lg:items-baseline">
         <span
-            class="flex w-1/5 items-center justify-center rounded-full p-2 bg-main-blue font-extrabold hover:scale-105 cursor-default"
+            class="flex w-fit items-center justify-center rounded-full px-4 py-2 bg-main-blue font-extrabold hover:scale-105 cursor-default"
         >
             {{ accountType }}
         </span>
-        <h1>{{ fullName }}</h1>
-        <div class="flex items-center gap-x-16 border-t-2 border-main-green py-4">
+        <h1 class="text-center lg:text-left">{{ fullName }}</h1>
+        <hr class="border-2 border-main-green w-full" />
+        <div class="flex flex-col lg:flex-row items-center gap-x-16 gap-y-4 lg:gap-y-0 py-4">
             <div class="flex items-center gap-x-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
