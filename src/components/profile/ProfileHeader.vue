@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, toRefs } from "vue";
+import { EditProfileReq } from "../../types/profile.type";
 import SlotTextInput from "../form/SlotTextInput.vue";
+import { useAuthStore } from "../../store/auth.store";
+import { useProfileStore } from "../../store/profile.store";
+import { storeToRefs } from "pinia";
+
 const props = defineProps({
     accountType: {
         type: String,
@@ -24,11 +29,24 @@ const props = defineProps({
     }
 });
 
+const { accountType, fullName, email, username, phoneNumber } = toRefs(props);
+
 const editPhone = ref(false);
-const newPhoneNumber = ref("");
+const form = ref({} as EditProfileReq);
+const authStore = useAuthStore();
+const profileStore = useProfileStore();
+
+const { account } = storeToRefs(authStore);
+
+const updateProfile = () => {
+    const formData = new FormData();
+    formData.append("phone_number", "+62" + form.value.phone_number);
+    profileStore.editProfile(account.value.id, formData);
+    editPhone.value = false;
+};
 
 onMounted(() => {
-    newPhoneNumber.value = props.phoneNumber.substring(3);
+    form.value.phone_number = phoneNumber.value.substring(3);
 });
 </script>
 
@@ -100,7 +118,7 @@ onMounted(() => {
                 </svg>
                 <SlotTextInput
                     v-else
-                    v-model="newPhoneNumber"
+                    v-model="form.phone_number"
                     id="phone_number"
                     label=""
                     placeholder="New phone number"
@@ -111,14 +129,23 @@ onMounted(() => {
                     <template #right-side>
                         <div
                             class="flex items-center justify-center border-t border-r border-b border-black h-full p-2 cursor-pointer"
-                            :class="newPhoneNumber.length > 0 ? `bg-main-green` : `bg-main-red`"
+                            :class="
+                                form.phone_number.length > 0 &&
+                                form.phone_number !== phoneNumber.substring(3)
+                                    ? `bg-main-green`
+                                    : `bg-main-red`
+                            "
                         >
                             <svg
-                                v-if="newPhoneNumber.length > 0"
+                                v-if="
+                                    form.phone_number.length > 0 &&
+                                    form.phone_number !== phoneNumber.substring(3)
+                                "
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 class="w-6 h-6"
+                                @click="updateProfile"
                             >
                                 <path
                                     fill-rule="evenodd"
