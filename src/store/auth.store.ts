@@ -86,7 +86,7 @@ export const useAuthStore = defineStore("auth", {
                         if (!this.pin_status) {
                             // Move to insert pin page
                         } else {
-                            void router.push({ name: "Transfer" });
+                            void router.push({ name: "Profile" });
                         }
                     }
 
