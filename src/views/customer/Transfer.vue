@@ -13,7 +13,7 @@ const tc = ref(false);
 <template>
     <h1 class="text-center my-8 lg:my-12">- Transfer -</h1>
     <main
-        class="grid grid-rows-2 lg:grid-rows-1 grid-cols-1 lg:grid-cols-2 items-center justify-center mx-8 mb-8 lg:mx-32 gap-x-8 gap-y-4"
+        class="grid grid-rows-auto-2 lg:grid-rows-1 grid-cols-1 lg:grid-cols-2 items-center justify-center mx-8 mb-8 lg:mx-32 lg:mt-16 gap-x-8 gap-y-4"
     >
         <AddDestination @tc_clicked="(flag: boolean) => tc = flag" />
         <TransferComponent @tc_clicked="(flag: boolean) => tc = flag" />

@@ -2,6 +2,9 @@ import { defineStore } from "pinia";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { DefaultError, DefaultErrorResponse } from "../types/default-response.type";
 import { SymbolsResponse } from "../types/currency.type";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 export const useCurrencyStore = defineStore("store", {
     state: () => {
@@ -34,6 +37,7 @@ export const useCurrencyStore = defineStore("store", {
                             this.errSymbols.message = error.response.data.error;
                         }
                         this.loadingSymbols = false;
+                        return toast.error(this.errSymbols.message);
                     }
                 });
         }

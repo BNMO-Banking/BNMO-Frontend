@@ -38,7 +38,7 @@ const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }
     <div class="flex flex-col w-full">
         <label v-if="label.length > 0" :for="id">{{ label }}</label>
         <div class="flex w-full items-center justify-center">
-            <slot></slot>
+            <slot name="left-side"></slot>
             <input
                 :value="modelValue"
                 @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
@@ -49,6 +49,7 @@ const emit = defineEmits<{ (event: "update:modelValue", payload: string): void }
                 :required="required"
                 class="slot-text-input w-full"
             />
+            <slot name="right-side"></slot>
         </div>
     </div>
 </template>

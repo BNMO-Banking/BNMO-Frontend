@@ -102,8 +102,11 @@ const selectRegency = (event: Event) => {
                     placeholder="Enter your phone number"
                     type="text"
                     required
-                    ><p class="slot-input-left-side h-full">+62</p></SlotTextInput
                 >
+                    <template #left-side>
+                        <p class="slot-input-left-side h-full">+62</p>
+                    </template>
+                </SlotTextInput>
             </div>
 
             <h3 class="col-span-2 mt-8">Address Information</h3>

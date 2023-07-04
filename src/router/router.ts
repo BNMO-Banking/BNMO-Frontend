@@ -12,10 +12,10 @@ const RequestVerification = () => import("../views/admin/RequestVerification.vue
 const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
 
 // Customer modules
+const Profile = () => import("../views/customer/Profile.vue");
 const Request = () => import("../views/customer/Request.vue");
 const Transfer = () => import("../views/customer/Transfer.vue");
 const History = () => import("../components/pages/customer/History.vue");
-const Profile = () => import("../components/pages/customer/Profile.vue");
 
 // Utility modules
 const Unauthorized = () => import("../components/pages/Unauthorized.vue");

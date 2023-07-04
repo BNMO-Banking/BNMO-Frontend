@@ -57,7 +57,8 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
         @pin="(pin: string) => addDest(pin)"
     />
     <div
-        class="grid grid-rows-auto-7 grid-cols-1 p-4 shadow-md border-2 border-main-yellow gap-y-4 justify-self-center"
+        class="grid grid-cols-1 p-4 shadow-md border-2 border-main-yellow gap-y-4 justify-self-center"
+        :class="destName ? `grid-rows-auto-8` : `grid-rows-auto-7`"
     >
         <div class="flex items-center gap-x-4">
             <svg
@@ -101,29 +102,34 @@ const emit = defineEmits<{ (event: "tc_clicked", payload: boolean): void }>();
                 type="text"
                 required
             >
-                <div class="slot-input-left-side">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="w-6 h-6"
+                <template #left-side>
+                    <div class="slot-input-left-side">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            class="w-6 h-6"
+                        >
+                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z" />
+                            <path
+                                fill-rule="evenodd"
+                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                </template>
+                <template #right-side>
+                    <button
+                        class="slot-button bg-main-yellow w-1/4 border-t border-r border-b border-black"
+                        :class="form.destination_number.length === 0 ? `cursor-not-allowed` : null"
+                        :disabled="form.destination_number.length === 0"
+                        @click="checkDest"
                     >
-                        <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z" />
-                        <path
-                            fill-rule="evenodd"
-                            d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
-                </div>
+                        Check
+                    </button>
+                </template>
             </SlotTextInput>
-            <button
-                class="normal-button bg-main-yellow w-1/4"
-                :disabled="form.destination_number.length === 0"
-                @click="checkDest"
-            >
-                Check
-            </button>
         </div>
         <CheckboxInput v-if="destName" id="check_conf_add" required @checked="confCheck"
             >I hereby confirm my request to add {{ destName }} as a transfer
