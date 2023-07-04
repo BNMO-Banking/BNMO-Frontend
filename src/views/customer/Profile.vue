@@ -4,6 +4,7 @@ import BankCard from "../../components/profile/BankCard.vue";
 import CustomerAddress from "../../components/profile/CustomerAddress.vue";
 import ProfileHeader from "../../components/profile/ProfileHeader.vue";
 import ProfilePicture from "../../components/profile/ProfilePicture.vue";
+import ProfileStatistics from "../../components/profile/ProfileStatistics.vue";
 import { useAuthStore } from "../../store/auth.store";
 import { useProfileStore } from "../../store/profile.store";
 import { storeToRefs } from "pinia";
@@ -48,5 +49,6 @@ profileStore.getProfile(account.value.id);
                 :full-name="`${profile.first_name} ${profile.last_name}`"
             />
         </div>
+        <ProfileStatistics />
     </main>
 </template>

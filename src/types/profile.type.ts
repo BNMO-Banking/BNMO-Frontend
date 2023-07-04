@@ -38,3 +38,15 @@ export interface EditProfileRes extends AxiosResponse {
     data: ProfileRes;
     message: string;
 }
+
+export interface ProfileStatistics {
+    balance: string;
+    total_received: string;
+    total_spent: string;
+    monthly_received: string[];
+    monthly_spending: string[];
+}
+
+export interface ProfileStatisticsRes extends AxiosResponse {
+    data: ProfileStatistics;
+}

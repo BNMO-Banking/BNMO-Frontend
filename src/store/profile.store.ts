@@ -1,7 +1,13 @@
 import { defineStore } from "pinia";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { DefaultError, DefaultErrorResponse } from "../types/default-response.type";
-import { EditProfileRes, ProfileRes, ProfileResData } from "../types/profile.type";
+import {
+    EditProfileRes,
+    ProfileRes,
+    ProfileResData,
+    ProfileStatistics,
+    ProfileStatisticsRes
+} from "../types/profile.type";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
@@ -14,7 +20,11 @@ export const useProfileStore = defineStore("profile", {
             errProfile: {} as DefaultErrorResponse,
 
             loadingEdit: false,
-            errEdit: {} as DefaultErrorResponse
+            errEdit: {} as DefaultErrorResponse,
+
+            userStatistics: {} as ProfileStatistics,
+            loadingStatistics: false,
+            errStatistics: {} as DefaultErrorResponse
         };
     },
     getters: {
@@ -23,12 +33,16 @@ export const useProfileStore = defineStore("profile", {
         errorProfile: (state) => state.errProfile,
 
         isLoadingEdit: (state) => state.loadingEdit,
-        errorEdit: (state) => state.errEdit
+        errorEdit: (state) => state.errEdit,
+
+        statistics: (state) => state.userStatistics,
+        isLoadingStatistics: (state) => state.loadingStatistics,
+        errorStatistics: (state) => state.errStatistics
     },
     actions: {
         async getProfile(id: string) {
             this.loadingProfile = true;
-            axios
+            await axios
                 .get(`/profile/get/${id}`)
                 .then((response: AxiosResponse<ProfileResData>) => {
                     this.userProfile = response.data.data;
@@ -48,7 +62,7 @@ export const useProfileStore = defineStore("profile", {
 
         async editProfile(id: string, payload: FormData) {
             this.loadingEdit = true;
-            axios
+            await axios
                 .put(`/profile/edit/${id}`, payload)
                 .then((response: AxiosResponse<EditProfileRes>) => {
                     this.userProfile = response.data.data;
@@ -63,6 +77,30 @@ export const useProfileStore = defineStore("profile", {
                         }
                         this.loadingEdit = false;
                         return toast.error(this.errEdit.message);
+                    }
+                });
+        },
+
+        async getStatistics(id: string, year: string) {
+            this.loadingStatistics = true;
+            await axios
+                .get(`/profile/statistics/${id}`, {
+                    params: {
+                        year: year
+                    }
+                })
+                .then((response: AxiosResponse<ProfileStatisticsRes>) => {
+                    this.userStatistics = response.data.data;
+                    this.loadingStatistics = false;
+                })
+                .catch((error: AxiosError<DefaultError>) => {
+                    if (axios.isAxiosError(error)) {
+                        if (error.response && error.response.data) {
+                            this.errStatistics.status = error.response.status;
+                            this.errStatistics.message = error.response.data.error;
+                        }
+                        this.loadingStatistics = false;
+                        return toast.error(this.errStatistics.message);
                     }
                 });
         }
