@@ -117,7 +117,7 @@ watch(provinces, () => {
 
 <template>
     <div
-        class="flex flex-col justify-center w-full lg:w-1/2 px-8 py-4 border border-black shadow-xl h-full lg:h-80"
+        class="flex flex-col justify-center w-full xl:w-1/2 px-8 py-4 border border-black shadow-xl h-full xl:h-80"
         :class="editAddress ? `gap-y-2` : `gap-y-4`"
     >
         <div class="flex justify-between items-center">
@@ -165,7 +165,7 @@ watch(provinces, () => {
         </div>
         <div
             v-if="!editAddress"
-            class="grid grid-rows-6 grid-cols-1 lg:grid-rows-3 lg:grid-cols-2 items-center justify-center gap-4"
+            class="grid grid-rows-6 grid-cols-1 xl:grid-rows-3 xl:grid-cols-2 items-center justify-center gap-4"
         >
             <div class="flex flex-col" v-for="component in labels" :key="component.label">
                 <h4>{{ component.label }}</h4>
@@ -177,7 +177,7 @@ watch(provinces, () => {
         </div>
         <div
             v-else
-            class="grid grid-rows-6 grid-cols-1 lg:grid-rows-3 lg:grid-cols-2 items-center justify-center gap-4"
+            class="grid grid-rows-6 grid-cols-1 xl:grid-rows-3 xl:grid-cols-2 items-center justify-center gap-4"
         >
             <TextInput
                 v-model="form.address_line_1"

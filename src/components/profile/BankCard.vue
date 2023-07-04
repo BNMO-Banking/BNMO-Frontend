@@ -27,23 +27,25 @@ const formatAccountNumber = (account: string) => {
 
 <template>
     <div
-        class="flex flex-col justify-center border border-black shadow-xl px-8 py-4 w-full lg:w-1/2 h-full lg:h-80 gap-y-2"
+        class="flex flex-col justify-center border border-black shadow-xl px-8 py-4 w-full xl:w-1/2 h-full xl:h-80 gap-y-2"
     >
         <h3>Your card</h3>
-        <div class="flex self-center flex-col w-64 h-48 lg:w-96 lg:h-60 bg-main-green rounded-xl">
+        <div
+            class="flex self-center flex-col w-64 h-48 lg:w-80 xl:w-96 xl:h-60 bg-main-green rounded-xl"
+        >
             <div class="flex justify-end pt-4 pb-2 px-4">
-                <img src="/Logo.png" alt="Logo" class="w-16 lg:w-24" v-once />
+                <img src="/Logo.png" alt="Logo" class="w-16 xl:w-24" v-once />
             </div>
             <div class="w-full bg-black h-10"></div>
             <div class="flex flex-col p-4 gap-y-2">
-                <p class="text-white text-base lg:text-xl tracking-widest drop-shadow-xl">
+                <p class="text-white text-base xl:text-xl tracking-widest drop-shadow-xl">
                     {{ formatCardNumber(cardNumber) }}
                 </p>
 
-                <p class="text-white text-sm lg:text-lg tracking-wide drop-shadow-xl">
+                <p class="text-white text-sm xl:text-xl tracking-wide drop-shadow-xl">
                     {{ formatAccountNumber(accountNumber) }}
                 </p>
-                <p class="text-white text-sm lg:text-base drop-shadow-xl uppercase">
+                <p class="text-white text-sm xl:text-base drop-shadow-xl uppercase">
                     {{ fullName }}
                 </p>
             </div>

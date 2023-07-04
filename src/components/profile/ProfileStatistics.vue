@@ -16,6 +16,19 @@ profileStore.getStatistics(account.value.id, "2023");
 const chartOptions = {} as ChartOptions;
 const chartData = {} as ChartData<"bar">;
 
+const formatMoney = (value: number) => {
+    let format = "";
+    if (value >= 1000) {
+        format = `${value / 1000}K`;
+    } else if (value >= 1000000) {
+        format = `${value / 1000000}M`;
+    } else if (value >= 1000000000) {
+        format = `${value / 1000000000}B`;
+    }
+
+    return format;
+};
+
 watch(isLoadingStatistics, () => {
     chartData.labels = [
         "Jan",
@@ -51,7 +64,15 @@ watch(isLoadingStatistics, () => {
     ];
 
     chartOptions.responsive = true;
-    chartOptions.maintainAspectRatio = true;
+    chartOptions.maintainAspectRatio = false;
+
+    chartOptions.scales = {
+        y: {
+            ticks: {
+                callback: (value) => formatMoney(value as number)
+            }
+        }
+    };
 
     chartOptions.datasets = {
         bar: {
@@ -64,8 +85,8 @@ watch(isLoadingStatistics, () => {
 <template>
     <div class="w-full shadow-xl flex flex-col border border-black mb-8 p-8 gap-y-4">
         <h2>Your statistics</h2>
-        <div class="flex w-full items-center gap-x-4">
-            <div class="flex flex-col gap-y-4 w-1/4">
+        <div class="flex flex-col lg:flex-row w-full items-center gap-x-4 gap-y-4 lg:gap-y-0">
+            <div class="flex flex-col gap-y-4 w-full lg:w-1/4">
                 <div class="flex flex-col gap-y-2">
                     <h3>Balance</h3>
                     <hr class="w-full border-t border-black" />
@@ -135,7 +156,7 @@ watch(isLoadingStatistics, () => {
                     </div>
                 </div>
             </div>
-            <div class="w-3/4 h-full">
+            <div class="w-fit lg:w-3/4 h-60 lg:h-96">
                 <BarChart
                     id="statistics"
                     :is-loading="isLoadingStatistics"

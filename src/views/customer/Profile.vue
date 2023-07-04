@@ -21,8 +21,8 @@ profileStore.getProfile(account.value.id);
     <div v-if="isLoadingProfile" class="flex items-center justify-center h-screen">
         <SpinnerLoading :is-loading="isLoadingProfile" size="w-16 h-16" />
     </div>
-    <main v-else class="flex flex-col px-8 lg:px-64">
-        <div class="flex flex-col lg:flex-row py-8 gap-x-16 gap-y-4 lg:gap-y-0 items-center">
+    <main v-else class="flex flex-col px-8 xl:px-64">
+        <div class="flex flex-col xl:flex-row py-8 gap-x-16 gap-y-4 xl:gap-y-0 items-center">
             <ProfilePicture :profile-pic="profile.profile_pic_path" />
             <ProfileHeader
                 :account-type="profile.account_type"
@@ -33,7 +33,7 @@ profileStore.getProfile(account.value.id);
             />
         </div>
         <div
-            class="flex flex-col lg:flex-row justify-between pt-0 pb-8 lg:py-8 gap-x-16 gap-y-4 lg:gap-y-0 items-center"
+            class="flex flex-col xl:flex-row justify-between pt-0 pb-8 xl:py-8 gap-x-16 gap-y-4 xl:gap-y-0 items-center"
         >
             <CustomerAddress
                 :address-line1="profile.address_line_1"
