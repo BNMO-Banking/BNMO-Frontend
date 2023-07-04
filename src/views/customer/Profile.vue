@@ -32,6 +32,7 @@ profileStore.getProfile(account.value.id);
                 :phone-number="profile.phone_number"
             />
         </div>
+        <ProfileStatistics />
         <div
             class="flex flex-col xl:flex-row justify-between pt-0 pb-8 xl:py-8 gap-x-16 gap-y-4 xl:gap-y-0 items-center"
         >
@@ -49,6 +50,5 @@ profileStore.getProfile(account.value.id);
                 :full-name="`${profile.first_name} ${profile.last_name}`"
             />
         </div>
-        <ProfileStatistics />
     </main>
 </template>

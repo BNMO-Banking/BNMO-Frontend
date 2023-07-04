@@ -13,7 +13,7 @@ const { account } = storeToRefs(authStore);
 const { statistics, isLoadingStatistics } = storeToRefs(profileStore);
 profileStore.getStatistics(account.value.id, "2023");
 
-const chartOptions = {} as ChartOptions;
+const chartOptions = {} as ChartOptions<"bar">;
 const chartData = {} as ChartData<"bar">;
 
 const formatMoney = (value: number) => {
@@ -83,7 +83,7 @@ watch(isLoadingStatistics, () => {
 </script>
 
 <template>
-    <div class="w-full shadow-xl flex flex-col border border-black mb-8 p-8 gap-y-4">
+    <div class="w-full shadow-xl flex flex-col border border-black p-8 gap-y-4">
         <h2>Your statistics</h2>
         <div class="flex flex-col lg:flex-row w-full items-center gap-x-4 gap-y-4 lg:gap-y-0">
             <div class="flex flex-col gap-y-4 w-full lg:w-1/4">
