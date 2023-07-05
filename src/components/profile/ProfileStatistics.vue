@@ -2,9 +2,11 @@
 import { watch } from "vue";
 import BarChart from "../chart/BarChart.vue";
 import { ChartData, ChartOptions } from "chart.js";
+import { months } from "../../options/months.options";
 import { useAuthStore } from "../../store/auth.store";
 import { useProfileStore } from "../../store/profile.store";
 import { storeToRefs } from "pinia";
+import ChartMultiSelectInput from "../form/ChartMultiSelectInput.vue";
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
@@ -29,21 +31,13 @@ const formatMoney = (value: number) => {
     return format;
 };
 
+const yearUpdated = (event: Event) => {
+    const selected = event.target as HTMLSelectElement;
+    profileStore.getStatistics(account.value.id, selected.value);
+};
+
 watch(isLoadingStatistics, () => {
-    chartData.labels = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-    ];
+    chartData.labels = months;
     chartData.datasets = [
         {
             label: "Monthly Expenses",
@@ -84,7 +78,16 @@ watch(isLoadingStatistics, () => {
 
 <template>
     <div class="w-full shadow-xl flex flex-col border border-black p-8 gap-y-4">
-        <h2>Your statistics</h2>
+        <div class="flex flex-col xl:flex-row items-center justify-between gap-y-2 xl:gap-y-0">
+            <h2>Your statistics</h2>
+            <ChartMultiSelectInput id="year" label="Year" @select-event="yearUpdated">
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <!-- <option v-for="data in provinces" :key="data.id" :value="data.id">
+                    {{ data.name }}
+                </option> -->
+            </ChartMultiSelectInput>
+        </div>
         <div class="flex flex-col lg:flex-row w-full items-center gap-x-4 gap-y-4 lg:gap-y-0">
             <div class="flex flex-col gap-y-4 w-full lg:w-1/4">
                 <div class="flex flex-col gap-y-2">
