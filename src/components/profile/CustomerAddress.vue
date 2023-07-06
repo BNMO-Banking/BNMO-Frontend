@@ -127,7 +127,7 @@ watch(provinces, () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-8 h-8 opacity-50 hover:opacity-100 cursor-pointer"
+                class="w-6 xl:w-8 h-6 xl:h-8 opacity-50 hover:opacity-100 cursor-pointer"
                 @click="editAddress = true"
             >
                 <path

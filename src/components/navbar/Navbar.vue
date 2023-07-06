@@ -87,8 +87,8 @@ const logout = () => {
             </RouterLink>
         </div>
         <div v-if="burger" class="flex flex-col fixed h-screen w-3/5 bg-white">
-            <NavbarMobileAdmin v-if="isAdmin" />
-            <NavbarMobileCustomer v-else />
+            <NavbarMobileAdmin v-if="isAdmin" @change-route="burger = false" />
+            <NavbarMobileCustomer v-else @change-route="burger = false" />
         </div>
     </nav>
 </template>

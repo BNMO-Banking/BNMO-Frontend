@@ -81,7 +81,7 @@ export const useAuthStore = defineStore("auth", {
                     localStorage.setItem("token", response.data.token);
 
                     if (this.account.account_type === AccountType.ADMIN) {
-                        void router.push({ name: "Request Verification", query: { page: 1 } });
+                        void router.push({ name: "Dashboard" });
                     } else {
                         if (!this.pin_status) {
                             // Move to insert pin page

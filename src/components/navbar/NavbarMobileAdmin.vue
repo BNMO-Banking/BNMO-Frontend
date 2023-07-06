@@ -26,6 +26,8 @@ const adminLinks = [
         svg: "../src/assets/icons/customerdata.svg"
     }
 ];
+
+defineEmits(["change-route"]);
 </script>
 
 <template>
@@ -35,6 +37,7 @@ const adminLinks = [
             v-for="link in adminLinks"
             :key="link.route.link"
             :class="link.route.name === router.currentRoute.value.name ? `bg-main-green` : null"
+            @click="$emit('change-route')"
         >
             <img :src="link.svg" class="w-6 h-6" />
             <RouterLink :key="link.route.name" :to="link.route">{{ link.route.name }}</RouterLink>

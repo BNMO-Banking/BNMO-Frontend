@@ -21,7 +21,7 @@ profileStore.getProfile(account.value.id);
     <div v-if="isLoadingProfile" class="flex items-center justify-center h-screen">
         <SpinnerLoading :is-loading="isLoadingProfile" size="w-16 h-16" />
     </div>
-    <main v-else class="flex flex-col px-8 xl:px-64">
+    <main v-else class="flex flex-col px-0 xl:px-32 m-4 xl:m-auto gap-y-4 xl:gap-y-0">
         <div class="flex flex-col xl:flex-row py-8 gap-x-16 gap-y-4 xl:gap-y-0 items-center">
             <ProfilePicture :profile-pic="profile.profile_pic_path" />
             <ProfileHeader

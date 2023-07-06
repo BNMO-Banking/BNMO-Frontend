@@ -47,10 +47,6 @@ body {
         @apply flex items-center justify-center p-2 font-bold;
     }
 
-    .table-button {
-        @apply rounded-xl px-4 py-2 border-2 uppercase hover:transition font-bold;
-    }
-
     .text-input {
         @apply border border-black p-2;
     }

@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { watch } from "vue";
-import BarChart from "../chart/BarChart.vue";
 import { ChartData, ChartOptions } from "chart.js";
-import { months } from "../../options/months.options";
-import { useAuthStore } from "../../store/auth.store";
-import { useProfileStore } from "../../store/profile.store";
+import BarChart from "../chart/BarChart.vue";
+import { useAdminDashboardStore } from "../../store/admin-dashboard.store";
 import { storeToRefs } from "pinia";
+import { years } from "../../options/years.options";
+import { months } from "../../options/months.options";
 import ChartMultiSelectInput from "../form/ChartMultiSelectInput.vue";
 
-const authStore = useAuthStore();
-const profileStore = useProfileStore();
-
-const { account } = storeToRefs(authStore);
-const { statistics, isLoadingStatistics } = storeToRefs(profileStore);
-profileStore.getStatistics(account.value.id, "2023");
+const adminDashboardStore = useAdminDashboardStore();
+const { bankStatistics, isLoadingBankStatistics } = storeToRefs(adminDashboardStore);
+adminDashboardStore.getBankStatistics(years.selected);
 
 const chartOptions = {} as ChartOptions<"bar">;
 const chartData = {} as ChartData<"bar">;
@@ -33,17 +30,17 @@ const formatMoney = (value: number) => {
 
 const yearUpdated = (event: Event) => {
     const selected = event.target as HTMLSelectElement;
-    profileStore.getStatistics(account.value.id, selected.value);
+    adminDashboardStore.getBankStatistics(parseInt(selected.value));
 };
 
-watch(isLoadingStatistics, () => {
-    chartData.labels = months;
+watch(isLoadingBankStatistics, () => {
+    chartData.labels = months.lists;
     chartData.datasets = [
         {
             label: "Monthly Expenses",
             backgroundColor: "rgb(255, 69, 69, 0.5)",
             borderColor: "rgb(255, 69, 69)",
-            data: statistics.value.monthly_spending.map((item) => {
+            data: bankStatistics.value.monthly_expense.map((item) => {
                 return parseInt(item);
             })
         },
@@ -51,7 +48,7 @@ watch(isLoadingStatistics, () => {
             label: "Monthly Income",
             backgroundColor: "rgb(0, 255, 148, 0.4)",
             borderColor: "rgb(0, 255, 148)",
-            data: statistics.value.monthly_received.map((item) => {
+            data: bankStatistics.value.monthly_income.map((item) => {
                 return parseInt(item);
             })
         }
@@ -77,31 +74,24 @@ watch(isLoadingStatistics, () => {
 </script>
 
 <template>
-    <div class="w-full shadow-xl flex flex-col border border-black p-8 gap-y-4">
+    <div
+        class="w-full xl:w-3/5 h-full shadow-xl flex flex-col justify-center border border-black p-8 gap-y-4"
+    >
         <div class="flex flex-col xl:flex-row items-center justify-between gap-y-2 xl:gap-y-0">
-            <h2>Your statistics</h2>
+            <h2>BNMO Statistics</h2>
             <ChartMultiSelectInput id="year" label="Year" @select-event="yearUpdated">
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <!-- <option v-for="data in provinces" :key="data.id" :value="data.id">
-                    {{ data.name }}
-                </option> -->
+                <option
+                    v-for="year in years.lists"
+                    :key="year"
+                    :value="year"
+                    :selected="year === years.selected"
+                >
+                    {{ year }}
+                </option>
             </ChartMultiSelectInput>
         </div>
         <div class="flex flex-col lg:flex-row w-full items-center gap-x-4 gap-y-4 lg:gap-y-0">
             <div class="flex flex-col gap-y-4 w-full lg:w-1/4">
-                <div class="flex flex-col gap-y-2">
-                    <h3>Balance</h3>
-                    <hr class="w-full border-t border-black" />
-                    <h4>
-                        {{
-                            parseInt(statistics.balance).toLocaleString("en-US", {
-                                style: "currency",
-                                currency: "IDR"
-                            })
-                        }}
-                    </h4>
-                </div>
                 <div class="flex flex-col gap-y-2">
                     <h3>Yearly Expenses</h3>
                     <hr class="w-full border-t border-black" />
@@ -122,7 +112,7 @@ watch(isLoadingStatistics, () => {
                         </svg>
                         <h4 class="text-main-red">
                             {{
-                                parseInt(statistics.total_spent).toLocaleString("en-US", {
+                                parseInt(bankStatistics.total_expense).toLocaleString("en-US", {
                                     style: "currency",
                                     currency: "IDR"
                                 })
@@ -150,7 +140,7 @@ watch(isLoadingStatistics, () => {
                         </svg>
                         <h4 class="text-main-green">
                             {{
-                                parseInt(statistics.total_received).toLocaleString("en-US", {
+                                parseInt(bankStatistics.total_income).toLocaleString("en-US", {
                                     style: "currency",
                                     currency: "IDR"
                                 })
@@ -159,10 +149,10 @@ watch(isLoadingStatistics, () => {
                     </div>
                 </div>
             </div>
-            <div class="w-fit lg:w-3/4 h-60 lg:h-96">
+            <div class="w-fit lg:w-3/4 h-40 lg:h-64">
                 <BarChart
-                    id="statistics"
-                    :is-loading="isLoadingStatistics"
+                    id="bank_statistics"
+                    :is-loading="isLoadingBankStatistics"
                     :chart-options="chartOptions"
                     :chart-data="chartData"
                 />
