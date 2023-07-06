@@ -75,7 +75,7 @@ watch(isLoadingBankStatistics, () => {
 
 <template>
     <div
-        class="w-3/5 h-full shadow-xl flex flex-col justify-center border border-black p-8 gap-y-4"
+        class="w-full xl:w-3/5 h-full shadow-xl flex flex-col justify-center border border-black p-8 gap-y-4"
     >
         <div class="flex flex-col xl:flex-row items-center justify-between gap-y-2 xl:gap-y-0">
             <h2>BNMO Statistics</h2>

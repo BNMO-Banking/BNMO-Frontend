@@ -12,7 +12,9 @@ const accountMode = ref(true);
 </script>
 
 <template>
-    <div class="flex w-2/5 h-full flex-col p-8 drop-shadow-xl border border-black gap-y-4">
+    <div
+        class="flex w-full xl:w-2/5 h-full flex-col p-8 drop-shadow-xl border border-black gap-y-4"
+    >
         <div class="flex items-center justify-between border-b border-black">
             <div class="flex">
                 <button
@@ -39,7 +41,7 @@ const accountMode = ref(true);
                     "
                     class="flex gap-x-2 cursor-pointer hover:scale-105"
                 >
-                    <p>Take a look</p>
+                    <p class="hidden xl:block">Take a look</p>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

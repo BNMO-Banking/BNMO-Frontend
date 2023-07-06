@@ -48,9 +48,9 @@ watch(isLoadingRequestStatistics, () => {
 
 <template>
     <div
-        class="w-2/5 h-full shadow-xl flex flex-col justify-center border border-black p-8 gap-y-4"
+        class="w-full xl:w-2/5 h-full shadow-xl flex flex-col justify-center border border-black p-8 gap-y-4"
     >
-        <h3>Request Statistics</h3>
+        <h3 class="text-center xl:text-left">Request Statistics</h3>
         <div class="flex items-center justify-between gap-x-2">
             <ChartMultiSelectInput id="month" label="Month" @select-event="monthUpdated">
                 <option
