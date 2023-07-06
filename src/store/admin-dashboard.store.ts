@@ -6,6 +6,7 @@ import {
     BankStatistics,
     BankStatisticsRes,
     NewAccountStatistics,
+    NewAccountStatisticsRes,
     PendingAccountList,
     PendingList,
     PendingRequestList,
@@ -22,7 +23,7 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
             loadingPendings: false,
             errPendings: {} as DefaultErrorResponse,
 
-            newAccounts: 0,
+            newAccounts: {} as NewAccountStatistics,
             loadingNewAccounts: false,
             errNewAccounts: {} as DefaultErrorResponse,
 
@@ -77,18 +78,17 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                 });
         },
 
-        async getNewAccountStatistics(year: string, month = "") {
+        async getNewAccountStatistics(year: number) {
             this.loadingNewAccounts = true;
             await axios
                 .get("/admin-dashboard/get-account-statistics", {
                     params: {
-                        month: month,
                         year: year
                     }
                 })
-                .then((response: AxiosResponse<NewAccountStatistics>) => {
+                .then((response: AxiosResponse<NewAccountStatisticsRes>) => {
                     this.loadingNewAccounts = false;
-                    this.newAccounts = response.data.account;
+                    this.newAccounts = response.data.data;
                 })
                 .catch((error: AxiosError<DefaultError>) => {
                     if (axios.isAxiosError(error)) {
@@ -102,7 +102,7 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                 });
         },
 
-        async getRequestTypeStatistics(year: string, month = "") {
+        async getRequestTypeStatistics(year: number, month = "") {
             this.loadingRequestTypes = true;
             await axios
                 .get("/admin-dashboard/get-request-statistics", {
@@ -128,7 +128,7 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                 });
         },
 
-        async getBankStatistics(year: string) {
+        async getBankStatistics(year: number) {
             this.loadingBankStatistics = true;
             await axios
                 .get("/admin-dashboard/get-bank-statistics", {

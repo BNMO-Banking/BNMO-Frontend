@@ -29,8 +29,14 @@ export interface PendingList extends AxiosResponse {
     requests: PendingRequestList;
 }
 
-export interface NewAccountStatistics extends AxiosResponse {
-    account: number;
+export interface NewAccountStatistics {
+    total_accounts: number;
+    yearly_accounts: number;
+    monthly_accounts: number[];
+}
+
+export interface NewAccountStatisticsRes extends AxiosResponse {
+    data: NewAccountStatistics;
 }
 
 export interface RequestTypeStatistics extends AxiosResponse {
