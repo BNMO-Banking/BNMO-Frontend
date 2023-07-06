@@ -4,12 +4,13 @@ import { ChartData, ChartOptions } from "chart.js";
 import BarChart from "../chart/BarChart.vue";
 import { useAdminDashboardStore } from "../../store/admin-dashboard.store";
 import { storeToRefs } from "pinia";
+import { years } from "../../options/years.options";
 import { months } from "../../options/months.options";
 import ChartMultiSelectInput from "../form/ChartMultiSelectInput.vue";
 
 const adminDashboardStore = useAdminDashboardStore();
 const { bankStatistics, isLoadingBankStatistics } = storeToRefs(adminDashboardStore);
-adminDashboardStore.getBankStatistics("2023");
+adminDashboardStore.getBankStatistics(years.selected);
 
 const chartOptions = {} as ChartOptions<"bar">;
 const chartData = {} as ChartData<"bar">;
@@ -29,11 +30,11 @@ const formatMoney = (value: number) => {
 
 const yearUpdated = (event: Event) => {
     const selected = event.target as HTMLSelectElement;
-    adminDashboardStore.getBankStatistics(selected.value);
+    adminDashboardStore.getBankStatistics(parseInt(selected.value));
 };
 
 watch(isLoadingBankStatistics, () => {
-    chartData.labels = months;
+    chartData.labels = months.lists;
     chartData.datasets = [
         {
             label: "Monthly Expenses",
@@ -79,11 +80,14 @@ watch(isLoadingBankStatistics, () => {
         <div class="flex flex-col xl:flex-row items-center justify-between gap-y-2 xl:gap-y-0">
             <h2>BNMO Statistics</h2>
             <ChartMultiSelectInput id="year" label="Year" @select-event="yearUpdated">
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <!-- <option v-for="data in provinces" :key="data.id" :value="data.id">
-                    {{ data.name }}
-                </option> -->
+                <option
+                    v-for="year in years.lists"
+                    :key="year"
+                    :value="year"
+                    :selected="year === years.selected"
+                >
+                    {{ year }}
+                </option>
             </ChartMultiSelectInput>
         </div>
         <div class="flex flex-col lg:flex-row w-full items-center gap-x-4 gap-y-4 lg:gap-y-0">
@@ -147,7 +151,7 @@ watch(isLoadingBankStatistics, () => {
             </div>
             <div class="w-fit lg:w-3/4 h-40 lg:h-64">
                 <BarChart
-                    id="statistics"
+                    id="bank_statistics"
                     :is-loading="isLoadingBankStatistics"
                     :chart-options="chartOptions"
                     :chart-data="chartData"

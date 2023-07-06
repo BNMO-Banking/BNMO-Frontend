@@ -1,17 +1,8 @@
 <script setup lang="ts">
-import { useAdminDashboardStore } from "../../store/admin-dashboard.store";
-import { storeToRefs } from "pinia";
 import BankStatistics from "../../components/dashboard/BankStatistics.vue";
 import PendingList from "../../components/dashboard/PendingLists.vue";
-
-const adminDashboardStore = useAdminDashboardStore();
-const {
-    accountStatistics,
-    isLoadingAccountStatistics,
-    addRequests,
-    subtractRequests,
-    isLoadingRequestStatistics
-} = storeToRefs(adminDashboardStore);
+import AccountStatistics from "../../components/dashboard/AccountStatistics.vue";
+import RequestStatistics from "../../components/dashboard/RequestStatistics.vue";
 </script>
 
 <template>
@@ -23,6 +14,10 @@ const {
         <div class="flex items-center gap-x-4 h-96">
             <BankStatistics />
             <PendingList />
+        </div>
+        <div class="flex items-center gap-x-4 h-[26rem]">
+            <RequestStatistics />
+            <AccountStatistics />
         </div>
     </main>
     <div>Dashboard</div>
