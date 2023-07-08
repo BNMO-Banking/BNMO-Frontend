@@ -22,17 +22,6 @@ const singleCheck = (id: string) => {
     checkedAccount.value.push(id);
 };
 
-// const validateAccount = (id: number, isAccepted: boolean) => {
-//     const data = {
-//         id: id,
-//         validation: isAccepted ? "accepted" : "rejected"
-//     };
-
-//     store.postValidateAccount(data).then(() => {
-//         store.getPendingAccounts(page.value);
-//     });
-// };
-
 watch(page, () => {
     store.getPendingAccounts(page.value);
     router.push({ name: "Account Verification", query: { page: page.value } });
@@ -59,7 +48,10 @@ onMounted(() => {
 <template>
     <h1 class="text-center m-8">- Account Verification -</h1>
     <main class="flex flex-col flex-1 mx-8 lg:mx-16 my-8 gap-y-4">
-        <div v-if="!isLoadingPendingAccounts" class="flex flex-col w-full gap-y-4">
+        <div
+            v-if="pendingAccounts && !isLoadingPendingAccounts"
+            class="flex flex-col w-full gap-y-4"
+        >
             <ListHeader :width="width" @checked="checkAll = !checkAll" />
             <ListRow
                 v-for="account in pendingAccounts"
@@ -74,14 +66,14 @@ onMounted(() => {
             <SpinnerLoading size="w-16 h-16" :is-loading="isLoadingPendingAccounts" />
         </div>
         <h3
-            class="flex text-3xl text-main-red font-extrabold items-center justify-center w-full uppercase"
-            v-if="pendingAccounts.length === 0 && !isLoadingPendingAccounts"
+            class="flex text-3xl text-main-red font-extrabold items-center justify-center w-full uppercase text-center"
+            v-if="!pendingAccounts && !isLoadingPendingAccounts"
         >
             No request to verify
         </h3>
         <div
             class="flex justify-center items-center gap-x-8 lg:gap-x-16"
-            v-if="pendingAccounts.length !== 0 && !isLoadingPendingAccounts"
+            v-if="pendingAccounts && pendingAccounts.length !== 0 && !isLoadingPendingAccounts"
         >
             <button
                 class="normal-button bg-main-green border-main-green hover:scale-105 hover:text-white"

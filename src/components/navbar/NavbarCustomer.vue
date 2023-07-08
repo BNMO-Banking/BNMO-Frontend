@@ -3,8 +3,7 @@ import router from "../../router/router";
 const customerLinks = [
     { name: "Profile", link: "/profile" },
     { name: "Transfer", link: "/transfer" },
-    { name: "Request", link: "/request" },
-    { name: "History", link: "/history" }
+    { name: "Request", link: "/request" }
 ];
 </script>
 
