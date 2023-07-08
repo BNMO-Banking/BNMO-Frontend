@@ -37,7 +37,7 @@ const yearUpdated = (event: Event) => {
 };
 
 watch(isLoadingStatistics, () => {
-    chartData.labels = months;
+    chartData.labels = months.lists;
     chartData.datasets = [
         {
             label: "Monthly Expenses",

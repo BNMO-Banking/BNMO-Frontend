@@ -9,16 +9,16 @@ const Register = () => import("../views/Register.vue");
 const Dashboard = () => import("../views/admin/Dashboard.vue");
 const AccountVerification = () => import("../views/admin/AccountVerification.vue");
 const RequestVerification = () => import("../views/admin/RequestVerification.vue");
-const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
+// const CustomerData = () => import("../components/pages/admin/CustomerData.vue");
 
 // Customer modules
 const Profile = () => import("../views/customer/Profile.vue");
 const Request = () => import("../views/customer/Request.vue");
 const Transfer = () => import("../views/customer/Transfer.vue");
-const History = () => import("../components/pages/customer/History.vue");
+// const History = () => import("../components/pages/customer/History.vue");
 
 // Utility modules
-const Unauthorized = () => import("../components/pages/Unauthorized.vue");
+// const Unauthorized = () => import("../components/pages/Unauthorized.vue");
 
 const routes = [
     { path: "/", name: "Landing", component: Landing },
@@ -39,20 +39,9 @@ const routes = [
         name: "Request Verification",
         component: RequestVerification
     },
-    {
-        path: "/admin/customerdata",
-        name: "Customer Data",
-        component: CustomerData
-    },
     { path: "/request", name: "Request", component: Request },
     { path: "/transfer", name: "Transfer", component: Transfer },
-    {
-        path: "/history",
-        name: "History",
-        component: History
-    },
-    { path: "/profile", name: "Profile", component: Profile },
-    { path: "/unauthorized", name: "Unauthorized", component: Unauthorized }
+    { path: "/profile", name: "Profile", component: Profile }
 ];
 
 const router = createRouter({
