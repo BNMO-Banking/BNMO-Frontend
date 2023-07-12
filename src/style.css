@@ -8,6 +8,27 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #cccccc;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #00ff94;
+    border-radius: 9999px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #00b86b;
+}
+
 @layer base {
     h1 {
         @apply font-extrabold uppercase text-4xl md:text-5xl 2xl:text-6xl;
