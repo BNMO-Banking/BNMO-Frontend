@@ -54,7 +54,9 @@ export const useAccountVerificationStore = defineStore("account-verification", {
                             this.errPendingAccounts.message = error.response.data.error;
                         }
                         this.loadingPendingAccounts = false;
-                        return toast.error(this.errPendingAccounts.message);
+                        return toast.error(
+                            this.errPendingAccounts.message || "Internal server error"
+                        );
                     }
                 });
         },
@@ -79,7 +81,9 @@ export const useAccountVerificationStore = defineStore("account-verification", {
                             this.errValidateAccount.message = error.response.data.error;
                         }
                         this.loadingValidateAccount = false;
-                        return toast.error(this.errValidateAccount.message);
+                        return toast.error(
+                            this.errValidateAccount.message || "Internal server error"
+                        );
                     }
                 });
         }

@@ -73,7 +73,7 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                             this.errPendings.message = error.response.data.error;
                         }
                         this.loadingPendings = false;
-                        return toast.error(this.errPendings.message);
+                        return toast.error(this.errPendings.message || "Internal server error");
                     }
                 });
         },
@@ -97,7 +97,7 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                             this.errNewAccounts.message = error.response.data.error;
                         }
                         this.loadingNewAccounts = false;
-                        return toast.error(this.errNewAccounts.message);
+                        return toast.error(this.errNewAccounts.message || "Internal server error");
                     }
                 });
         },
@@ -123,7 +123,7 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                             this.errRequestTypes.message = error.response.data.error;
                         }
                         this.loadingRequestTypes = false;
-                        return toast.error(this.errRequestTypes.message);
+                        return toast.error(this.errRequestTypes.message || "Internal server error");
                     }
                 });
         },
@@ -147,7 +147,9 @@ export const useAdminDashboardStore = defineStore("admin-dashboard", {
                             this.errBankStatistics.message = error.response.data.error;
                         }
                         this.loadingBankStatistics = false;
-                        return toast.error(this.errBankStatistics.message);
+                        return toast.error(
+                            this.errBankStatistics.message || "Internal server error"
+                        );
                     }
                 });
         }

@@ -37,7 +37,7 @@ export const useRequestStore = defineStore("request", {
                             this.errRequest.message = error.response.data.error;
                         }
                         this.loadingRequest = false;
-                        return toast.error(this.errRequest.message);
+                        return toast.error(this.errRequest.message || "Internal server error");
                     }
                 });
         }

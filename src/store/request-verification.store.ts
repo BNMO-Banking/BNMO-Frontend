@@ -55,7 +55,9 @@ export const useRequestVerificationStore = defineStore("request-verification", {
                             this.errPendingRequests.message = error.response.data.error;
                         }
                         this.loadingPendingRequests = false;
-                        return toast.error(this.errPendingRequests.message);
+                        return toast.error(
+                            this.errPendingRequests.message || "Internal server error"
+                        );
                     }
                 });
         },
@@ -83,7 +85,9 @@ export const useRequestVerificationStore = defineStore("request-verification", {
                             this.errValidateRequest.message = error.response.data.error;
                         }
                         this.loadingValidateRequest = false;
-                        return toast.error(this.errValidateRequest.message);
+                        return toast.error(
+                            this.errValidateRequest.message || "Internal server error"
+                        );
                     }
                 });
         }

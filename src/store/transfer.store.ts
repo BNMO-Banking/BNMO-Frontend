@@ -71,7 +71,7 @@ export const useTransferStore = defineStore("transfer", {
                             this.errDestinations.message = error.response.data.error;
                         }
                         this.loadingDestinations = false;
-                        return toast.error(this.errDestinations.message);
+                        return toast.error(this.errDestinations.message || "Internal server error");
                     }
                 });
         },
@@ -93,7 +93,9 @@ export const useTransferStore = defineStore("transfer", {
                             this.errCheckDestination.message = error.response.data.error;
                         }
                         this.loadingCheckDestination = false;
-                        return toast.error(this.errCheckDestination.message);
+                        return toast.error(
+                            this.errCheckDestination.message || "Internal server error"
+                        );
                     }
                 });
         },
@@ -113,7 +115,9 @@ export const useTransferStore = defineStore("transfer", {
                             this.errAddDestination.message = error.response.data.error;
                         }
                         this.loadingAddDestination = false;
-                        return toast.error(this.errAddDestination.message);
+                        return toast.error(
+                            this.errAddDestination.message || "Internal server error"
+                        );
                     }
                 });
         },
@@ -133,7 +137,7 @@ export const useTransferStore = defineStore("transfer", {
                             this.errTransfer.message = error.response.data.error;
                         }
                         this.loadingTransfer = false;
-                        return toast.error(this.errTransfer.message);
+                        return toast.error(this.errTransfer.message || "Internal server error");
                     }
                 });
         }

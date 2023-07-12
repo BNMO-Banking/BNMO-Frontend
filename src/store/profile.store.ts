@@ -55,7 +55,7 @@ export const useProfileStore = defineStore("profile", {
                             this.errProfile.message = error.response.data.error;
                         }
                         this.loadingProfile = false;
-                        return toast.error(this.errProfile.message);
+                        return toast.error(this.errProfile.message || "Internal server error");
                     }
                 });
         },
@@ -76,7 +76,7 @@ export const useProfileStore = defineStore("profile", {
                             this.errEdit.message = error.response.data.error;
                         }
                         this.loadingEdit = false;
-                        return toast.error(this.errEdit.message);
+                        return toast.error(this.errEdit.message || "Internal server error");
                     }
                 });
         },
@@ -100,7 +100,7 @@ export const useProfileStore = defineStore("profile", {
                             this.errStatistics.message = error.response.data.error;
                         }
                         this.loadingStatistics = false;
-                        return toast.error(this.errStatistics.message);
+                        return toast.error(this.errStatistics.message || "Internal server error");
                     }
                 });
         }

@@ -37,7 +37,7 @@ export const useCurrencyStore = defineStore("store", {
                             this.errSymbols.message = error.response.data.error;
                         }
                         this.loadingSymbols = false;
-                        return toast.error(this.errSymbols.message);
+                        return toast.error(this.errSymbols.message || "Internal server error");
                     }
                 });
         }

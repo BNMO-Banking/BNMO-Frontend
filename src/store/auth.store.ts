@@ -62,7 +62,7 @@ export const useAuthStore = defineStore("auth", {
                             this.errRegister.message = error.response.data.error;
                         }
                         this.loadingRegister = false;
-                        return toast.error(this.errRegister.message);
+                        return toast.error(this.errRegister.message || "Internal server error");
                     }
                 });
         },
@@ -102,9 +102,9 @@ export const useAuthStore = defineStore("auth", {
                         this.loadingLogin = false;
 
                         if (this.errLogin.status === 401) {
-                            return toast.warning(this.errLogin.message);
+                            return toast.warning(this.errLogin.message || "Internal server error");
                         } else {
-                            return toast.error(this.errLogin.message);
+                            return toast.error(this.errLogin.message || "Internal server error");
                         }
                     }
                 });
