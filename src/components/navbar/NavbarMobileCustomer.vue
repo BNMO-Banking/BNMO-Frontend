@@ -3,19 +3,15 @@ import router from "../../router/router";
 const customerLinks = [
     {
         route: { name: "Profile", link: "/profile" },
-        svg: "../src/assets/icons/profile.svg"
+        svg: "/profile.svg"
     },
     {
         route: { name: "Transfer", link: "/transfer" },
-        svg: "../src/assets/icons/transfer.svg"
+        svg: "/transfer.svg"
     },
     {
         route: { name: "Request", link: "/request" },
-        svg: "../src/assets/icons/request.svg"
-    },
-    {
-        route: { name: "History", link: "/history" },
-        svg: ""
+        svg: "/request.svg"
     }
 ];
 

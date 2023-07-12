@@ -3,7 +3,7 @@ import router from "../../router/router";
 const adminLinks = [
     {
         route: { name: "Dashboard", link: "/admin/dashboard" },
-        svg: "../src/assets/icons/dashboard.svg"
+        svg: "/dashboard.svg"
     },
     {
         route: {
@@ -11,7 +11,7 @@ const adminLinks = [
             link: "/admin/accountverification",
             query: { page: 1 }
         },
-        svg: "../src/assets/icons/accountverif.svg"
+        svg: "/accountverif.svg"
     },
     {
         route: {
@@ -19,11 +19,7 @@ const adminLinks = [
             link: "/admin/requestverification",
             query: { page: 1 }
         },
-        svg: "../src/assets/icons/requestverif.svg"
-    },
-    {
-        route: { name: "Customer Data", link: "/admin/customerdata" },
-        svg: "../src/assets/icons/customerdata.svg"
+        svg: "/requestverif.svg"
     }
 ];
 

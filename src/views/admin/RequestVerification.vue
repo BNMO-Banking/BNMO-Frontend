@@ -53,7 +53,10 @@ onMounted(() => {
 <template>
     <h1 class="text-center m-8">- Request Verification -</h1>
     <main class="flex flex-col flex-1 mx-8 lg:mx-16 my-8 gap-y-4">
-        <div v-if="!isLoadingPendingRequests" class="flex flex-col w-full gap-y-4">
+        <div
+            v-if="pendingRequests && !isLoadingPendingRequests"
+            class="flex flex-col w-full gap-y-4"
+        >
             <ListHeader :width="width" @checked="checkAll = !checkAll" />
             <ListRow
                 v-for="request in pendingRequests"
@@ -68,14 +71,14 @@ onMounted(() => {
             <SpinnerLoading size="w-16 h-16" :is-loading="isLoadingPendingRequests" />
         </div>
         <h3
-            class="flex text-3xl text-main-red font-extrabold items-center justify-center w-full uppercase"
-            v-if="pendingRequests.length === 0 && !isLoadingPendingRequests"
+            class="flex text-3xl text-main-red font-extrabold items-center justify-center w-full uppercase text-center"
+            v-if="!pendingRequests && !isLoadingPendingRequests"
         >
             No request to verify
         </h3>
         <div
             class="flex justify-center items-center gap-x-8 lg:gap-x-16"
-            v-if="pendingRequests.length !== 0 && !isLoadingPendingRequests"
+            v-if="pendingRequests && pendingRequests.length !== 0 && !isLoadingPendingRequests"
         >
             <button
                 class="normal-button bg-main-green border-main-green hover:scale-105 hover:text-white"
